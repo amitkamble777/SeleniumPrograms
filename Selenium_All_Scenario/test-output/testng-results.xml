@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-09-16T16:08:19 IST" name="Default suite" finished-at="2024-09-16T16:08:27 IST" duration-ms="8203">
+    <groups>
+    </groups>
+    <test started-at="2024-09-16T16:08:19 IST" name="Default test" finished-at="2024-09-16T16:08:27 IST" duration-ms="8203">
+      <class name="listnerScenarios.Application">
+        <test-method is-config="true" signature="login()[pri:0, instance:listnerScenarios.Application@67d48005]" started-at="2024-09-16T16:08:19 IST" name="login" finished-at="2024-09-16T16:08:26 IST" duration-ms="7757" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- login -->
+        <test-method signature="openapp()[pri:0, instance:listnerScenarios.Application@67d48005]" started-at="2024-09-16T16:08:27 IST" name="openapp" finished-at="2024-09-16T16:08:27 IST" duration-ms="17" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openapp -->
+        <test-method signature="search()[pri:0, instance:listnerScenarios.Application@67d48005]" started-at="2024-09-16T16:08:27 IST" name="search" finished-at="2024-09-16T16:08:27 IST" duration-ms="17" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- search -->
+        <test-method is-config="true" signature="closed()[pri:0, instance:listnerScenarios.Application@67d48005]" started-at="2024-09-16T16:08:27 IST" name="closed" finished-at="2024-09-16T16:08:27 IST" duration-ms="338" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closed -->
+      </class> <!-- listnerScenarios.Application -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

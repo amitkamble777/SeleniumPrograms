@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="4" passed="4" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-09-18T10:42:26 IST" name="Default suite" finished-at="2024-09-18T10:43:00 IST" duration-ms="33408">
+    <groups>
+    </groups>
+    <test started-at="2024-09-18T10:42:26 IST" name="Default test" finished-at="2024-09-18T10:43:00 IST" duration-ms="33408">
+      <class name="TestCase.OpenRegisterPage">
+        <test-method signature="Resister()[pri:1, instance:TestCase.OpenRegisterPage@402bba4f]" started-at="2024-09-18T10:42:27 IST" name="Resister" finished-at="2024-09-18T10:42:55 IST" duration-ms="28620" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Resister -->
+        <test-method signature="login()[pri:2, instance:TestCase.OpenRegisterPage@402bba4f]" started-at="2024-09-18T10:42:55 IST" name="login" finished-at="2024-09-18T10:42:56 IST" duration-ms="1061" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- login -->
+        <test-method signature="Phone()[pri:3, instance:TestCase.OpenRegisterPage@402bba4f]" started-at="2024-09-18T10:42:56 IST" name="Phone" finished-at="2024-09-18T10:42:58 IST" duration-ms="1827" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Phone -->
+        <test-method signature="cameras()[pri:4, instance:TestCase.OpenRegisterPage@402bba4f]" started-at="2024-09-18T10:42:58 IST" name="cameras" finished-at="2024-09-18T10:43:00 IST" duration-ms="1829" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- cameras -->
+      </class> <!-- TestCase.OpenRegisterPage -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

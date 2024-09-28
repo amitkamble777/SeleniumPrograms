@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-09-23T12:51:54 IST" name="Default suite" finished-at="2024-09-23T12:52:29 IST" duration-ms="35703">
+    <groups>
+    </groups>
+    <test started-at="2024-09-23T12:51:54 IST" name="Default test" finished-at="2024-09-23T12:52:29 IST" duration-ms="35703">
+      <class name="TestProduct.PageFactoryLogin">
+        <test-method signature="login()[pri:1, instance:TestProduct.PageFactoryLogin@1afd44cb]" started-at="2024-09-23T12:51:54 IST" name="login" finished-at="2024-09-23T12:52:23 IST" duration-ms="29469" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- login -->
+        <test-method signature="data()[pri:2, instance:TestProduct.PageFactoryLogin@1afd44cb]" started-at="2024-09-23T12:52:23 IST" name="data" finished-at="2024-09-23T12:52:29 IST" duration-ms="6167" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- data -->
+      </class> <!-- TestProduct.PageFactoryLogin -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
