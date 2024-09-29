@@ -1,0 +1,319 @@
+How to install TestNg
+Help--> eclips market place -->Serch TestNG ---> click on go button ---> click on install
+Accept the all trust Then restart the eclips  
+Go to windows--> Prefernce --> and observe testng should be visible 
+
+How to add testng jar file
+Install testng through market place 
+then download the testng jar from maven repository 
+Add the downloaded jar in respective folder
+-----------------------------------
+TestNG- 
+Purpose - design a test cases in systematic way 
+testng it is a open source - it is available in jar file 
+it is also called as java unit test frame work - testng and junit both are  used only for java 
+Testng test which contain multiple test methods 
+
+Advanage 
+it will generate good html reports 
+it gives dirrent annotations 
+
+1.Test case & test suites
+2.Grouping of test cases
+3.Parameterization
+4.Parrel Testing
+5.Reports
+
+No need the main method in testng to execute the testcase because testng will automatically execute the class
+TestNG never work with main method 
+
+every annotation should be associated with methods 
+Testng execute the test methods based on alphabetical order
+Based on the priority test method should be  executed
+After given priority order of methods  will not be consider.
+Priority no. no need to sequential and ano need to consecute , any random no we can give  testcase execute from lower no of priority
+Priorities can be a random numbers (no need to have a consecutive number)
+Default priority of test cases it will consider as a 0.
+Priority same for multiple methods ---> Then it will consider as  alphabetical order
+Test case execute from lowest priority order-- (Order , -1, -2) ---execute 1st - 2 priority
+TestNg execute the test methods only if they are havig @Test annotation.
+---------------------------------------------------------------------------------------------------
+Same driver not able to access in 2 test 
+driver.
+
+Beacause we created driver as a local objects of open the app method
+Local means- whithin the method we will create 
+
+Not possible to access this driver i noutside the methods 
+
+We need to create the driver at class  level the it will access to all methods in that class
+
+driver is a instance variable  and  it is a common variable accross all the methods 
+Only one time we can create a variable WebDriver  driver;  --> In class level
+
+Execute testcases using xml files
+Throughout the testng xml file plays a very very immportant role
+After click on convert to Testng --> it will generate the testng code at project level.
+
+xml file automatically generate or We can create new  xml file also
+
+We can create a new Xml file also --> custom xml file
+
+xml file is also called as a suit
+--------------------------------------------------------------------------------------------------------------------------------------
+TestNG Annotation 
+Annotations are placed over the method with @ symbol
+Annootation is used to control the execution of  sequence and priority of method which allows to execute java code before and after a certain point 
+
+Before method execute multiple time of before start the test/ method  
+AfterMethod execute multiple time of After completion of Test /After completion of every test method 
+
+@BeforeMethod- This will execute before the every test method 
+@AfterMethod- This will execute After  execution of the every test method
+
+Between this two class all the test methods are executed
+
+
+@BeforeClass---This method will execute befor execution of the class /Before execution of all test methods  ---This method will execute only one time
+@AfterClass---This method will execute after completion of class  After execution of all test methods --This method will execute only one time
+
+
+@BeforeTest /@AfterTest
+
+Before test and after we can run this testcase through xml file
+
+User can run those testcase through xml file 
+
+How to conver the xml test file 
+select two class right click---> Click on Testng --->click on convert to TestNG---> then testng xml report will be  generated 
+After create testng xml file -- We have refresh the project 
+
+
+Herarchi of testng xml 
+Suite --> Suite contains a multiple test 
+Test-- every test contains a multiple clasees 
+Classes ---Every class contains a class
+Class-- every class contains a methods   
+
+How to create a test tag in testng xml report
+Test Method
+ <test  name="Annotaton">
+     <classes>
+     <class name="TestNG_Programs.Annotation">
+    <methods>
+<include name= "Annotation"/>
+ <include name= "test2"/>
+	</methods>
+	</class>
+
+    <class name="TestNG_Programs.BeforeAfterTest" >
+   <methods>
+  <include name= "test1"/>
+ <include name= "Beforeclass"/>
+ </methods>
+ </class>
+ </classes>
+ </test> <!-- Test -->
+  
+Before test and  after test will be executed multiple  time  
+
+Before test-  this will execute  before starting the all classes
+Afer class -- This will execute After completion of all the clasees 
+@Before test / @after Test-- test we can create any one class - it is applicable to  all selected classes in tesng xml
+
+@Before suite / @After suite --- We can create any oneclass it is applicable to all classes selected in TestNG xml file 
+
+@Before suite ---It will execute befre starting the  test --- only one time 
+@After suite --It will execute after completion of test - only one time 
+
+Test and suite --purpose we have to execute testng xml file
+For test & suite  annotaion we have to run the Xml file  
+
+This all annotations is use to control your text execution
+----------------------------------------------------------------
+TestNG  Assertions 
+
+1.login   ---> Entry position--> Repeate multiple times --> repeate before starting every test method
+2..Search ---> @Test
+3.Logout--->Exit poit---> @AfterMethod ---> it will Execute After method. 
+4.login
+5.Adv Search---> @Test
+6.Logout ------> logout also repeate Multiple times
+
+Apply the validation only on Search and adv ---> Test methods
+
+xml file we can add sible or multiple  test cases
+
+test case present between <test> tag name </test>
+
+If we have to add 3 testcases in xml file 
+we can add 3 classname in 3 test TagName.
+Before testmethod and AfterTest Method we execute only one times, before execute test and after execute test
+------------------------------------------------------------------------------------------------------------
+Assertion--> Assertion is the validation point in Testng
+
+2 kinds of assertion in TestNg
+1.Hard Assertion ---> Most of the time we will use Hard assertion
+We can access from "Assert" class
+Methods are static
+If hard assertion failed then rest of the statement will not executed 
+
+Hard assertion is  the last statement in the test method 
+even it will fail it will exit that will not impact on anything
+All assertion we put only in the test methods
+
+2.Soft Assertion
+We can access through "SoftAssert" objects
+
+SoftAssert sa =new  SoftAssert(); 
+sa.assertEquals(1, 3); 
+
+If soft Assertion got failed then rest of the statement still execute
+---------------------------------------------------------------------------------------------------
+TestNG Listeners
+
+Based upon execution tsst Method  i need to perform some actions-- this actions are called post actions 
+Test method pass--> post actions --> update the result in reports 
+Test faile--> Post method --> Capture the screenshot of the page and i can update the status is faile in the reports alonng  with screenshot
+That we can do only after exectution is done 
+Tset mehod skip---> n ow i update the skipping status in the reports 
+Based upon execution actions we can perform the certain actions --Post actions we can do using TestNg listners 
+Listner class we have to create for perfoms df actions
+inside listner class dosent have a any method and any class
+
+Itest listners is a interface in the testng 
+In this interface certain methods are  available for performning actions 
+
+Test pass--> on test pass method will automatically trigger
+we are not going to wirte a new method 
+
+Listner is nothing but a class which contains a method which are implemented from Mytest listner interface---
+passs, fail, skip---> should not change this method - it will automatically trigger.
+
+All methodsd are defaults in the Listner interface
+-----------------------------
+Step
+1. Create Test case
+2.Create Listner class
+3.Create xml file and include both test case & listner class.
+
+2 ways to implement listner class
+-------------------------------------
+Claas myListner implements ITListners
+{
+}
+Claas myListner exends TestListnersAdapert---> this is also predefined class
+
+How we can implement testng listners -->By using any of his option we can implemen Listners class
+
+Listner class 
+While implementing every method should be publish.
+
+This method i get it from ITListners
+public class ListernAction implements ITestListener
+{
+
+public void onTestStart(ITestResult result) {
+   // not implemented
+  }
+
+public void onTestSuccess(ITestResult result) 
+{
+    // not implemented
+  }
+public void onTestFailure(ITestResult result) {
+    // not implemented
+  }
+
+Onstart--->it will execute  only one time before sart all methods  
+OnFinish--->It will execute only one time after execute all test methods 
+OnTestStar--> It will execute before  start every test case
+Test --> meaning of testmethod which is there inside the class
+
+xml file test is totally different
+----------------------------------
+3rd step --cretae the xml file 
+Which approach listener class is prefer or why 
+
+Why we should not go with the annotations
+xml file --> we haev to execute multiple test cases suit only one time through xml file thats 
+put the listener class only one place in xml file that is applcable for all the test cases
+
+
+Listner class---> For every class i have to enter the listeners annotation
+
+Why only one listner class maintain --->because post actions should be same  for all kinds of test classes and test methods
+
+Report generation is the main post actions 
+all 100 test cases result should be populated in only one report 
+
+For all the test cases we have only one listner class for all the test cases 
+Purpose of listner class --> post actions and updatee the result as per the condition in the reports 
+
+How to generate the extent report---> This is a custom report
+Repoert  generation is a post actions ---> After execution all the test case  we will create a report 
+Before execution of test case we cannot create a report
+Multiple listeners---> Unnecesary --> it will create a multiple report--> ultimately we will create anly one report
+Unnecesary it  will getting the duplicate results
+----------------------------------------
+How to generate the extent report---> This is a custom report--usin listeners class
+
+For this we need to add the Extentreport dependany
+
+Extent reports we can used everywhwer - testng , BDD framework
+3 classses are provided
+1.ExtentSparkReporter  ----> it is responsible for UI of the report---> how its look likes--> deals with UI of the Repoerts
+
+2.ExtentReports--->This class responsible for populating some common information in the report
+eg. operating system name, browser, project, windows, version ,tester name, environment --> this are the common information
+
+3.ExtentTest--> This class responsible for updating the status in the report-- result- pass, fail skipp, amd attaching the screenshot 
+
+Go to project level and create the folder to generate the reports
+In that report folder we can create all the report--
+-----------------------------------------------------------
+ExtentSparkReport--- we have  to pass the titleor report, name of report and theamof the report
+
+ExtentReport ---> details will automatically populate the information in the report
+--------------------------------------------------------------
+TestNG XML File 
+Testng xml file
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="All Test Case">
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="TestNG_Programs.TestCase1"/>
+      <class name="TestNG_Programs.TestCase2"/>
+      <class name="TestNG_Programs.Test3"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- All Test Case -->
+
+Testng Test case
+
+How to  run test case from xml file ?
+Through xml file user can run a  multiple test cases
+create number of test case suite and we can execute parallel
+some times pass the paramaeter from xml file to your test cases
+
+once we create xml files we need to add all clases in that xml files 
+User can able to add multiple testcase in testng xml report 
+Based on the priority method will be execute  
+
+aasert.fails--- this command is used to fail the method/test
+-----------------------------------------------------------------------
+Test Suite-->Test Cases-->Test Step
+-------------
+3 Step ---open the browser and application 
+1.Setup 
+2.Login
+3.Close the browser.
+
+
+
+
+
+
+
+

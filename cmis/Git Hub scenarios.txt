@@ -1,0 +1,286 @@
+
+Git and Git Hub
+
+Continuos integreation
+
+Configuaration management tools
+
+GIT -called as a configuration management tool or version control tool
+Copy all automated script it into git
+
+GIT--> Is also called as a local repository --- Will provide a local repository
+Day to day we can check the code and update the code in local repository
+Git is a revision control system used to track changes in computer files, its a tool to manage your code & file history
+while coordinating work remotely on those files with others.  
+
+end of the they they will complete all the task and put it in the one place it is called as GitHub
+GitHub-->is also called as a remote repository --
+Sahred repository will be available in remotely 
+
+GitHub is a hosting service for git repositories. Git is the toll, While GitHub is the service to use git
+
+Collaboration 
+
+they will provide the all task to multipel people and they will store in multiple places
+Dont have  a integrate on any same  place
+
+Now some of the company will integrete  all the task and  they will put it in one place
+user can get it data and modify and save  and put it i n same place 
+
+Before 
+
+T1, T2, T3  
+
+After   
+
+T1T2T3
+-------------
+Git and GitHub is not a different both are same
+
+GitHub --
+After using link everyone can access this project that are available in GitHub
+
+In GitHub 
+We need to have a account and i need to creae a New Porject for link
+
+Everything will complete in Git then it will comming to the GitHub picture.
+
+1st - We ned to GitHub Account 
+2nd --> Create Project
+
+GitHub repository having one url---> After create repository we will get a URL that is most importnt
+Remote Repository URl from gitHub
+
+
+Git Installation in Local System 
+How to work in Git 
+How to check the Code in Git Repository
+
+Git Commands
+
+1. git init ---> we need to initialize the repository.
+Now initialize he empty git repository. With repository folder name  - folder as become a Git Repository
+We need to integrete both Git and GitGub
+
+2.git remote add origin "GitHub Proejct Url"   --- here remote called as a origin
+This command will integrete the local git repository into remote repository
+
+We can push the file from Git to GitHub by using  push command
+we can get file from GitHub to local repository  it is called as pull command
+
+Commit means ---
+After commint local files and folders are a part of git. 
+
+git pull origin master -- Master is a folder name 
+This command is used to pull the file or data from remote repository to local repository.
+
+Ony one or two files  we can use Git  , For multiple files we can use GitHub 
+
+We dont modify any file directly in the GitHub  ---> it is able to modify only notepad files readme files 
+jar files and zip files unable to modify directly 
+
+GitHub is the central repository where we are manage all the project files
+Readme File contains --- installation proecess  
+
+If we want to modify any file----> We can modify only in local repository.
+First we need  to set the files in index
+
+Git commands 
+Aftre commit file modification should be applicable
+After adding file in index in local repository we need to check the status.
+
+First ready to add the files in index in local repositoty.
+git add -A  --> This command is used to add the all files in index
+
+This files are ready to commit the Git Repository.
+
+git commit -a ---> we need to commit all the files
+ 
+git commit -a  -m "Committing 3 files in to git local repository"
+git log ---> this command will give you what are the things we have done previously 
+
+----------------------------------------------------------------
+Continuous integration--- This a automation related prcess 
+
+This is process related concept 
+Discuss about 2 teams
+
+Testing team and developing team.
+
+Developer ---> Responsible for implementing the functionality
+
+we need to integre all the codes and programs which is implemented by multiple developers
+Creating the bits this 2 are the challanges
+
+Tester -- Responsible for testing the application in manual and automation things
+WE never get a code from the developer
+
+
+Devops teams and Responsibilities    --- this is a middle of developer and testing team
+
+Devops means --- developement and operation
+This team getting the code from developers and integrate the code, they will create a build and they will provide the build to developer
+ along with Automated code will be automate automatically 
+Integression of code 
+creation a build 
+And run automaton immediately
+
+Thi three task are done by the developement operaion team
+
+Devops three tols --- jenkins , maven, n no of tools 
+maven 100% utilize in Dev ops team
+
+Devops reduce effort and time
+Now every day build is available 
+
+This process is very faster  and  deliver the software to the client very soon
+
+Automation process will make the process is very faster
+Any build we can  download from the jenkins
+
+everyday automatically build will be create immediatlry and Automatically automation will be trigger-- Based upon time slote Build is create 
+and automation is run
+
+After getting any bugs tester we nedd to raise the ticet
+------------------------------------------------------------------
+Project Name is called as repository 
+
+Projects are upload in folder form
+
+Repository means folder - in that folder we have the code
+
+Root directory- means main folder
+
+clone means -- dupilcate banana 
+
+Command 
+untracked 
+new files that  git doesn't yet track
+
+modified
+changed
+
+staged 
+file is ready to be committed
+
+unmodified
+unchanged 
+
+
+
+1st step ---> create a local repository 
+2nd step --> Add the project in local Repository
+
+Right click on project  --> click on team --> share project ---> create local repository 
+
+After create repository 
+Right click on project--> click on Team --> click on Add index
+After that this file is add in commit area
+
+Right click on project --> Team--> commit
+Once give the comment and then click on commit button
+
+
+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
+
+Command 
+1. git init 
+2. git add . 
+3. git commit -m "Java program"
+4. git remote add origin ---> https://github.com/amitkamble777/SeleniumPrograms.git
+5. git push -u origin master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+We can copy
+
+Jenkins -- project available in some folders. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

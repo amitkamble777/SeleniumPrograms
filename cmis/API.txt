@@ -1,0 +1,215 @@
+How tom install postman 
+
+PF No
+BGBNG00253000000010
+1. go to google - search postmana 
+2. click on this link -
+Postman API Platform | Sign Up for Free
+3. Sxroll down and click on download the app
+
+Click on sign up for free
+API vs WebServices
+
+Day 2 
+Postman API testing tool 
+We can do manual testing of APIS using postman 
+
+Destktop/web 
+Postman internally used your gmail accounts to access your postman features 
+we can create postman accout by using gmail accounts---it is a prerequisit
+
+After install postman -
+we need to  create a free account.
+
+email- rajumumbai358@gmail.com
+username- Amitk
+Password-- Amitkam
+
+What is the workspace in Postman
+Workspace - initially we have  to start  one work space 
+
+Workspace - are we  maintain files --eg. testcase , requesst, files and test cases everything saved in the workspace
+every task is saved in the workspace 
+Workspace is created in the google itself
+Basically workspace is a area where we can save all the information-- testcase, test data all infromation about request 
+Workspace created by postman by using gamil account
+
+Create a new workspace /rename/ delete a worksoace
+
+Mail -amitkamble427@gmail.com
+Username- Amitkamble777
+Password-- Amit@777$555
+Workspace is the first priority of postman
+Workspace is he basic level entity 
+without workspae we can not do anything in the postman 
+
+Create collection - -Create a colelction in postman 
+Coolection - collection is nothing but the folder we can save all the test cases, request, and information about tesing in postmana
+
+Inside 1 workspace we can create n number of collections 
+Collection - contains number of  folders and http requests-- we can create differnt types of http requests in collection
+create, rename , delete the collection , run the collection -  used for run all the test cases, multiple operation we can do under the collection 
+
+Day 3 --Create own API
+
+STEP 1.NodeJS
+npm-node package manager
+
+1st--  download the software 
+https://nodejs.org/en/download/package-manager
+2.click on pribilt installer and select the windows
+3.Unselect the checkbox from Tools for Native
+and click on Next
+
+Check the Nodejs path in environment variable --this is a confirmation of installation process 
+
+After install software we have to exceute this 2  commands in command prompt
+In Command prompt   2command we nedd to execute
+1.node --version
+2.npm --version
+
+C:\WINDOWS\system32>node --version    for checking purpose which version is install
+C:\WINDOWS\system32>npm --version  -- for checking the npm version is installed or not 
+10.5.0
+
+Step 2 .json-server
+npm come along with the NodeJS
+
+Run the below command in the CMD/Terminal 
+npm install -g json-server 
+
+This is not related to postman--just we to create our own API 
+
+API need the backend data
+save the json code in file 
+We can give file name anything but extention should be json
+
+We can create own API based on json file
+
+E:\API json file>json-server name.json
+
+After excute this command in command promt dont close the command promt --- if we close the command prompts  meaasn api running will stop 
+
+we want to start api means-- again we need to run this command in command prompt
+We need to minimize the command prompt
+
+url display in command promot --means api is running 
+
+
+After execute json file 
+we can get  this 2 server
+
+http://localhost:3000/0
+http://localhost:3000/1
+
+Day 4
+Response Validations
+
+Status
+Headers 
+Cookies
+Response Time
+Response Body
+
+Assertions is called a validation points --- We have to add the assertions
+
+pm--There is one library provided by PM(postman)
+
+In pm library certain number of functions are available
+This functions are written by using java script
+postman intenally used java Scripts 
+
+
+Write the one javascript  functions inside this function we need to call PM.functions
+We will invoke this functions through which javascripts functions 
+
+Two type of functions 
+1.Normal function
+2.Arrow Function
+
+
+chai assertion library ---This is a kind of a java script framework
+
+pm.test( "Test Name", function()
+{
+//asserion;
+}
+);
+pm.tes("Test Name", ()=>
+{
+}
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+ 

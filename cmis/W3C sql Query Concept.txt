@@ -1,0 +1,408 @@
+How to install MySQL sserver 8.0.34
+1. Search the MySQL  
+2. Click oN Download Mysql
+3. double click on downloaded files
+4.Choosing a setup Type screen open 
+5.Select the custom- Directly go to the custom 
+6.Click on next and we need to select the product
+
+7. click oN MySQL server drop down and select Mysql server 8.0.34-X64
+8. And drag in product to be installed 
+9. Clik on application and go to workbench 
+10. select MySQL workbench 8.0.34-x64 and drag it 
+
+11. Click on MySQL shell and select MySQL SHELL 8.0.34-X64
+12. and drag it in Product to be installed  
+13.Click on next installation will be  started 
+14.Click on next 
+15.Click on next  
+
+16. Account and Roles 
+Root password -Amit@777
+17. Windows service -- Click onnext 
+18.Server file permissions keep the default and click on Next
+19. Apply configuration click on execute - it will execute one by one 
+20 click on next
+21. Installation complete - Click on finish 
+
+Command Prompt
+Access denied for user root'@'locahost(using passwprd:yes)
+
+1.st path 
+1. Copy this path 
+C:\ProgramData\MySQL\MySQL Server 8.0
+1. open cmd - run as an administration and  paste  cd C:\Program Files\MySQL\MySQL Server 8.0\bin and click on enter
+
+2nd step enable the hidden item --> go to program data and open the mysql folder--> open MySQL server 
+
+And copy the path of this C:\ProgramData\MySQL\MySQL Server 8.0
+
+C:\ProgramData\MySQL\MySQL Server 8.0C:\ProgramData\MySQL\MySQL Server 8
+C:\ProgramData\MySQL\MySQL Server 8.0
+
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqld --default-file="C:\\ProgramData\\MySQL\MySQL Server 8.0\\my.ini"--init-file=c:\\mysql-init.text--console
+enter this query and execute in command prompt 
+
+And check the databases in command prompt 
+
+
+First database and table in Mysql
+Create database  collage--- this is a database  name 
+
+create table Collage.student   - student it is a table name this table - before create table without using  database  thats why i used collage. student
+(
+studid int,
+name varchar(20),
+city varchar(200)
+)
+
+
+
+
+SQL tutorial will teach you how to use SQL in: MySQL, SQL Server, MS Access, Oracle, Sybase, Informix,  Postgres, and other database systems.
+
+Create table and insert the data
+
+create table customer( customer_name  varchar,(20),  age int , city varchar(20), salary int )
+
+
+Insert into 
+1)  insert into customer (customer_name, age, city , salary )
+         Values ("amit",25,"mumbai", 5000)
+
+ 2)  Insert into emp
+       Values ( 108 ,"rahul", "sydney",25)
+
+Distinct statement 
+It is used to return different (distinct) record 
+distinct operand : should contain only 1 column 
+
+select  distinct emp_age from emp.
+
+
+WHERE CLAUSE
+WHERE clause  is used to filter the record.
+Note: The WHERE clause is not only used in SELECT statements, it is also used in UPDATE, DELETE, etc.
+ 
+
+Select * from  emp
+where   empp_name = "priya"
+
+Use 3 column/ condition in where clause 
+select   empp_name, emp_age , city  from emp
+where   empp_name  = "priya"  or emp_age= 24 or city="goa"
+
+Operators in Where clause 
+Operator	Description	Example
+=	Equal	
+>	Greater than	
+<	Less than	
+>=	Greater than or equal	
+<=	Less than or equal	
+<>	Not  equal . Note: In some versions of SQL this operator may be written as != 
+
+	
+BETWEEN	Between a certain range	
+LIKE	Search for a pattern	
+IN	To specify multiple possible values for a column
+
+Select   empp_name, emp_age ,  city  from emp
+where   emp_age between 28 And 45
+
+select * from emp
+where  empp_name  like '%t'  :- %t represents names last character is t	
+
+Where clause can be combined with AND, OR, NOT operator.
+
+AND  and OR operator are used to filter the record based on more than one condition.
+AND : All condition are separated by AND are true
+OR: If any of the condition are separated by OR is true
+NOT: If condition is not true.
+
+NOT Condition :  seen all record in table except priya 
+Select * from emp
+Where not empp_name= " priya "
+
+select  * from emp
+where empp_name= "priya" AND  (city = "nanded" OR emp_age=30)
+
+ORDER BY keyword
+Is used to sort the sort the result set by ascending and descending order
+
+ORDER BY keyword  :- sorts the records in ascending order by default
+select *  from emp
+order  by emp_age desc
+
+Update table
+Is used to modify the existing record in the table
+At a time 2 condition update
+update emp
+set emp_age = 32, empp_name= "pooja"
+where  emp_id =107
+
+update emp
+set emp_age = 30,
+where empp_name= "amit"   We have an error in sql syntax : - check the manual that correspond
+
+At a time update 2 columns and 3 rows
+UPDATE EMP
+SET EMPP_NAME='rani', CITY='goa'
+WHERE EMP_ID IN (104,105,101)
+
+Update at a time 2 to 3 column 
+UPDATE EMP
+SET EMPP_NAME='rani', CITY='goa'
+WHERE EMP_ID IN (104)
+
+Error code 1175  : You are using safe update mode 
+Solution  :-set sql_safe_updates=0;
+
+DELETE Statement 
+Is used to delete  the existing record in the table.
+
+Null value  statement  :- Always use IS NULL to look for NULL values.
+A field with null value is a field with no value.
+null value is a different form of zero values of fields that contains spaces
+
+Select  emp_age from company 
+Where emp_age is null
+
+It is not possible to test for null values with comparison operators, such as =, <, or <>.
+We will have to use the IS NULL and IS NOT NULL operators instead.
+
+IS NOT NULL
+ 
+The IS NOT NULL operator is used to test for non-empty values (NOT NULL values).
+select emp_age from company 
+where emp_age is not null
+
+Add column in table 
+alter table emp---table name
+add column salary  int  ---- column name 
+
+Change column name
+alter table emp
+change column salary  salary int 
+
+SQL Joins
+Combine rows from two or more tables, based on related column between them.
+select a.empp_name, a.city, a.emp_age, a.salary,b.emp_age, b.bonus from emp a inner join company b
+on  a.salary  = b.salary 
+
+select a.empp_name, a.city, a.emp_age, a.salary,b.emp_age, b.bonus, b.salary, b.company_id from emp a inner join company b
+on a.salary = b.salary 
+
+(INNER) JOIN: Returns records that have matching values in both tables
+LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
+
+alter table emp
+change column salary salary int 
+
+Join three tables
+select   a.empp_name,  a.city, a.emp_age, a.salary,b.emp_age, b.bonus, b.salary, c.city, c.age, c.customer_name 
+from ((emp a inner join company b
+on a.emp_id = b.company_id)
+inner join customer c
+on a.emp_id=c.customer_id);
+
+left join
+select a. Empp_name, a. city, a.emp_age, a.salary,b.emp_age, b.bonus, b.salary  
+from emp a left join company b
+on a.emp_id = b.company_id 
+order by a.emp_age;
+
+The SQL SELECT INTO Statement
+The SELECT INTO statement copies data from one table into a new table.
+
+
+SQL IFNULL(), ISNULL(), COALESCE(), and NVL() Functions
+
+Solutions
+MySQL
+
+The MySQL IFNULL () function lets you return an alternative value if an expression is NULL:
+
+Select customer_name, city*(salary + age)
+from  customer
+
+Right join :- return all records from rigt table T1, and matching records from left table T2. The result is 0 records from the left side, if there is no match. 
+select a.empp_name, a.city, a.emp_age, a.salary,b.emp_age, b.bonus, b.salary  
+from emp a right join company b
+on a.emp_id = b.company_id 
+order by b.bonus;
+
+
+Full / Outer join:-
+The FULL OUTER JOIN keyword returns all records when there is a match in left (table1) or right (table2) table records.
+Tip: FULL OUTER JOIN and FULL JOIN are the same
+
+
+
+Union operator
+union operator is used to combine the result sets of two or more select statement.
+1. Every select statement within union must have the same number columns
+2. Columns must also have similar data types
+3. The colummns in every select statement must also be in the same order 
+
+1 column
+  select city from emp
+  union
+  select city from customer
+  order by city      --------> order by is used to sequence of leter/ alphabetical order
+
+Multiple Column
+
+select emp_age, salary, city from emp
+union 
+select age, salary, city from customer
+
+
+Union all
+To allow duplicate values 
+
+Multiple column at a time 
+select emp_id emp_age, salary, city from emp
+union all
+select customer_id age, salary, city from customer
+
+Note:-The column names in the result-set are usually equal to the column names in the first SELECT statement.
+
+Sql Union with where
+select city, empp_name from emp
+where empp_name='pooja'
+union
+select city, customer_name from customer
+where customer_name='sumit'
+order by city 
+
+Sql Group by statement
+groups rows that have the same values into summary rows 
+Group by function is often used with the aggregate function(min(), max(), sum(), count(), avg()) to group the result set by one or more columns
+
+
+select count(emp_age), city from emp
+group by city
+
+select count(emp_age), city from emp
+group by city
+order by count(emp_age) desc
+
+select avg  (salary), city from emp
+group by city
+
+Group by with join sql example
+select a.empp_name, count(b.customer_id) as numberofcity from customer b left join emp a
+on a.emp_id=b.customer_id
+group by empp_name
+
+Sql Having clause 
+Having clause was added to sql because WHERE keyword cannot be used with aggregate functions
+select count(emp_id) , empp_name from emp
+group by empp_name
+having count(emp_id) >=2
+order by count(emp_id)
+
+
+SQL exist operator
+EXISTS operator is used to test for the   existence of any records in a sub query
+EXISTS operator return true if sub query returns one or more records 
+select  a.empp_name, a.emp_id, a.emp_age, a.city from emp a
+where exists (select salary from customer b where a.emp_id = b.customer_id) and salary >19000
+
+SQL ANY AND ALL OPERATOR
+ANY and ALL operator allow you to perform a comparison between single column value and range of other values 
+
+ANY operator
+1.Return a Boolean value as a result
+2.return True if any of the sub query values meet the condition 
+
+ANY:- means condition will be true if the operation is true for any of the value in the range 
+
+Select customer_name from customer 
+where  city=any
+(select city from emp 
+where emp_age <32)
+
+The ALL operator:
+
+select all emp_age, empp_name from emp
+Where true
+
+returns a Boolean value as a result
+returns TRUE if ALL of the sub query values meet the condition
+is used with SELECT, WHERE and HAVING statements
+ALL:- means that the condition will be true only if the operation is true for all values in the range. 
+
+Note: The operator must be a standard comparison operator (=, <>, !=, >, >=, <, or <=).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

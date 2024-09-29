@@ -1,0 +1,77 @@
+--------------->BDD framework<----------------------
+Cucumber framework
+
+Selenium with java Hybrid framework
+
+Setup and configuration 
+JDK
+Eclips
+Cucumber plugins and natural plugins in eclips through market place
+
+3.Set the Environment Variable 
+a. Java Home
+b. Maven Home
+c. M2home
+
+2nd Step got to eclips create Maven Projects
+
+2nd step-->Create maven Project and Update the pom.xml with below dependenciew
+1,Cucumber-core
+2.Cucumbe html
+3.cobertur code coverage
+4.Cucumber java
+5.Cucumber junit
+6.Cucumber- jvm-deps
+7.Cucumber reporting
+8.Hamcrest-core
+9.Gherkin
+10.junit
+11.selenium java
+
+--------------------------
+Cretae maven project and remove tat defulat  packages  from src/main/java and src/test/java
+
+3rd Step Create A Folder Structure
+
+Project Name 
+1.Feature(Folder)
+2.pageObjects (Package)
+3.stepDefinations
+4.utilitites
+5.Drivers--(Folder)
+6. Target---(Reports)---> Generate the reports
+7.pom.xml
+
+Step 4 ----- Copy driver into "Drivers" folder
+
+Step 5 ---> Automating Login Test Case
+
+Folder should be create under the project 
+
+In feature folder --> I will create multiple files in this folder 
+
+Packet should be create under the Src/test/java Package
+
+Feature File is the entry point in cucumber
+Create login.feature file in Feature folder
+
+3steps 
+Fearture file contains a number of Step defination file--All the steps methods are available here 
+
+When i execute the step defination file it will internally call the page element from  Pagepjects class
+
+Step defination file will interact with the pageobject class
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+

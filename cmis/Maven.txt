@@ -1,0 +1,250 @@
+Maven setup in Windows
+1.Download Maven software from Appache website
+2. Download appache maven 3.9.6-bin.zip
+3. Extract the file to appache maven 3.9.6- bin\
+3. Go to Environment variable 
+- Add maven path - MAVEN_HOME--> maven folder location 
+--Set the maven path in system environmrnt variable ---F:\Selenium All programs 1\Maven Project\apache-maven-3.9.6-bin\apache-maven-3.9.6
+
+Check  maven setup in command promt 
+maven -v 
+
+Run this command  to simple  standalone program in command prompt
+mvn archetype:generate -DgroupId=groupid -DartifactId=artifactid -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false.
+Once the build faile -- we need to change the artifact id in standalone command and  run 
+
+How to create maven Project in Eclips 
+
+Create sample project This option skip the archtype section 
+Groupid -- Reperesent the company name/ oraganization name --Groupid will identify your your project uniquely accross all projects 
+
+Artifactid- Represent the Project name
+After given groupid and artifact id in parent project project it will inherit the dependencies from the parent project 
+Artifactid- An artifact is a file, usually a JAR, that gets deployed  to a Maven repository.
+
+Localmaven reprository 
+By default maven create local repository 
+
+Remote maven repository - All third party libraries available here
+-------------------------------------------------------------------------------------------------------------------------
+5. Create Maven project 
+6.Integrete maven with eclips
+7.Understanding POM.xml file dependencies
+8.How to find the dependancy of the software 
+9.Maven Phase for test automation 
+10.Clean, compile, test
+11. Importance of maven sure fire plugins
+12.Running the test with surefire Plugins
+13.Integrating TestNG into maven 
+---------------------------------------------------------
+Basic of Maven --- Maven terminology---Groupid, Artifactid
+1.Dependcy-  Third party jr file that purpose they use dependency in maven
+
+the main responsiblity of dependencyy is to add the respective 3rd party librarys automatically for project
+Download the 3rd party library and attached them to the  project 
+
+Manually - we have to remove the existing jar and library and download the latest version of library and jars and upddate in the project 
+Remove the existing library and the attached the latest downloaded library in the  project 
+
+Plugins - different types of configuration on which project we will need
+
+Plugins - will control the project and oraganized all the the projects
+Project related configuraion we will specify in the plugins
+----------------------------------------------------
+How  to create maven project 
+Click on file --> click on Porject --> click on Maven --> click on Maven project 
+Select the archtype-Quickstart and click on Next 
+Enter the artifactid and groupid  and click on next 
+Program run in eclips--> in eclips console -- enter Yand click on enter -- Maven project will be create 
+
+We can choose the package name and groupid will be same
+Sbbprojectname will be our artifact id 
+
+
+4types of Folder structuRE which will provide in maven 
+----------------------------------------------------------------
+For Developing Purpose
+1.src/main/java -- mainly contains a development source code whatever developer write the code for development purpose
+Developer workingon which code this code available  in src/main java folder structure 
+2. src/main/java--Developer need some resource files and this resource file they keep here 
+----------------------------------------------------------------
+For Testing Purpose
+3.src/test/java -- Once complete the code from deveoper they have to perform the unit testing , for testing the code they have to write some test cases
+this test case code will be a part of src/test/java.
+4. src/test/resouce - while developing the some test cases they need some resource file, they will keep this resource file in src/test/resource  folder 
+
+---------------------------------------------
+Maven build life cycle
+If you execute last phase directly -existing all phases also execute 
+Which ever phase directly execute, previously phases automatically executed by the maven.
+     
+-------------------------------------------
+Creating some test cases into a  test folders 
+
+Creat 3 test ---> Selenium, Appium, RestAPItest 
+
+1st stepe 
+Add the testng jar in project -- for testng framework
+
+Maven surefire plugins is use to execute all the test cases is available in test folder 
+Add the maven surfire plugin 
+ <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+------------------------------------> will help to execute all test cases is avialable in your test folder
+App.java is geenrated by default maven  while user creating mavenn project
+---------------------------------
+GO to command promt 
+
+C:\Windows\System32\cmd.exe ----> Use the Maven project path and execute the mvn clean command in command prompt
+1st mvn clean---> it will delete all the temporarily files
+It will delete all the temporarily files or whatever current project has
+Basically it clean the project and  delete all the previous references and the base
+
+Mvn compile 
+Failed to execute goals
+We have to execute all commands form project level
+
+1st step delete mvn repository from local 
+When user addded the test in src/main/java-
+
+mvn test --- This command actually execute all the testcases
+
+mvn test -p regression testing ---> P means profile
+After execute this command - it will go to TestNG.xml file and execute the testcase.
+
+We will not to run regression testing may run twice in a week.   but  everyday smoke is must for every build 
+
+After add dependncy in POM.xml, All jar are automatically creaed in local m2 folder in maven project 
+After run project all jars are update in project on local m2 folder
+
+If eclips is close that time also we can execute maven program through command prompt
+
+Maven algorithm which expect Test keyword at the end of the echa java class name
+1st we ahave to run the all test cases in testng and then after that we have to execute the maven pom file 
+--------------------------------------------------------------------------------
+1.What plugin we use in your maven project to execute your test cases 
+Ans--->
+
+If you have 100 test cses---->you want to execute only 5 test cases we can execute by using TestNG xml file
+-----------------------------------------------------------------------------------------
+Extent Report 
+
+What are the Extent Report
+
+Basic configuration of Extent Report With Standalone Test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+How to integrate maven with jenkins
+
+Importance of Jenkins
+
+This is the most importanat tools in the software industry--No matter it is for development or testing
+Automation--- Basically automating the daily raouting things
+Whatever can be automated instead of manual testing that can be done in jenkins 
+Jenkins is a continue integration tools
+
+Saacenario---Automate all the test cases withoutany manual intervention
+eg i have at leat 500 Test Case
+
+For 7 hours 1000 test cases will be automated 
+Jenkins run on its own server
+Jenkins has own environment
+ 
+1.Jenkins installation 
+
+2.Configuring global setting in java
+
+3.Understaning Jnekins workspace
+
+4.Configuring Jenkins job parameters
+
+5.Post build action plugins
+
+6. TestNg Jenkins plugin to generate Reports 
+
+7.Sheduling Jenkins builds
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

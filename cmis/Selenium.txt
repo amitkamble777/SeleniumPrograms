@@ -1,0 +1,1601 @@
+http://localhost/AxpertWeb/aspx/signin.aspx  - locahost
+
+http://localhost/AxpertDeveloper/aspx/signin.aspx
+
+http://172.16.0.85/run11.2/aspx/signin.aspx    --85 server url
+
+somwthing fishi here 
+we will have one nice message  in early morning
+
+Can you please suggesst me  regarding this issue 
+Its not happening in 85 server 
+but its happening in client location 
+
+
+Road Map of manual to autometion testing 
+1.Java Programming language 
+core java, collection of java, basic concepts 
+1. How to create structure
+
+2.Advanced java-- collection frame work threading 
+3.Basic selenium and advance selenium 
+4.advance selenium- frame work and different xpath 
+5. SQL - query -overview- and selection of classes
+6.collection framework
+7.git hub page object 
+8.bdd cucumber framework
+
+ctr+ shift+ c ----> active pointer 
+ctr+ f  ---> find the elements of xpath 
+------------------------------------------------
+How to launch the browser in selenium webdriver in selenium
+1. Search the selenium
+2. click on https://www.selenium.dev/
+3. click on down load and then click on Browsers
+4. On firefox browser click on (documentation) hyperlink
+5. click on geckodriver releases, (Link)
+6. click on 0.33.0 to download
+7.click on (geckodriver-v0.33.0-win64.zip) link 
+8. extract the file on particular location 
+9.copy the driver exe and paste in resource folder in selenium package 
+10. right click on driver exe file --> click onproperties --> check the  location 
+11. copy that location and add in system.setProperty  
+
+Same process for all driver 
+
+after adding cromedriver and geckodriver in selenium resurce folder geeting path error 
+illegalStaeException 
+
+create one common folder and centralize folder and we can place all the executable files in that folder  
+ ----------------------------------------------------------------------------------------
+Exception in thread "main" org.openqa.selenium.ElementNotInteractableException: element not interactable
+  (Session info: chrome=116.0.5845.140)
+  After given correct xpath and locator but exception will come ?
+Ans-  
+--------------------------------------------
+Webelements
+inputbox/textbox, button, link, radio buttons, check boxes, dropdown, listbox, combobox,
+frame webtable,calendar,file upload, drag and drop 
+------------Dropdown------------------------------------------------- 
+Inside dropdown every option is a web element 
+we can select the option from dropdown in 3 different ways/methods 
+
+1st steps get the elemment from drop down 
+2. pass the webelement in select class constructor
+
+All options are in the form of web elements
+
+we can access those methods by using -- select class  option 
+Select class is a special class to handle dropdown
+---- this 3 method we can select the options from dropdown
+selectByVisibleText("india"); -f- pass the text values present on the web page 
+selectByValue("1"); //india -- it is a actual value --- 
+            //we take the attribute  we need pass value of the value attribute (<option value="1" > india </option>)
+selectByindex("0")//india ;----- index will start from (0)
+
+How to Handle multiple drop down using generic method
+we should write the multiple select class for multiple drop down field 
+Just calling the userdefined method multiple times whenever we want to select the option from dropdown 
+
+BootStrap drop down 
+TAG is differenet it is not a select  tag 
+< li 
+ <a
+   <labe1 --- is reperesenting the tex of the option
+     < input--- input is reperesnting the checkbox of the option
+This drop down totally dependss on xpath	
+
+We need to write  the common xpath
+
+Hidden drop down ---> This is also called as dynamic drop down--- this option is loaded only on runtime
+On HTML 
+<div tagname  is showing ---> WebElement is not visible in HTML 
+How  to slect this options 
+   
+---Dynamic drop down ---> This options are  dynamically comming otherwise it is a autosuggestion box 
+Thia options are suggested Here
+1st step --How  to visible the option on HTML Page 
+
+
+By using selector ub we can handle this type of drop down , even auto suggestive drop down/Hidden drop down 
+SelectorHub 1 feature --> trun on debugger by using this option we can make options visible on HTML Page
+The time of debuuger  is only 5 secords after on debugger immediatly click on drop down element
+
+
+
+
+
+-----------------------------------------------------
+2 types of scroll bar 
+1. vertical 
+2. Horizontal
+---------------------------------------------------------------
+ Eror -stale element reference: element is not attached to the page document
+Syntax
+WebElement button = driver.findElement(By.xpath("//a[contains(text(),'Phones & PDAs')]"));
+button.click();
+--------------------------------------------------------------------------------------
+------------------->Xpath<---------------
+verify the customize xpath in chrome browser ------> not verify in firefox browser 
+simple xpath -- //input[@ng-model='LastName']--- its a only one element 
+
+//input[@type='text' and @placeholder='Last Name']-- use this xpath  for more than one elemennt matched in html code
+
+--without property --how to use xpath---
+How to create the xpath for links 
+
+<a href="https://demo.opencart.com/index.php?route=product/category&amp;language=en-gb&amp;path=33"       class="nav-link">Cameras</a>
+
+feature of 
+for this line without using contains 
+//a[text()='Cameras']
+//Butotn[text()='Alerts'] ---- same button option avilable multiple time that time use this syntax
+
+With using contains 
+ //a[contains(text(),'Phones & PDAs')]---- it is a won cutomize xpath 
+---------------------------
+preceding and sebaling xpath 
+
+//a[text()='']//paretn::td[@class='']//peceding-sibling::td[@class='']//input[@name='']---xpath of particular checkbox
+
+it is relative xpth 
+//*[@id="input-sort"]  
+
+-------------------------------
+crm login screen 
+https://classic.freecrm.com/index.cfm?CFID=497858&CFTOKEN=90160868&jsessionid=b6304ef0ee5513be4dd65e1b365d1f2fb545
+-----------------------------------------------------------------------------------------------
+13-03-2023
+CRMPRO 
+UN/PWD----amit358/amit@777
+
+1. Screen shot script 
+File f=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+Files.copy(f, new File("C:\\Users\\JYOTHSNA\\Pictures\\Picture\\selenium.jpg "));
+
+1. Captur the screen shot of full page 
+which contains a method called TakesScreenshotAs Method 
+webdriver interface its a root interface ---- contains a lot of methods which are implemented by multiple classes 
+
+Remotewebdriver is a class is implemented method from javascript executor and TakesScreenshot --this 2 is also other types 
+of interfaces 
+
+takesScreenShot variable can not hold a webdriver interface 
+
+TakesScreenshot ts= (TakesScreenshot)driver;
+(TakesScreenshot) -- it is type casting 
+
+2. Captur the screen shot of section of page
+inspect the page take a xpath for selected section
+give the webelement and create variable section
+ WebElement section=driver.findElement(By.xpath("//div[@id='content']"));
+File src=section.getScreenshotAs(OutputType.FILE);
+File trg=new  File(".\\Screenshot\\Phones and PDAs.png");   // Location of file to save the screen shot 
+Files.copy(src, trg);
+
+3. Captur the screen shot of element on a page
+ WebElement logo=driver.findElement(By.xpath("(//div[@class='Home-cards-list'])[3]"));
+        File Sourcelogo= logo.getScreenshotAs(OutputType.FILE);
+        File targetf= new File(System.getProperty("user.dir")+"\\ScreenShot\\HomeConfig.png");
+        Sourcelogo.renameTo(targetf);  
+
+
+For example we haev 10 test cases some of the test casess is fail that time we need to take screen shot
+
+Put one condition --> only on fail test cases we need to take a scren shot
+After ecxecution of test capture the information
+If the testcase is fails capture the Screen shot 
+If the Test case are  pass provide the details in the reports 
+
+This types of conditions we verify using TestNG Listners
+
+What is the use of ChromeOptions, EdgeOptins, FirefoxOptions class
+
+What is the purpose of using of Option Classes
+
+How to use ChromeOption Class and what are the thing to achive through ChromeOption Class
+
+Chrome setting we can  cotrol using ChromeOption Class 
+We cancontrol browser settings method through ChromeOptions Class.
+------------------------------------------------
+1.Headless Testing 
+I will run my testcase but this test case will run in backend
+We are unable to see the any action on webpage , finding the element, click on the button enter the text in the field
+Withoout seeing any UI and any Actions we can execute  the  test case-- an dwe will get only final output
+
+
+ChromeOptions options= new ChromeOptions();
+	options.addArguments("--headless=new--"); // this is a setting for Headless mode of Execution
+	WebDriver driver= new ChromeDriver(options);
+
+options.addArguments("--Headless=new--");--> this is a fixed parameter  provided by selenium documentation.
+
+By using this Case we can achiview  Headless testing 
+
+Advantages
+1.We can do multiple task--While exectuing testcase in backend we can do anything open notepad that will not distrub the execution test caseas
+2. Faster Execution --> Execution is very faster -- no need of  any UI  because testcase will execute in backend.
+Execution and perfomace wise Headless testing is very faster
+Headless testing is more faster that Header testing.
+
+If we do any activity parallely it will disturb our execution in Header mode
+In header mode until execute test case we cnnot do anything. Meanwhile we can not do anything.
+
+Disadvantages
+1.User can not see any actions on the page. So user can not understand the flow/functionality of test.
+At the time of begining level wewill prefer the Header testing , because  user should knows the UI and actions on the Page
+if our testeces are already executed many times and many testcases are pass lot of times
+execution should be faster , because we executed/ Pass testcase many times already 
+We need execution is very fast that time we can use headles mode
+Jenkins is a tools by default it will execute the test case in headless mode -- they no need  UI
+
+Once done framework, execution of testcase in automatiom and everything in automation --> After we can prefer headless mode
+
+
+
+
+2) SSL Handling-  Secure Socket layer
+SSL Exception, By default can not handle the automation.
+
+ChromeOptions option= new ChromeOptions();
+	option.setAcceptInsecureCerts(true);
+    WebDriver driver=new ChromeDriver(option);
+It is very difficult to find out this type of Pages
+
+SSL- Means -user unable to open the Website ---> warning message is showing Your connection is not private
+
+same methods are avialble in every class  chrome, firefox, edge
+
+
+3) Chrome is being controlled by Automated test software.
+I want to remove this message while launching my browser --That also we can set ChromeOption class
+
+To Remove "Chrome is eing controlled by Automated test software."
+ChromeOptions option= new ChromeOptions();
+	option.setExperimentalOption("excludeSwitches" , new String[] {"enable-automation"});
+    WebDriver driver=new ChromeDriver(option); 
+   driver.get("https://www.javatpoint.com/java-oops-concepts");
+   
+   
+4) TO run the tests in Incognito mode	
+   ChromeOptions option= new ChromeOptions();
+   option.addArguments("--incognito");
+    WebDriver driver=new ChromeDriver(option);
+driver.get("https://www.javatpoint.com/java-oops-concepts");
+driver
+
+
+5)Enable extentions in browser  -  video session 38 --> time 1:35 to check this scenarios 
+----------------------------------------------
+After enable the addblocker extention -- -Make our page is add fix 
+	
+How to enable the extention at runtime 
+After enable exention we will block the add
+
+Those extentions will be diabsle automatically while we run the Test Case
+We can apply this process any type of extentions
+
+4 steps
+
+Step 1 - Add CRX Exractor/Download to chrome browser  (manually)
+Step 2 -Add selectorH plugin to chrome browser (manually)
+Step 3 -capture crx file for selectorshub extention
+Step 4- pass crx file path in automation script in chrome option.
+
+
+
+
+ 
+
+-----------------------------------------------------------------------------------
+How to handle multiple windows  windows
+		
+1. How to handle browser windows in selenium
+How can get the id of browsers 
+every time dynamically window id will be change multiple time
+every time we will get a different windowo ID
+
+Every window has id this is called as window handles
+All windoe ids will be in the string format 
+This id is require to switch between one browser to another browser
+------------------------------------------------------------
+How  to capture parent as well as child window ids 
+this window IDs require to switch between one browser window to another browser window 
+driver is still focussing on the parent window 
+by using window id we can switch to another browser---then we can intercat the web element present in the chlid windows 
+
+2. How to Switch between Multiple Browser Windows ?	
+this window IDs require to switch between one browser window to another browser window 
+driver is still focussing on the parent window 
+by using window id we can switch to another browser---then we can intercat the web element present in the chlid windows
+
+1st Launch the browser --- it is parent windowo
+2nd click on link ---- Open the 2nd browser -- it is a child window 
+--------------------------
+1st capture the window id
+2nd we are extracting parent windowid and child windowid
+3rd using switching command
+
+//By using For each loop --we can execute in one shot	
+
+3. How to close All browser Windows ?
+driver.close();  // close only one browser-- close the child browser
+driver.quit(); // close both parent and child browser
+
+4. How to close Specific Browser Window by choice ?
+for(String winid:windowIDsList)
+{
+	String title=driver.switchTo().window(winid).getTitle();
+	if(title.equals("OrangeHRM"));
+	{
+	driver.close();	
+	}
+--> close the multiple specific browser<----- 
+String title=driver.switchTo().window(winid).getTitle();
+	if(title.equals("OrangeHRM")||title.equals("another title")||title.equals("another title")); // by using ||(OR) comand 
+	{
+	driver.close();
+	}
+	
+	Handle multiple browser by using Arraylist
+driver.findElement(By.linkText("PRACTICE")).click(); 
+ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles()); // Primary window
+driver.switchTo().window(tabs.get(0));
+
+ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles()); //Secondary window
+driver.switchTo().window(tabs2.get(1));	
+-------------------------------------------------------------------------
+Error
+Selenium: NoSuchElementException: Unable to locate element - method:xpath
+
+
+Answer - Thread.sleep(1000);  // ha error asel tr thread.sleep(1000)  add karayach 
+then run 		
+--------------------------------------------------------------------------------
+How to automate Link on Web page 
+
+driver.findElement(By.linkText("")).click(); //-- Pass the complete value of the link
+this will navigate to the another page -- After click action open the new window
+	
+driver.findElement(By.partialLinkText(" ")).click(); // 
+No need to pass the complete value - pass we can just pass some portion of the values 
+Anything frrom this actal srings
+
+How to capture al the links  on the web page 
+ List<WebElement> links= driver.findElements(By.tagName("a")); //Tagname a - store all the links on  webElement
+ // all link will be same tagName store the links in this element as a variable 
+// this particular method returns all the links as the webelement 
+
+System.out.println("Number of links present:" +links.size()); // print all the links in console window
+
+1.How to find how many links on the web page 
+List<WebElement> links= driver.findElements(By.tagName("a")); 
+// all link will be same tagName store the links in this element as a variable 
+// this particular method returns all the links as the webelement 
+System.out.println("Number of links present:" +links.size()); // print all the links in console window
+	
+//Normal for loop  to read all the links from the variable 
+/*----------------------------------------------------------------------
+for(int i=0; i<=links.size(); i++)
+{
+	System.out.println(links.get(i).getText());             // get the name of link 
+	System.out.println(links.get(i).getAttribute("herf"));   // get the actual target page of links --hyperlinks
+}
+-------------------------------------------------------------------------------*/
+//for each loop
+for(WebElement link:links)
+{
+   System.out.println(link.getText());	// this is for link name
+  System.out.println(link.getAttribute("href"));  // this is for actual link present on the web page 
+}
+
+2. Broken links means --  which dosen't have any target page		
+-------------------------------------------------------------------------------------------------
+windows + Left  and windows + Right 
+
+----Locators   ---	
+Locator is used to identify the element and  action on the element
+
+selenium is a web driver will identify the element by using locator
+
+1. identification 
+2. Action 
+
+Locators are addresses that identify element uniquely within the web Page.	
+
+Locators ---
+Different locators suppoetred on web element 
+driver.findelement is a method which will use to find the elements on web page 
+
+radio button, dropdown , everything available on the web page it is a web element which will retun a web element 
+
+sendkey is a method it used to pass the some dta
+
+WebElement search=driver.findElement(By.name("search"));
+search.sendKeys("mobiles");
+	
+we can store the element in a variable thats why we use this  statement 
+after use variable then to pass the values by using send key methods 
+
+variable type always should be web element because everythin on the webelemet on the web page 
+
+
+Class and TagName is not a unique
+After user TagName locator--it will match the mutile element on the web page
+some of the times --this two locators is used to find the more than the more than elements
+
+sometimes tage name is also used for multiple elements
+Claas 
+sometimes class values is same for the multiple elements 
+
+<li -- li tag name is just a list of items 
+<li tag contains the <a tag contains the <img tage
+
+
+Expand the<li tag inside  the <a tag 
+Expand the <a tag inside the 
+Expand the <img tage here exact image is  available 
+
+How to count all list items on web page 
+
+class attribute and values both are same more than multiple time
+
+driver.findElements is a method it is used to find the more than one element on the web page 
+
+After using class tagname not performing any actions
+size()-- this method find out how many element on web page
+
+This statement is used to find the no. of element on web page 
+ 
+ int sliders= driver.findElements(By.className("swiper-slide text-center")).size();
+ System.out.println(sliders);
+ store the values in slliders variable
+ 
+ <a tag is always associated with a link on web page 
+-------------------------------------------------------------------------------
+
+Customized Locators--- CSS & Xpath
+CSS selector -- cascading style sheet language
+-------------------------------------------------------------------------------------------------
+CSS Selectores -- Multiple combinations
+Tag and ID 
+# reperesent the ID in CSS
+Tag and ID divided by using #
+in this combiantion tag name is not mandetorily required 
+we can  use directly only id attribute value #email
+no need to use input#email -- tagname--  only attribute value is enough 
+
+<input, id="email" >
+driver.findElement(By.cssSelector("input#vaues of id"))  - inputtext is a values of id 
+driver.findElement(By.cssSelector("input#email"))
+Both will identify the element of tag and id combination 
+
+input#email  ---> No need to pass the attribute in CSS Selector
+TagName is a optional its not a mandetory 
+
+
+Tag and Class -- is always seperate with .
+. Represent the class in CSS
+<input, class="inputtext" >
+driver.findElement(By.cssSelector("input.inputtext"))
+without using tagname direclty use like this
+driver.findElement(By.cssSelector(".inputtext")) 
+
+tag is a optional its not a mandetorily
+
+input.hs-input
+
+Tag and Attribute 
+Her we can use any attribute 
+<input, name="username">
+name -- Is a attribute 
+"username" -- is a values 
+attributes -- it is a jeneric term-- we can use any attribute present on the web page 
+Tag and attribute this is a more flexible 
+
+driver.findElement(By.cssSelector("input[name=username]")).sendkeys("amit.k");
+
+driver.findElement(By.cssSelector("[name=username]")).sendkeys("amit.k");
+
+TagName is an option-we can directcly specify the attribute in sqare bracket.
+use any attribute of this combination 
+
+4.Tag, class, Attribute 4 th coombination of css selector
+some of the times tag and class both are same for the multiple elements on web page 
+to differentiate those two element we can use another attributes  
+
+In this scenario attribute is used to differentiate the element because tag and  class attribute values are same 
+
+Whenever we want to put attribute always keep the square bracke [] 
+Click on ctr+f open the search screen on html page to specify the css selector and Xpath
+-----------------------------------------------------------------------------------------------
+Xpath --Absolute and Relative 
+HTML Page 
+right click -- click on View Source 
+ON HTML Page -- it is very critical to find the element 
+thats  why inspect the web Page 
+Insteed of Html Page  right click and inspect 
+it is very easy to find the element 
+
+HTML will give the structure of the Page 
+
+< a 
+a is a anchor tag name 
+< tex > -- It called as a inner text
+For LOGO
+<img  --- is a tag name
+Every attribute will associate the some  values 
+
+Every Link on web Page its having a anchor tag
+
+sometimes dont have a any attributes only tagname 
+After click on F12 page  navigate to the html code 
+
+driver is a webdriver
+FindElement is a method it is used to find the element on web Page 
+.click() is a action element
+
+
+Partial linklist -- No need to pass the complete text values 
+---Just pass the partial values 
+Link Text -- It is Case Sensitive values 
+Pass the proper valus on linkList Locator 
+
+ClassName and Tagname is used to open the  mutiple element on the web page
+If user will use tagname locator --it will match with the multiple element on web Page 
+
+Sometimes class values is same for the multiple elements on web page
+
+After used this 2 locatore( ClassName and TagName) -- Most of the time user use  this locators it is used to find out the multiple link, elements on Web Page
+
+Class is an common attribute  to find all the list of sliders
+By using class attribute user cature all the element on web Page
+
+Size() method is used to find the how many element on web 
+
+CSS Selectores -- Multiple combinations 
+
+https://www.joomlart.com/member/login
+
+https://demo.nopcommerce.com/register?returnUrl=%2F
+--------------------------------------------
+session not created error 
+This version of chrome driver only supported to chrome version 114
+---------------------------------------------------------------------------------------------
+Unable to locate element -- means use threedsleep(2000)
+---------------------------------------------------------------------
+Xpath locators 
+
+User locate any kind of element by using xpath
+
+some times after using name, id, link test or other locators unable to locate the element on web page , by using xpath we can defntly locate the element 
+
+What is xapth ?
+xpath is defined as a XML path
+it is a syntax or language  for finding the any element on the web page using XML path expression 
+Xpath is used to find the location of any element on web page using XML DOM structure. 
+xpath can be used to navigate through element and attributes in DOM.
+
+xpath is representing an address of element
+Location of element -- means address of element
+
+DOM is nothing but the document object model
+DOM is an API interface provided by browser
+when webpage is loaded browser creates a Document Object Model of the page
+
+while loading web page DOM view automatically created by the browser itself
+
+DOM structure is generate as the page of loading 
+
+xpath is basically a path
+
+Full Xpath Example 
+
+/html/body/div/div[1]/div/div[1]/div/div[1]/img
+
+Types of xpath 
+1. Absolute xpath --is called as full xapth
+/html/body/div/div[1]/div/div[1]/div/div[1]/img
+
+every node have to speciffy by using seperate slash /
+
+1. Absolute xpath start from root node 
+2. Absolute xpath  start with single /
+3. Absolute xpath dont use any attribute only use node&tag 
+
+2. Relative xpath --is called as partial xpath
+
+//*[@id="app"]/div[1]/div/div[1]/div/div[1]/img
+
+1. Relative xpath directly jump to that element on DOM
+2. Relative xpath start with double //
+3. Relative xpath we use some attibutes and values 
+
+syntax of relative xpath 
+
+//tagname[@attribute='attribute value']
+// *[@attribute='attribute value']
+* represents the regular expression which are matching with all tag on DOM 
+
+How to generate xpath of the element 
+----------------------------
+1.Right click on element --> Inspect--> Highlight Html--Right click--> copy xpath
+
+2. Chropath Extension
+3. selectorHub
+chropath which is avilable on chrome as well as firefox browser
+After adding chropath multiple options are available on web page to find the css selector and xpath 
+
+After click on element automatically generate relative xpath 
+After click on elemet all the locators display which are supported by the selenium
+
+3. selectorHub 
+How to install seletorsHub
+2. Chropath Extension
+3. selectorHub -- both are implemented by sanjay kumar 
+
+question which xpath will be prepared & why ?
+
+Absolute--
+/html/body/div/div[1]/div/div[1]/div/div[1]/img
+
+there are 2 problems of absolute xpath/ Full xpath 
+1.eg some of the time remove the middle one node -- unable to locate the element
+2.some of the time change the location of middle node -- unable to locate the xpath 
+3.some times after add new element and delete the existing element xpath will broke 
+4.sometimes element remove and change the location in that case absolute xpath will be broken 
+
+Relative-- 
+//input[@id='username']
+// means it is representing the entire DOM structure
+wherever attribute is present that will directly jump to that element and will find that element
+
+eventhough new node is added change the location of element-- no problem at all 
+this is the main technical reason why we use to relative xpath. 
+
+Xpath options 
+this are differnt options we can use along with the xpath 
+or 
+and
+contains()
+start-with()
+txt()
+chained xpath 
+
+in java (inside double quotation "  another "double quotation "") -- are not allowed 
+
+some times dynamically change the elements 
+property of element will be dynamically change in those cases we need to write the dyanamic xpath 
+
+in that case we use this methods 
+contains()
+start-with()
+txt()
+
+Xpath with or operator 
+//input[@id='username' or @iname='userName']
+sometimes we can specify multiple attribute and values also 
+either the 1st attribute should be there or 2nd atribute should be there 
+one of them is matching then this will be able to locate the element
+
+For ex 1st attribute and value is matching 2nd attribute and value is not matching still it will go and locate the element 
+
+Or types means one of them should be match, at least one attribute should be match.
+both are not match unable to locate the element 
+
+
+Xpath with And operator 
+//input[@id='username' And @iname='userName']
+
+In this and operator both attribute should be match then it will locate the element
+In all other cases element will not be able to locate
+1st  attribute match & 2nd attribute not matched unable to locate the elements 
+
+or and And both are case sensitive-- should not put upper case character 
+
+Xpath with contains() method 
+
+while elements attribute dynamically changes that time contains() method is very very imp.
+//input[contains(@attribute, 'value')]
+not need to pass the full value of attribute 
+
+along with xpath also use contains method 
+
+contains() method is which will verify the attribute value is a part of actual value then it will go to locate the element
+
+This is called as dynamic xpah
+dynamic xpath we can use static method 
+
+start -- button
+stop -- button 
+
+//input[contains(@id,'st')]--Both button spelling st is same that  time use contains method it will locate the element on web page 
+even start button it is able to match the locator 
+even stop button it is able to match the locator 
+this is called as dynamic xpath
+
+Those properties are dynamically changed
+//input[contains(@id,'st')]----dynamic xpath--in contains doesent matter st value where is present in that attribute values 
+//input[start-with(@id,'st')]----dynamic xpath
+In  start with method -- attribute value should be start with st
+given value in start with type it should not be on different place 
+
+How to locate the element by using text method 
+text()
+//a[text()='women']
+
+Chained Xpath 
+//form[@id='searchbox']//input[@id='search_top_query']
+
+chained xpath means--we can write multiple xpath 
+sometime one xpath unable to locate the element then we can chained another xpath 
+It should write the 1st xpath of form tag name -- it is parent xpath  
+and 2nd is inside the form with tagName  --- it is a child xpath 
+//form[@id='women']//input[4] -- this is called as chained xpath  
+[4] is a index number of TagName inside the parent xpath 
+
+xpath of Access
+Xpath access are those access that are used to search for the multiple nodes in the XML documents from the current node context
+
+This methods are mainly used when the element is not identified with the help of id, name, class, link text, css selectors 
+
+/html/body/table[1]/tbody/tr[3]/td[1]/div/div/ul/li[2]/a
+
+Xpath method--"contains" it is very usefull to work with dynamic xpath 
+Two types ofcontains xpath 
+//tagname[contains(@attribute, 'Values')]
+//tagName[contains(text(), 'display')]
+------------------------------------
+Wait in slenium
+Thread.sleep(milisecond)-- mention the milisecond here which will pass the code for sometimes rest of the code 
+There is not a any balance between automation script and element on web page 
+most of the time automation script is faster than the application response 
+
+Implicit wait 
+Explicit Wait
+Fluent Wait 
+
+1. Implicit wait
+syntax of implicit waits 
+driver.manage().timeouts().implicitlyWait(0, 10);
+	
+it is applicable for all on the web page it is a global wait 	
+it is applicable for rest of the element throught the code 
+
+Advantages
+It is very easy to use 
+add implicit waits only one 
+which is applicable for all the elements 
+maximum time out is 10 second
+
+Dis 
+
+1. import the webDriverManager 
+2. import the chrome driver
+3. WebDriver driver= new ChromeDriver();
+---------------------------------------------------
+2.Explicit Wait
+Explicit Wait statement is a basically elemet specific we can wait for that element 
+Additional specify some conditional also 
+
+i will wait for that particular link or element on web page 
+
+we have to add explicit wait multiple times 
+it is not working for another element on web page 
+
+syntax of explicit Wait 
+WebDriverWait wait =new WebDriverWait(driver, 2);
+ WebElement element= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@ data-select2-id='select2-data-select2-axSelectProj-result-6y0p-qatestbed']")));
+ element.click();
+ 
+On web Page Eevery element we have to add the same condition of explicit wait  
+we have to add explicit wait multiple time because this is a element specific
+
+use the same condition for multiple elements 
+
+ExpectedConditions is predefine class of selenium
+
+How to write generic method for explixit wait
+
+in this scenario it will create 3 parameters -- it will internally created 
+same method we can call for multiple element
+
+3.Fluent wiat --maximum timeout is 30 second
+fluent wait is more similar to webdriver wait with more flexibility in polling time and ignoring exceptions
+
+Waiting 30 seconds for an element to be present on the web page , checking
+for its presence once every 5 seconds 
+
+Declare the fluent wait before driver.get(" "); syntax//before launch the browser
+sometimes application is very slow that time synchronization error facing then we will use the wait 
+
+
+After giving correct locator exception ---> unable to locate element on web age
+Exception in thread "main" org.openqa.selenium.NoSuchFrameException: no such frame
+  (Session info: chrome=116.0.5845.141) 
+Ans --driver.switchTo().frame(1);
+--------------------------------------------------------------------
+types of iframes in selenium 
+
+Normally frames are used for horizontally vertically split of the screen
+split the entire page into multiple sections.
+iframe is differnt , they are basically insert a contains from another source 
+iframes having the contains -it is comming from different source
+cannot direclty interact with the element inside the iframes 
+
+1. Diff between frame and iframe?
+2. How to handle iframes in WEebDriver?
+3. How to switch between multiple iframes ?
+4. How to work with inner iFrames?
+
+How to switch frame 
+by using 
+driver.switchTo().frame("name of the frame/id of the frame") it is not a attribute it is just pass a attribute value
+driver.switchTo().frame(WebElement) entire frame as awebelement
+driver.switchTo().frame(0) sometimes we can also pass the index - index start from 0
+
+
+1st Frame 
+driver.switchTo().frame("PackagList Frame")// name of the frame
+driver.findElement(by.xpah(" ")).click() 
+1st went to the 1st frame then perform the action on click();
+
+Thread.sleep(2000);
+
+2nd iframe
+driver.switchTo().frame("PackagList Frame")// name of the frame
+driver.findElement(by.xpah(" ")).click();
+-switch to the 2nd frame perform the action on click
+
+Thread.sleep(2000);
+3rd iframe
+driver.switchTo().frame("PackagList Frame")// name of the frame
+driver.findElement(by.xpah(" ")).click();
+-switch to the 3rd frame perform the action on click
+
+1st frame depend on 2nd frame depend on 3rd frame 
+
+Error :- Nosuch frame exception 
+driver focus on 1st frame -- After performing the action we have to come out from that particular frame - then we need to switch to the second frame 
+
+After action how to go back to the main frame 
+driver.switchTo().frame("PackagList Frame")// name of the frame should be correct 
+driver.findElement(by.xpah(" ")).click();
+driver.switchTo().defaultContent();// it is go back to the main page 
+
+then switch to the 2nd frame and perform the action in switch frame 
+agian one more time go back to the main page 
+
+After Applying every frame we can keep 
+Thread.sleep(2000);
+
+Inner frame how we can do that
+1st go to outer iframe then switch to inner iframe 
+outer iframe contains a inner iframe 
+dont have a any attribute on that element  we can use the web element 
+we can get this frame as a webelement 
+
+inspect element--right click on element - copy the xpath
+form/frame instide of iframe 
+soemtimes form/frame this kind of tag they are refering the iframes 
+--------------------------------------------------------------------------------------------
+Tooltip message 
+tooltip-- when user move the cursor over on text box and any link after display the text of that box name and link name 
+tile attribute -- tooltip of that element.
+tooltip is a value which is assign to the attribute value
+
+How o capture the tooltip message 
+
+internal12
+Axpertmanager
+-------------------------------------------------------
+How to Automate Check box ?
+
+How to select specific , All the check box , multiple checkbox, last 2 check box 
+First 2 checkbox 
+
+org.openqa.selenium.ElementClickInterceptedException:
+
+//*[@id="root"]/div/div[2]/div/div/div/div[2]/p/a 
+
+/html/body/div[1]/div/div[2]/div[2]/div[2]/div/span
+
+//*[@id="root"]/div/div[2]/div[2]/div[2]/div/span
+
+
+makemytrip
+//driver.findElement(By.linkText("Search")).click();
+//WebDriverWait wait=new WebDriverWait(driver, 1);
+//WebElement element=wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button buttonSecondry buttonBig fontSize12 relative']")));
+//element.click();
+//driver.switchTo().frame(1);
+//driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//driver.findElement(By.xpath("//button[text()='OKAY, GOT IT!']")).click();
+driver.findElement(By.cssSelector(".button buttonSecondry buttonBig fontSize12 relative")).click();
+
+//driver.findElement(By.xpath("//span[@class ='bgProperties icon20 overlayCrossIcon']")).click();
+
+//driver.switchTo().frame("sec-overlay");
+//driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//WebElement ok = driver.findElement(By.xpath("//button[contains(text(),'OKAY, GOT IT!')]"));
+//new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(ok));
+//ok.click();
+-----------------------------------
+1 element multiple time on web page How to automate
+After adding xpath we need to add index 
+Index will start from 0
+driver.findElement(By.xpath("//p[contains(text(),'Non Stop (38)')][1]")).click();
+
+we should use this type of index with xpath //p[contains(text(),'Non Stop (38)')][1]
+
+/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/label/div/p
+-------------------------------------------------------------------------------------------
+Drop down by jquery , combobox by jquery
+in this scenario in drop down multiple options and multiple sub options 
+
+Implicitwait added along with the driver
+
+In this drop down we can select one options at a time or we can select multiple options at a tiem 
+3 Tpes - select the 
+single option
+multiple option
+all the option
+
+generic method to pass the single valuues or multiple value by using this method 
+selctchoiceValues(driver, "choice1")
+we have to write one method
+
+selctchoiceValues(driver, "choice1" "choice2", "choice3")  //select multiple option/values
+
+selctchoiceValues(driver, "all")// we should abe to select all the values
+
+Each selection we want to create seperate method // single, multiple, all
+
+(WebDriver Driver, String...value)  - which can hold multiple values
+This can hold all paramaeters single,multiple and all
+
+String variable and 3 dot --it is used to hold all the values in jquery drop down 
+
+inner loop will repeate multiple times 
+
+Create a method in program
+
+public static void selectChoiceValues(WebDriver Driver, String...value)
+
+List<WebElemet> choiceList= driver.findElements(By.xpath)
+if(!value[0].equalsIgnoreCase("all"))
+{
+for(webElement abc:choicelist)
+{
+String text= abc.gettext(); // it will show the all text of options 
+}
+}
+---------------------------
+Download the file 
+DataBase testing using selenium--- We can check same scenario in selenium and firefox browser
+How to downlaod the text  file and pdf file 
+
+Three Actions we need to create 
+1. enter the data
+2. click on generate file button 
+3. click on download button 
+Entered text values in the text box it should be appear in down load files  
+1. downlaod the text filed 
+
+2. Download the pdf file 
+
+1.In chrome browser no need to write the any additional commands
+2.No need to add any additional steps
+
+In fiefox browser 
+It should do all the setting through automation 
+
+before creating driver object and system.setProperty,  we should do additional settings for firfox browser
+Only 2 classes required before creating driver object and set property
+
+setPreference("abc","amitvalue") method will take the two parameter values 
+1st abc is a key    // abc is a parameter this parameter passing  the values here "amitvalue"
+2nd amitvalue  is a value
+
+This is called as Mime type
+Mime type--means what kind of file we need to download through firefox browser 
+
+similaraly every kind of file it is a Mime type
+mime type it is called as file extentions 
+
+This steps are very important to download the file from firefox browser
+
+FirefoxProfile profile= new FirefoxProfile();
+	profile.setPreference("browser.helperApps.neverask", " text/plain,application/pdf");  // Mime type
+	profile.setPreference("Browser.download.manager.ShowWhenStarting", false);
+	profile.setPreference("pdfjs.disable", false);  //only for pdf
+
+FirefoxOptions option= new FirefoxOptions();
+	option.setProfile(profile);  //we need to add only profile
+	System.setProperty("webdriver.gecko.driver","C:\\Users\\JYOTHSNA\\eclipse-workspace\\seleniumBasicTest\\Drivers\\chromedriver.exe");
+	WebDriver driver = new FirefoxDriver(option);
+------------------------------------------------------------------
+Headless Testing of Chrome and firefox browser 
+How to automate test case using browser 
+Test Case -1
+1.open browser
+2.open url(http://google.com)
+3.Enter username
+4.enter password
+5.click on ok
+6.check the page title
+-----------------------------------------
+Check validdation in automationn testing by using try and catch block 
+
+TestNg
+-------------------------------------------------------
+selenium session not created Exception
+it is a problem of incompatibility
+1 it is version compatibility between chrome browser and chrome driver
+how to change version of chrome driver
+
+After importing java project in eclips  how to fix error 
+After import program in eclips 
+
+The class file is not on the class path error showinr
+------------------------------------------------------------------------------------------------------------------
+Screen shot Automation
+1. Full page ?
+-Take screenshot interface which contain a method called get screenshots 
+By using this  TakeScreenshot methos we can capture the full Pagee screenshot
+
+2. Section of page  ?
+
+3.Element on Page ?
+-----------------------------------------------------------------------------------------
+For  modification of grid values purpose 
+
+---------------------------------------------------------------------------------------
+For firefox browser -- No need  to change anything 
+
+System.setProperty("webdriver.chrome.driver","F:\\Selenium All programs 1\\Driver File\\Driver File\\chromedriver-win64\\chromedriver.exe");
+WebDriver driver= new ChromeDriver();---
+driver.get("https://demo.guru99.com/test/newtours/");
+
+1.drive object-- will drive the entire exeution of program
+Webdriver driver = new firefoxDrive  -- This step is called a template for each and every selenium program execution
+
+Insteead of chormedriver we need to use firefox class
+-----------------------------------------------------------------------------------------------------------
+Data driven framework
+
+We will preapre test data in Exel file and we read the data from Excel file and we used in automation testing and we will pass the same data in appliation 
+Data driven -- data driven testing---> testing is driven by the data
+
+By defoult selenium doesn't support by Excel file or microsoft Exel
+other than selenium doesn't support to  any other funtional, expect web element action and locator
+
+For support we can integrate 3rd party API or libarry 
+
+For Excel  Microsoft excel doesn't support by selenium---For this we need to use third party library which is called Apachi P library
+
+Name- Apachi POI library   or We can say API
+-------------------------------------------------------------------
+2nd video
+
+data driven test case which contains a 2 parts 
+1st is the applicaion code---> we have to interact with the elements, launch the browser, validations are commes under  in application code
+
+2nd excel related code --> find the  number of rows, number of columns reading and writting the data in Excel sheet
+
+For every test cases --> we have to create excel related operations
+1st  we need to write the piece of code for application side 
+2nd we need to write a piece of code  for Excel side 
+
+Major problem--> testcase become complex along with  application and excel side code
+
+2nd problem--> Excel related code is repeating for evry test case--- Duplication 
+
+Commun operation for excel filewe need to create One forlder Utility files --- Folde name  we can give anything.
+
+Every data driven test cases no need to write the Excel releated code , just we need to write the Application related code
+
+Utility file 
+Advantages 
+2. no need to write the excel code in every test case, so complexity of code is reduce
+2.Reusability we achive --> no need to write the code for every test cases,  
+we will call this method in every code/Testcase
+
+All common methods are store in this class thats why it is called as utility file --  Utility file -it is always a reusability file.
+
+
+How to create a data driver test cases
+Understand the fucntionality of tes cases
+1. Functionality (Test Case)
+2. Preapre test data in Excel 
+3. Develope Automation Script.
+
+In data Driven testing framework
+We can take valid data and invalid data
+We can execute the same test case with multiple set of data
+When i give positive data -- test case will be pass
+When i give  Negative data -- Testcase will be faile
+
+1st  step 
+We need to deal with application and we need to deal with Excel file 
+
+gettext method we have to use because  the this is a inner text 
+Before execute Testcase we have to close the Excel file
+
+if  Excel file is already open --> Still it will work but the problem is excel file will be lock our automation 
+Automation is lock the excelfile at run time thats why user unable to update the data in excel file
+
+In Automation After release Excel file we cannot do anything
+-- that is the reason we have the cloe the Excel file at a time of running
+Excel File is open-- sometime it will not  work proper, it will not release automatically
+After execution we can open 
+
+Without loop we can not repeate the step in data driven framework.
+Without loop we can not repeate the step in data driven framework.
+
+Similaraly we keep the data in the Properies File
+
+Reading Properties file
+Properties file just like a text file 
+
+Config.file create in testdata folder
+We have to add some data in config file 
+Some common data which are require for automation , browser, caes
+common data which require for multipe test cases we will maintain in the properties file
+
+How we can read the data from config properties file through automation screen 
+---------------------------------------------------------
+Action class in Selenium
+un/pwd -amit555/Amit@#123
+
+Action act =new Action(driver)
+
+act.MoveToElement(name).MoveToElement(blog).click().build().perform()
+
+Click() --method also belongs to Actions class
+
+-------------------------------
+Keyboard action in selenium
+
+WE can handle the slider  by using Keyboard action
+
+On ly source is there target  is not available i have  to drag from source to target
+
+How to handle the  slider element using Keyboard actions
+
+Withotu target also we can do the drag and drop 
+Main purpose of slider--->Move the elemeent on x and y axis according to change the values on X and Y axis 
+
+Vertical slider--> move on the Y axis ---> X axis is constant
+Horizontal slider--> Move on the X axis--> Y axis is constant
+
+Location of element -- means X and Y axis cooordiate value we have to capture
+
+1 slider
+dragAndDropBy(Element, x, y)
+Using action class we can handle the Slider
+
+Keyboard action --->
+We can handle Keybord action using Action class 
+Shortcut keys purpose we can use Keyboard actions
+
+
+Use Send key to enter the Text
+Control A
+Control C 
+Click on Tab
+Control V
+
+Bot method we have to execute combine
+KeyDown(key.control)--> is used to press the key
+KeyUp(key.control)--> is used to release the key
+
+
+ex. CTRL + Sift+A
+act.keyDown(Keys.CONTROL).keyDown(Keys.SHIFT).sendkeys("A").KeyUp(Keys.SHIFT).KeyUp(Keys.SHIFT).KeyUp(Keys.Control).perform();
+
+Ex. Enter
+act.keyDown(Keys.ENTER).keyDown(Keys.ENTER).perform();
+-----------------------------
+After click on register  button  ---> Home page is gone 
+But i dont want to gone Home Page 
+
+Its possible only through keyboard actions
+
+Click methods will available in 2 places WebElement and Action class
+
+Webelement --> click method doesnt accept the parameter
+Actions --> Click method accept the parameter 
+
+After expire session -- unable to locate the element
+
+----------------------------------------------------------------------
+Jenkins framework in Selenium
+
+First we will go with Run service as local System(not recomended)
+
+Select the port 
+Click on test connection.    
+Execute this Command in command prompt 
+netstat -ano | findstr :8080
+then click on Next 
+Add the java Home Path 
+
+netstat -ano | findstr :8080
+GO  to services window 
+right click on jenkins --> Properies--> click on log on 
+Username/Pwd- Automation/Amit@555
+
+Go to Jenkins folder and open password in notpad
+---->Administrator password<----
+37a38455fa434dfc8a86d2d5b2c55406
+
+After enter password --
+Click on Install the pluggins---> By default all plugins are installed 
+
+Then create First Admin user
+user/password- amit777/amit@123
+
+url-- http://localhost:4260/
+
+How to create  a project in jenkins 
+
+Click on new item --> enter ItemNmae 
+Selc freestyle Project 
+and click on Ok 
+--------------------------------------------------------------------------
+Data Base  Automation test cases 
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+Browser Commnads 
+navigate().to()
+navigate().back()
+navigate().forward()
+navigate().refresh()
+
+What is the diff get  and navigate().to() commnad
+
+fucntionality wise no differnce
+
+get method -- it will take url only in string format
+
+navigate is another method     and to() is a actual method
+navigate().to()-- this is also callling the internal get method-- 
+in this method we can pass url as a string or we can pass  URL in the form of objects 
+We can call the 2 methods internally
+
+------------------------------------------------------------------------------------------
+Automation frame work? 
+
+We can organize automation project files/folders in structured manner
+
+Why we need  to go for framework
+-->Obejctive
+1.Re-usability ---we should avoid the duplicaion -- we can use the same code
+
+2.Maintainability--- We can add the new test cases in existing frame work- we can modify the existing test caes without impacting other test cases and 
+without impacting any other files, it should be  maintain a long period of time , we can add the new  test cases, 
+remove the existing test cases that is all about maintainability
+
+3.Readability-- Everyone should able to understand a code, any other user should able to add new test cases and should able to modify existing test cases 
+
+Types of framework
+1.Built in 
+  EX TestNG, junit, Cucumber, robot etc...
+  
+2. Customized (user defined)
+Modular framework, dat driven, keywork driven, Hybrid driven etc..  
+
+Phases/stages 
+--------------------------------------------------------------------------------------------------------------------------
+1) Analysing Automate
+-Number of Pages 
+-What are all elements/ how/ type
+-What to automate /what we cannot automate -- Foar application  what are things we can automate and what are the things we cannot automate
+that we need to identify 
+Because everything we can not automate some of the things we need to do manual 
+
+Automation we can not achieve 100%
+
+2).Choose test caes for automate 
+
+Initial build we cant do automation testing ----> because initial time build is not stable 
+If build is not stable we can't start the automtion testing 
+First few round of testing we have to manual testing 
+
+What is the criteria of automation testing 
+
+what is the meaning of 100 % automation--->
+
+100 test cases ---> 90 test cases are automated, and 10 test cases can not automate   ---> this is called 100% automation 
+
+If 50 test cases automated ----> This is called 100% automation
+100% automation is possible in one context
+if  your expecting entire application should be automated  if you are considering 100% automation -no thats nevver possible 
+
+2).How to  choose  the test cases for automation 
+
+Based on the priority we have to choose the test cases for automation 
+
+Eg. In 100 Test cases 
+
+1) sanity test cases --->P1----->means basic functionality test cases-- if this test cases are fail we can not proceed further execution
+   IF you execute rest of the test cases (retest, rgression, other test cases)- sanity test cases should be passed 
+2) Data driven test cases /re-test--P2--- this is a repetation we must automate --we cannot miss to automate
+3) Regression test cases- P3---> Regression test we need to automate --- we have prefer 100% automation testing 
+4) Any other test cases -P4 
+
+Whwn developer give multiple bug fixes at the time we can identify the regression testcases
+Rgression Testing defination ---> during regression testing we will identify the impacted area accordingly 
+what are the test cases covering this area we will pick those test cases and automate this test cases. 
+
+3).Design and Development of framework 
+
+Design--creating a framework and folder structure is called design 
+Most of the time senior people will design by the  framwwork  4to 5 + years of experiance  person will design 
+design and development  
+design is totallly difference 
+Contribution  towards the framework with developer  this is also difference , i have involving the design buti am not done the entire design myself. 
+i am taking the help of other team member.
+
+4) Execution 
+Execution can be happen in different level
+
+Two kinds of Excution--> local, remotly
+
+Local -- my code is avialble in eclips 
+Remote-- I push the code from other repository
+I will execute my test in some other place and some other machine.
+
+jenkins pull the code from the git repository and execute in the  remote machine..
+
+5) Maintenance 
+
+E-commerce domain
+------------------------------------
+1.Frontent Operations  (customers/users)
+- register an account
+- login 
+- Search for the  product 
+- add/edit/delet product from cart
+- order products
+- reviews
+etc.
+
+2.Backend operation (admins/backend teams)
+-Products 
+-customers
+-orders
+-Store
+etc.
+-----------------------------------------------------
+Create a one maven project 
+
+Page object class -- 
+1. Locator
+2.Constructor---Constructor name should be same as the class name
+3.Action class
+
+Base page class 
+Only constructor  - No need to create anything
+
+Base class is the parent of all the page object classes
+
+All pagge object classes should be drive frome base class
+----------------------------------------------------------------------
+Building framework from scrach 
+
+src/main/java
+In this  folder we have to create a base class
+
+Step1 . create 1 data.property file/folder -- in that folder we need to add browse details and location
+
+Base class is the invoking the chrome driver 
+
+src/test/java---In test folder only test cases should go 
+
+From base class 
+chome browser setproperty is not running thats why  nullpointer Exception error message getting
+
+Verify whether script is going or not inside the If block
+-------------------------------------------------------------------------------------------
+If change  the browwsser name in Data properties file --- data properties file madhe je browser ch name aahe tya browser madhe all test cases will be execute 
+depend on condition of base class
+Then all test cases will be run in the firefox browser.
+
+If wrong path - Agian it will show the Nullpointer Expection error--- we need to check If else condtion statement and then
+Then check that statement will go or not in If syntax
+
+2nd error
+FAILED: basepageNavigation
+java.io.FileNotFoundException:
+--> We need to check some file is missing 
+
+3rd FAILED: basepageNavigation
+java.io.FileNotFoundException: E:\Slenium 2024-03\E2EFramework\src\main\java\MavenFrame\data.properties (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+Ans--> change data properties file location  thats why  
+--------------------------------------------------------------------------------------------------------------	
+Page Object Module  ---
+
+Easy to maintain 
+Easy Readability of scripts 
+Reduce and eliminate duplicacy
+Reusability of code
+Reliability 
+
+WHy use PageObjectmodule -lot of compatibility in selenium thats why POM is used
+it is a very good pattern to design a framework
+
+Page object moduel is same  for selenium web automation and  and Appium mobile automation 
+All basic concept is same for mobile and web automation testing
+
+rediiff. comm 
+All the objects belongs to home page i will write in home page class 
+
+After click on sign in page --- it will navigate to sign in page 
+
+For login Page - i will create login classs 
+In this classs --- i will create all the  object  for login page
+For each page i will create a seperate class -- for eg 5 page  -- i will create a 5 closs
+
+Object belonging to that page i will write in class by naming as className
+
+Write test cases 
+For eg i have 1000 test cases   i will call the  from login class because all the objects belongs from login class
+ 
+I will call the object from login page to Test case class
+
+For exmp any chnage in login page i wil update the change in login class after that my all test cases are execute successfuly
+
+Only one update is getting reflected to all the test cases
+
+We need to update only that page class 
+for evry page we have to create the class
+
+Only constructor class is common for all the class in page object module
+
+We can use two page object classes and execute this 2 page object classes in one test class
+
+Erorr 
+Nullpointer Exception  -- After getting this error 
+
+loginpage log = new loginpage(this.driver);
+
+We have to call cunstructor  by using this keyword
+
+Error- file not found means -- we have to check exact file location
+We need to update correct filePath
+
+Interview  Question on Selenium in Framework
+-----------------------------------------------------------------------------------
+Page object factory -- it is a more simple of page object module
+
+Only difference occures writting the Page object classes
+
+If in my projeect 6 page is open i will creat the 6 class  
+
+------------------------------------------------
+Data Driven framework
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
