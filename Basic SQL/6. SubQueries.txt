@@ -1,0 +1,171 @@
+	SUB-QUERIES
+	===========
+
+* Sub-query means query within a query
+* It is also called as nested query 
+
+
+Synatx:-
+========
+select 	-------
+from 	-------
+where	-------
+          (
+		select 	---------------
+           	from	---------------
+		where	---------------
+          )
+/
+
+
+- Here the output of inner query is passed as input to the outer query.
+- To write Sub-query we should have a common column between the tables.
+- The common column should have same data type but it can have different name.
+- The result to be displayed on the screen should be written as the outer query.
+
+
+
+Eg:-
+[1] display the emps from accounting dept.
+ sql> select * from emp where deptno = (select deptno from dept where dname='ACCOUNTING' );
+
+[2] display dname of 'BLAKE'.
+ sql> select dname from dept where deptno = (select deptno from emp where ename ='BLAKE');
+
+[3]DISPLAY ALL THE PERSONS LIVING IN NEWYORK
+  sql> select * from emp where deptno =   (select deptno from dept where loc='NEW YORK');
+
+[4]DISPLAY THE EMPLOYEES WORKING IN ACCOUNTING AND RESEARCH DEPT.
+  sql>  select * from emp where deptno IN (select deptno from dept where dname IN ('ACCOUNTING', 'RESEARCH'));
+
+[5] DISPLAY THE EMP WHO HAS JOINED FIRST.
+  sql> SELECT * FROM EMP WHERE HIREDATE = (SELECT MIN(HIREDATE) FROM EMP);
+
+[6] LIST THE ENAME WHO IS GETTING FIRST HIGHEST SALARY.
+   sql> SELECT * FROM EMP WHERE SAL=(SELECT MAX(SAL) FROM EMP);		
+
+[7] DISPLAY THE DNAME WHICH IS GETTING HIGHEST SALARY.
+   sql> SELECT *  
+	FROM DEPT 
+	WHERE DEPTNO =
+       		(SELECT DEPTNO 
+		 FROM EMP 
+		 WHERE SAL =     
+		   (SELECT MAX(SAL) FROM EMP)
+		);
+
+[8] DISPLAY THER SECOND HIGHEST SALARY.
+  sql> SELECT MAX(SAL) 
+	FROM EMP 
+	WHERE SAL < 
+    		(SELECT MAX(SAL) 
+		 FROM EMP
+		);
+
+
+[9] DISPLAY FOR FOURTH HIGHEST SALARIES
+   SQL>  SELECT MAX(SAL) FROM EMP WHERE SAL < 
+       ( SELECT MAX(SAL) FROM EMP WHERE SAL <
+       ( SELECT MAX(SAL) FROM EMP WHERE SAL <
+        (  SELECT MAX(SAL) FROM EMP )));
+
+[10] LIST THE EMP REPORTING TO BLAKE.
+  SQL>  SELECT * 
+	FROM EMP 
+	WHERE MGR=
+		(SELECT EMPNO 
+		FROM EMP 
+		WHERE ENAME ='BLAKE');
+
+[11] DISPLAY THE EMPS WHO DO NOT HAVE ANY REPORTING MANAGERS.
+  SQL> SELECT * 
+	FROM EMP 
+	WHERE MGR NOT IN 
+      		(SELECT EMPNO 
+			FROM EMP 
+			WHERE MGR  IS NOT NULL);
+
+
+=============================================================================
+
+
+=============================================================================
+
+
+LIMITATIONS OF SUBQUERIES :- 
+============================
+* ONLY UPTO 256 LEVEL OF SUBQUERIES IS POSSIBLE.
+* THE ORDER BY CLAUSE SHOULD NOT BE USED IN INNER QUERIES (SHOULD BE USED IN THE OUTERMOST QUERY).
+* WE CANNOT FETCH THE DATA FROM TWO TABLES SIMULTANEOUSLY. THIS CAN BE OVERCOME BY USING JOINS.
+
+
+
+ASSIGNMENTS
+===========
+Select all the employees who work in DALLAS.
+------select *from emp where deptno =(select deptno from dept where loc='DALLAS')
+------------------------------------------------------------------------------------------
+Select all the departmental information for all the managers
+----select *from dept where deptno in(select deptno from emp where job='MANAGER')
+========================================================================================
+list  the salesmen who are not located at DALLAS.
+select * from emp where job ='SALESMAN' and deptno not in(select deptno from dept where loc='DALLAS')
+=================================================================================
+list  the managers & clerks who work in Accounts and SALES departments.
+select *from emp where job in ('MANAGER','CLERKS') and 
+deptno in (select deptno from dept where dname in ('ACCOUNTING','SALES'))
+==========================================================================================
+list  employees who are earning same as SCOTT. But SCOTT should not be displayed.
+select *from emp where ename ='SCOTT' and deptno in (select ename from emp where ename not in 'SCOTT')
+========================================================================================================
+list  the employees who are earning more than the average salaries of all the employees.
+select *from emp where sal >(select avg(sal) from emp)
+========================================================================================
+list  the employees who are earning more than the average salaries of all the emps
+list the employee name from ACCTS & SALES departments.
+select *from emp where deptno in (select deptno from dept where dname in ('ACCOUNTING','SALES'))
+==========================================================================================
+list the dept name which is having no employees (Use NOT IN)
+select dname from dept where deptno not in(select deptno from emp)
+
+=============================================================================
+list the dept name which is having atleast one employee. (Use IN)
+select dname from dept where deptno  in(select deptno from emp)
+=====================================================================================
+list the employee name who is earning the first max salary.
+select *from emp where sal=(select max(sal) from emp)
+===============================================================================================
+list the department name is who is earning the first max salary.
+select *from dept where deptno =(select deptno from emp where sal= (select max(sal) from emp))
+==================================================================================================
+list 2nd least Salary.
+select min (sal) from emp where sal  >(select min(sal) from emp where sal >(select min(sal) from emp))
+=============================================================================================================
+
+list top 2 salaries. (TOP1 UNION TOP2)
+
+
+list  the fourth maximum salary.
+
+SELECT MAX(SAL) FROM EMP
+ WHERE SAL < (SELECT MAX(SAL) FROM EMP);
+
+
+
+list the employee name who has joined the company first. -- MIN(HIREDATE)
+list the department name which has made the most recent hiring.
+list  the CLERKs & MANAGERs who are located in "NEW YORK" and reporting to KING.
+list  the managers & clerks who work in Accounts and SALES departments.
+
+list employees who are earning same as SMITH. But SMITH should not be displayed.
+
+list emps who are earning more than all the MANAGERs.
+
+list employee number, job & salaries of all the Analysts who are earning more than any of the managers.
+list the mgr name of FORD
+list the mgr name who is having atleast 2 employees under him (reporting to him).
+list the employees who don’t have any reportee under them.
+list the employees who are earning the minimum salary in each of their job. (paired columns)
+
+
+   

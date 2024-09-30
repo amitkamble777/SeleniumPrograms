@@ -1,0 +1,312 @@
+
+
+Functions are classified into 2 types:
+======================================
+
+i)  Pre-defined functions  -> Used in SQL & PL/SQL -> Given by Oracle
+    (In-built functions)
+
+ii) User-defined functions -> Created only in PL/SQL -> defined by users
+
+
+List of pre-defined functions
+=============================
+a) String (Character) Functions
+b) Numeric Functions
+c) Date  Functions
+d) Special  Functions
+f) Aggregate Functions (Group Functions)  [multi-row]
+g) Analytical  Functions
+h) NULL  Functions
+
+
+
+String Functions
+================
+UPPER: 
+LOWER:
+INITCAP: 
+LENGTH:
+REVERSE: 
+REPLACE:
+SUBSTR:
+INSTR:
+----
+
+UPPER: Converts into Upper case
+LOWER: Converts into Lower Case
+
+sql> select lower(ename) from emp;
+sql> select upper('oracle') from dual;
+
+emps
+====
+scott
+SCOTT
+Blake
+Scott
+Miller
+SCOtt
+
+
+sql> select * from emp where lower(ename) = 'scott' -- CASE IN-SENSITIVE SEARCHES 
+
+--
+
+INITCAP: First letter of every word will be converted into upper case and rest are in lower case
+
+sql> select INITCAP('SARLAKG technologies') from dual;
+
+--
+
+REVERSE: Reverses a given string
+
+sql> select reverse('sarlakg') from dual;
+
+--
+
+REPLACE: It replaces a old value with new value
+
+sql> select ename, replace(ename, 'A','B') as new_name from emp;
+
+SQL> UPDATE EMP SET ENAME = REPLACE(ENAME,'*','B');
+
+--
+
+LENGTH: It returns the number of chrs in a given string
+
+sql> select ename, length(ename) from emp; 
+SQL> SELECT * FROM EMP WHERE LENGTH(ENAME) = 6;
+--
+
+
+REGEXP_COUNT:-
+--------------
+- It returns the no. of occurances of a given character.
+ 
+SQL> SELECT ENAME, REGEXP_COUNT(ENAME, 'A') FROM EMP;
+
+===========================================
+
+SUBSTR:
+======
+-EXTRACTS GIVEN no. of CHARACTERS FROM A GIVEN STRING.
+
+
+SELECT SUBSTR(ENAME, 1,4), SUBSTR(ENAME,2,4) FROM EMP ;
+
+SELECT * FROM EMP WHERE SUBSTR(JOB,1,3) = 'MAN';
+
+
+NAME=>'ORACLE SQL'
+
+
+SUBSTR(NAME,1,3)  =>ORA
+SUBSTR(NAME,2,7)  =>RACLE S
+SUBSTR(NAME,5)    =>LE SQL    (FROM 5TH till the end)
+
+- LIST EMPLOYEES WHOSE JOB STARTS WITH 'MAN' WITH LIKE & WITHOUT LIKE.
+
+SQL> select * from emp where ename like 'MAN%';
+
+or
+==
+
+SQL> SELECT * FROM EMP WHERE SUBSTR(JOB,1,3) = 'MAN' ;
+
+
+
+
+instring:
+========
+  - RETURNS THE POSITION OF A GIVEN CHR IN A STRING.
+  - if INSTR returns 0 then character is not present, else it is present.
+  
+SELECT 	ENAME, 
+	INSTR(ENAME,'A',1,1) AS P1, 
+	INSTR(ENAME,'A',1,2) AS P2 
+FROM EMP;
+
+-GIVEN STRING
+-CHARACTER TO BE SEARCHED
+-STARTING POSITION
+-"n"TH OCCURENCE
+
+SELECT INSTR('KARNATAKA' , 'A' , 1, 1) FROM DUAL ;
+
+
+
+
+
+
+SELECT * FROM EMP WHERE INSTR(ENAME,'A',1,1) > 0 ;
+
+SELECT * FROM EMP WHERE INSTR(ENAME,'L',1,2) = 0 and  INSTR(ENAME,'L',1,1) > 0 ;
+
+
+
+name=>'oracle sql'
+
+INSTR(name,'a',1,1) => 3
+INSTR(name,'A',1,1) => 0
+INSTR(upper(name),'A',1,1) => 3
+INSTR(name,'x',1,1) => 0
+INSTR(name,'l')     => 5   (DEFAULT IS 1,1)
+INSTR(name,' ',1,1) => 7
+INSTR(name,'l',1,2) => 10
+INSTR(name,'l',1,3) => 0
+INSTR(name,'l',2,1) => 5
+INSTR(name,'l',6,1) => 10
+
+=============================================
+
+
+Assignments:
+============
+
+write a query to display first 4 chrs of their enames for all the emps & their comm (if comm is null, then 0)
+	-whose name is atleast 5 chrs, 
+	-for all the CLERK & MANAGER (case in-sensitive)
+	-their salaries should an even number
+	-they should have atleast 2 'L' s in thier names.
+SELECT SUBSTR(ENAME,1,4), nvl(comm,0)
+FROM EMP
+WHERE LENGTH(ENAME) >= 5
+AND UPPER(JOB) IN ('CLERK', 'MANAGER')
+AND MOD(SAL,2) = 0
+AND INSTR(ENAME,'L',1,2) > 0   -- ename like '%L%L%'
+/
+
+
+========================================================================================================
+
+numeric FUNCTIONS
+=================
+
+ABS(-n) 	- Absolute value
+SQRT(n)		- square root of the given number
+POWER(X,Y)	- returns x power y value
+MOD(X,Y)	- returns the remainder when x is divided by y
+
+select abs(-5), abs(10), sqrt(100), power(2,4), mod(20,6), 20/6 as qu
+from dual;
+
+
+SELECT * FROM EMP WHERE MOD(SAL,2) = 0;
+
+
+CEIL & FLOOR
+=============
+-ceil  returns highest integer
+-floor returns lowest  integer
+
+ select ceil(96.1), floor(96.99) from dual;
+
+ select ceil(-96.1), floor(-96.99) from dual;
+
+
+"round" & "trunc" are used for rounding-off a given number..
+
+round(657.65,1) => 657.7
+round(657.64,1) => 657.6
+round(657.55,0) => 658
+round(657.44,0) => 657
+
+trunc(657.69,1) => 657.6
+trunc(657.64,1) => 657.6
+
+
+
+
+=======================================================================================
+
+DATE FUNCTIONS
+--------------
+
+SYSDATE      -> system date upto precision [dd-mm-yyyy hh:mi:ss] 
+
+SYSTIMESTAMP -> system date with date, time & timezone [dd-mm-yyyy hh:mi:ss:fffffffff] + TimeZone
+	     -> upto nano secs [from one tenth of a sec]
+
+LAST_DAY     -> returns the last day of a given date.
+
+select last_day(sysdate) from dual;
+select last_day('01-feb-1960') from dual;
+
+
+add_months   -> adds/subtracts given months for a given date.
+
+select add_months(sysdate,2) from dual;
+
+
+months_between -> returns number of months between any 2 dates.
+
+select ename, hiredate, months_between(sysdate, hiredate) from emp;
+
+
+STUDENTS
+========
+
+ST_ID	ST_NM		BIRTH_DT	EDUCATION
+1001	PRAVEEN		01-JAN-1995	BE
+..
+..
+..
+..
+
+
+OUTPUT SHOULD BE LIKE BELOW:-
+-----------------------------
+PRAVEEN 	23
+SCOTT		45
+
+SELECT ST_NM, FLOOR(MONTHS_BETWEEN(BIRTH_DT, SYSDATE)/12) AS AGE
+FROM STUDENTS;
+
+
+=======================================================================================
+
+
+NULL FUNCTIONS
+--------------
+
+NVL: substitute only for NULL value
+
+select ename, nvl(comm,-100) from emp;
+
+SELECT ENAME, SAL, COMM, SAL+nvl(COMM,0) AS TSAL FROM EMP;
+
+SELECT ENAME, COMM, NVL(comm,'NC') FROM EMP ;   -- error
+
+SELECT ENAME, COMM, NVL(to_char(COMM),'NC') FROM EMP ;  -- works.
+
+
+NVL2: substitute  for both NULL & not null
+
+select ename, nvl2(comm,'yes','no') from emp;
+
+=======================================================================================
+
+
+WM_CONCAT   [ CONCATENATION WITH , ]
+=====================================
+
+- converts all the rows into a single row separated by ,
+
+SELECT WM_CONCAT(ENAME) FROM EMP;
+
+
+DECODE:   [works as IF-THEN-ELSE Statement]
+===========================================
+   
+select 	ename, 
+	JOB, 
+	decode(job, 'SALESMAN','SM', 'MANAGER','M','OTHERS') AS ST, SAL
+FROM EMP
+/
+
+=======================================================================================
+
+
+
+

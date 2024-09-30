@@ -1,0 +1,149 @@
+create table product(
+pid    VARCHAR2(10),
+pname  VARCHAR2(50)
+);
+
+create table customer(
+cid    VARCHAR2(10),
+cname  VARCHAR2(50)
+
+); desc product;
+
+create table orders(
+ordid  VARCHAR2(10),
+pid  VARCHAR2(10),
+cid    VARCHAR2(10),
+order_date  date
+);
+
+
+insert into product values('p1','Camera');
+insert into product values('p2','Desktop');
+insert into product values('p3','ABCD');
+insert into product values('p4','Mobile');
+insert into product values('p5','Laptop');
+
+insert into customer values('c1','Sony');
+insert into customer values('c2','WXYZ');
+insert into customer values('c3','Lenovo');
+insert into customer values('c4','Samsung');
+insert into customer values('c5','Dell');
+insert into customer values('c6','Havells');
+insert into customer values('c7','HPdata');
+
+
+insert into orders values('o1','p1','c1','10-JAN-2019');
+insert into orders values('o2','p1','c2','20-FEB-2019');
+insert into orders values('o3','p3','c2','21-FEB-2019');
+insert into orders values('o4','p4','c3','09-MAR-2019');
+insert into orders values('o5','p4','c2','11-MAR-2019');
+insert into orders values('o6','p2','c3','15-APR-2019');
+insert into orders values('o7','p1','c2','20-MAY-2019');
+insert into orders values('o8','p3','c2','19-JUN-2019');
+insert into orders values('o9','p5','c5','08-JUL-2019');
+insert into orders values('o10','p5','c4','10-JUL-2019');
+insert into orders values('o11','p4','c3','05-JUl-2019');
+insert into orders values('o12','p4','c3','08-JUL-2019');
+insert into orders values('o13','p4','c3','15-JUL-2019');
+insert into orders values('o14','p5','c5','01-JUN-2019');
+insert into orders values('o15','p5','c5','10-MAY-2019');
+insert into orders values('o16','p4','c3','15-MAR-2019');
+insert into orders values('o17','p1','c1','10-MAY-2019');
+insert into orders values('o18','p4','c1','22-FEB-2019');
+insert into orders values('o19','p1','c6','22-FEB-2019');
+insert into orders values('o20','p3','c6','22-FEB-2019');
+
+
+1. DISPLAY CUST NAME & PROD NAME WHO HAVE PLACED A PRODUCT CALLED 'ABCD' 
+
+select  cname,p.pname  product from product p , customer c ,orders o
+where p.pid = o.pid 
+and   o.cid = c.cid
+and   p.pname = 'ABCD';
+
+CNAME   PNAME
+-------------
+WXYZ	ABCD
+WXYZ	ABCD
+
+2. DISPLAY NUMBER OF PRODUCTS SOLD FOR EACH CUSTOMERS
+
+select c.cname, p.pname , count(*) product from product p , customer c ,orders o
+where p.pid = o.pid
+and   o.cid = c.cid
+group by c.cname,p.pname;
+
+
+CNAME   PNAME   COUNT(PRODUCT)
+-------------------------------
+Lenovo	Mobile	1
+WXYZ	Mobile	1
+WXYZ	ABCD	2
+Dell	Laptop	1
+Sony	Camera	1
+Samsung	Laptop	1
+WXYZ	Camera	2
+Lenovo	Desktop	1
+
+3. DISPLAY NUMBER OF PRODUCTS THAT WERE NOT SOLD TO CUSTOMER 'SONY'
+
+select   p.pname , count(*) product from product p , customer c ,orders o
+where p.pid = o.pid
+and   o.cid = c.cid
+and  c.cname != 'Sony'
+group by p.pname;
+
+PNAME   COUNT(PRODUCT)
+-------------------------------
+Camera	4
+ABCD	3
+Mobile	8
+Desktop	2
+Laptop	8
+
+4. DISPLAY the product name which was ordered first
+
+select p.pname product from product p ,orders o
+where p.pid = o.pid
+and  o.order_date = (select min(order_date) from orders);
+
+PRODUCT
+-------
+Camera
+
+5. DISPLAY the product name & order id which was ordered most recently by 'SONY'
+
+select  pname ,o.ordid order_date,c.cname from product p , orders o , customer c
+where p.pid = o.pid 
+and   c.cid = o.cid
+and c.cname = 'Sony'
+and o.order_date = (select max(order_date) from orders where cid =(
+                         select cid from customer where cname = 'Sony'));
+
+
+6. DISPLAY the product name & customer name & order id for all the products whose name is having letter 'A' in it, 
+	also cust name should end with letter 'T' or 'S'. Sort the data according to the prodname is DESC order.
+
+select p.pname ,c.cname,o.ordid from product p , customer c , orders o
+where p.pid = o.pid
+and   c.cid = o.cid
+and p.pname like '%A%'
+and c.cname like '%s' OR c.cname like '%t'
+order by p.pname;
+
+Pname   Cname	orderID
+-----------------------
+ABCD	Havells	o20
+
+7. Write a statement to add 2 columns at once to PROD table [qty & price]
+
+alter table  product add (qty number(10), price number(10));
+
+
+8. Write a statement to get duplicate records from any table.
+
+select distinct count(p.pid),count(c.cid),count(o.ordid) from product p , customer c , orders o
+where p.pid = o.pid
+and   c.cid = o.cid
+having count(*) > 1
+group by p.pid,c.cid,o.ordid;

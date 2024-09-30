@@ -1,0 +1,197 @@
+co-related sub-queries
+----------------------
+* it is a special type of subquery that works like both subquery and join.
+
+* if we access an outer query column in the inner query then it is called as correlated subquery.
+
+* Helps to fetch nth high / nth low value.
+
+
+Eg:- Display first highest salary
+---------------------------------
+sql> 
+  select * 
+  from emp A 
+  where 0 = (
+		select count (distinct (b.sal)) 
+		from emp b 
+  		where A.sal < B.sal
+	    );
+
+
+  'n'th -> '(n-1)'th
+
+
+Differences b/n subquery and correlated
+---------------------------------------
+
+SUBQUERY                                       CORRELATED
+
+1)just works like a                        1)works like subquery and join.
+ normal subquery.
+
+
+2)In subquery outer depends                2)both are depended on each other.   
+on inner but inner never depends on 
+outer
+
+3)outer query column is never accessed    3)outer query column is accessed inside 
+inside a inner query.                 	    the inner query.
+
+
+===========================================================
+1.Display second least sal
+SQL> select * from emp a where 1 =
+     (select count(distinct(b.sal)) from emp b where a.sal>b.sal)
+/
+
+
+(
+
+highest (max) 	<
+least   (min) 	> 
+
+)
+
+
+
+2.display top 3 sal
+SQL>  select * from emp a where 2 >=
+     (select count(distinct(b.sal)) from emp b where a.sal>b.sal)
+/
+
+3.Display the employee who joined company first.
+SQL>select * from emp a where 0 =
+     (select count(distinct(b.hiredate)) from emp b where a.hiredate>b.hiredate)
+/
+
+4.display the 2nd highest comm
+sql> select * from emp a where 1 =
+     (select count(distinct(b.comm)) from emp b where a.comm>b.comm and a.comm is not null)
+/
+
+5.display the 1st record from table 
+sql> select * from emp a where 0 = (select count (distinct(b.rowid)) from emp b where a.rowid>b.rowid); 
+/
+
+
+Eg:-
+====
+
+stid		totalmarks	with DIST	without DIST
+============================================================		
+101		599		1		1	
+102		597		2		2
+104		597		2		2
+105		596		3		4
+106		595		4		5
+
+note
+-----
+* in case of a tie, "without distinct" would miss the next nth value / next rank where as 
+  "with distinct" will not miss the next value.
+
+* if you use with distinct you will get top 'n' salaries and if we don't use distinct then we get top 'n'earners.
+
+
+
+EXISTS and NOT EXISTS :-
+========================
+- Both are boolean operators (Returns TRUE / FALSE)
+- EXISTS will return TRUE if matching row is found, else it returns FALSE
+- NOT EXISTS will return TRUE if matching row is not found, else it returns FALSE
+- EXISTS is similar to IN and NOT EXISTS is similar to NOT IN
+- EXISTS is faster than IN (becuase it uses semi-join) 
+- NOT EXISTS is faster than NOT IN (because it uses anti-join)
+- EXISTS & NOT EXISTS can be used in Co-related subquery.
+
+- EXISTS works like Inner Join / Intersect which will give matching rows.
+- NOT EXISTS works like MINUS which will give non-matching rows.
+
+
+
+--Display all the depts that are having employees.
+select *
+from  dept
+where deptno in (select deptno from emp);
+
+Or
+==
+
+select *
+from  dept A
+where EXISTS (Select 1 from emp B where A.deptno=B.deptno);
+
+--where EXISTS (Select 'x' from emp B where A.deptno=B.deptno);
+
+
+===============================================================
+--Display all the depts that are having no employees.
+select *
+from dept
+where deptno not in (select deptno from emp);
+--Returns FALSE if the inner query is having atleast one NULL.
+
+Or
+==
+
+select *
+from dept A
+where NOT EXISTS (Select deptno from emp B where A.deptno=B.deptno);
+--Returns TRUE even if the inner query is having NULLs.
+
+
+
+Assignment
+==========
+
+prod
+====
+pid	pname
+1	x
+2	y
+
+
+
+orders
+======
+pid	ordid
+1	1001
+1	1002
+
+
+display the product which is not ordered? [Non-matching data]
+	a) NOT IN
+	b) NOT EXISTS
+	c) MINUS
+	
+display the product which are ordered? [matching data]
+	a) IN
+	b) EXISTS
+	c) INTERSECT
+	d) INNER JOIN
+	
+
+Which is the best among them?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

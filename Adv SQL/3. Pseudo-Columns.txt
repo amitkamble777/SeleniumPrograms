@@ -1,0 +1,184 @@
+PSEUDO COLUMNS
+--------------
+
+* The pseudo-columns appears to be non existing but they are present in every table.
+* They are system columns and can they can't be updated/dropped.
+
+Pseudo-columns related to tables:-
+----------------------------------
+**  rowid
+**  rownum
+**  level
+
+Pseudo-columns related to sequences:-
+-------------------------------------
+**  nextval
+**  currval
+
+
+
+ex:-
+====
+
+SQL> select deptno,dname,rowid,rownum from dept
+/
+
+---------------------------------
+---------------------------------
+
+ROWID:-
+------
+* rowid  represents an address of a row
+* ROWID is a 18-digit alpha-numeric value
+* For every new row, a ROWID is generated.
+* ROWID is an unique address  for every row in a Database
+* ROWID is permanent/static value, never changes when record is updated
+* It physically represents where the record is stored in  hard disk (Database).
+
+Note:-
+------
+* Rowid is similar to page number in a book.
+* By using rowid we can fetch the particular record.
+* Inside a table, data is arranged according to rowid.
+
+ ( Rowid1 < Rowid2 < Rowid3 < Rowid4 )
+
+
+Eg:- 
+====
+
+select ename , rowid from emp;
+
+Object id	File id		Block id    	slot id
+ (6)		(3)		(6)		(3)
+AAAAAB		AAE 		AAAAEA 		AAA
+
+
+** DB can have more than one Database file
+
+** A file can have many blocks
+
+** A block can have many slots
+
+** Data is stored in the slots
+
+
+Examples:
+---------
+
+1] Display the first row from the table:
+
+select *
+from emp where rowid = (Select min(rowid) from emp);
+
+
+
+2] Display the name of the person who is present in last row of the table.
+
+select *
+from emp where rowid = (Select max(rowid) from emp);
+
+--------------------------------------------
+
+======
+ROWNUM
+======
+
+* Rownum is a pseudo-column that generates sequential values as and when a record is fetched from a table.
+
+* rownum is an integer value and dynamic (it can change).
+
+* rownum is not stored in the database.
+
+* helps to display the first 'n' rows.
+
+* when we fetch based on the rownum the first record should always be fetched.
+
+Eg:-
+====
+SELECT * FROM EMP WHERE ROWNUM <= 5;
+
+SELECT * FROM EMP WHERE ROWNUM = 1;
+
+SELECT * FROM EMP WHERE ROWNUM = 2; --> NO ROWS
+
+SELECT * FROM EMP WHERE ROWNUM IN (1,2,5,6); -- 1,2 ONLY
+
+--DISPLAY 2ND RECORD ONLY
+SELECT *
+FROM EMP
+WHERE ROWNUM <= 2
+MINUS
+SELECT *
+FROM EMP
+WHERE ROWNUM <= 1
+/
+
+-- DISPLAYS ANY ONE RECORD.
+SELECT ENAME 
+FROM EMP 
+WHERE DEPTNO=30
+AND ROWNUM=1
+/
+
+DELETE FROM EMP WHERE ROWNUM=1
+/
+
+DELETE FROM EMP WHERE ROWNUM <= 5;
+/
+
+
+
+Assignments : ROWID & ROWNUM
+============================
+
+- Write 5 differences b/w ROWID & ROWNUM
+- Display first  9 records (rownum)
+select *from emp where rownum <=9
+=============================================================
+- Display last 5 records   (rownum)
+select *from emp where rownum <=14
+minus
+select *from emp where rownum <=9
+===============================================================================
+- Display the number of records without using COUNT function
+
+- Display alternate records from the table 
+  (ROWID, ROWNUM, MOD function with paired columns in sub-queries)
+- Display 5th record from the table (using ROWNUM & MINUS)
+- Display 6th & 9th records from the table (using ROWNUM & MINUS & UNION)
+- WRITE A STATMENT TO DELETE 5TH RECORD FROM A TABLE
+
+
+
+- Write a SQL statement to delete only the duplicate records ****************
+Consider a table TEST			
+---------------------
+id 	name
+============
+1	A
+1	A
+2	B
+2	C
+1	A
+2	B
+2	D
+
+After deleting the data from TEST table, it should have following records
+-------------------------------------------------------------------------
+id 	name
+============
+1	A	
+2	B	
+2	C	
+2	D	
+
+===================================================================================
+
+
+
+
+
+
+
+

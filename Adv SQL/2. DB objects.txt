@@ -1,0 +1,551 @@
+
+
+
+=============================================================================================================================================================
+							Oracle Schema
+=============================================================================================================================================================
+- A schema is a logical collection of many db objects.
+- schema = user = owner = account
+- schema is password protected
+- database server (system) will have many databases, 
+- each database can have many users(schemas) 
+- each schema will have many DB objects like tables,views,triggers,SP,functions..
+- SYS & SYSTEM are the default users (Admin users) 
+
+ORCL      				prod
+====					====
+	
+SYS     SYSTEM	 SCOTT			BLAKE		SYS		SYSTEM
+---	------	 -----			-----		---		------
+		 -TABLES		-TABLES
+		   -EMP			  -PROD
+		   -DEPT		  -ORDERS
+		 -VIEWS			-VIEWS	
+		   -V1			  -TESTV
+		   -V2			-FUNCTIONS
+		 -STORED PROCEDURE	  -GETCNT		
+		   -TESTSP1		..
+		   -TESTSP2		..
+		 ..			..
+		 ..			..
+
+=============================================================================================================================================================
+							DB OBJECTS
+=============================================================================================================================================================
+
+DB Objects Stored permanently in DB (hard-disk).
+
+Examples
+========
+					(Data Dictionary)
+-------------------------------------------------------------------------
+Tables				- 	user_tables
+Views				- 	user_views, dba_views
+Synonyms			- 	user_synonyms, dba_synonyms
+Database Links (DB Links)	-	user_db_links
+Indexes				-	user_indexes
+Clusters			-	user_clusters
+Sequences			-	user_sequences
+
+PLSQL Objects (Programs)
+------------------------
+Stored Procedures
+Function (UDF)
+Packages
+Triggers
+
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+				=========================
+					VIEWS
+				=========================
+
+
+* A view is a database object  which is used for providing selective access to the table.
+
+* We can create more than one views on a same table.
+
+* If we drop the base table , the views are not dropped but they become invalid (in-acessable).
+
+* A view doesn't store the data, it just reflects the data in a table.
+
+* Whenever we query from a view, it executes the query on the base table and returns the data 
+[but data is not stored], as a result there is no improvement in the peformance.
+
+* A view is also called as mirror image of the table or virtual table.
+
+* If we update a view it affects the base table.
+
+* We can have view of a view.
+
+* Any (DML) changes performed on views will affect the base tables.
+
+===========================================================================================
+
+Creating a View :-
+==================
+
+[ Follow the stpes below if you get "Insufficient privileges" error ]
+
+[[
+
+sql> conn / as sysdba
+
+sql> grant create view to scott;
+
+]]
+
+
+
+sql> conn scott/tiger
+
+
+sql> create view v5
+     as
+     select ename,job
+     from emp
+     where deptno=20;
+
+sql> select * from v5;
+
+sql> desc v5;
+
+
+Modifying a View :-
+===================
+
+create or replace view v5
+     as
+     select ename,job,sal,comm
+     from emp
+     where deptno = 30
+/
+
+
+
+
+Advantages
+==========
+
+
+a) Column/Row Level restricted access to the table.
+
+b) View doesn't store the data, as a result no memory is consumed.
+
+c) Complex & long queries can be placed in a view for easier reference. [Query Re-usability]
+
+  SQL>  create view v5
+	as
+	select ename ...
+	from emp
+	union
+	select ename ...
+	from emp
+	group by ename
+	having count(*) >1
+	union
+	select pname
+	from prods;
+
+		
+
+  SQL>  select * from v5;
+
+  sql>  select A.id, b.ename
+	from orders A, v5 B
+	where A.id = b.id
+	and A.price > 2000
+	/
+    
+
+
+=================
+TYPES OF VIEWS :-
+=================
+- Updateable Views 
+- Non-Updateable Views
+- Simple Views
+- Complex Views
+- READ-ONLY VIEWS
+- FORCE VIEWS
+==================
+
+
+
+Note:-
+======
+** A view can be created by using more than 1 tables (Joins/Set Operators/Sub-query).
+
+create or replace force view v1
+as
+select a.ename, b.dname
+from emp a, dept b
+where a.deptno = b.deptno
+/
+
+
+select * from v1
+/
+
+drop view v1
+/
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+					========
+	 				SYNONYMS
+					========
+
+
+
+-A synonym  is data base object which provides alternate name for db object.
+-A Synonym  provides a short name for bigger database objects name. 
+-A SYNONYM  is always at the object level
+-A Synonym is like a permanent alias name
+
+
+sql> create or replace synonym s1 for emp
+/
+
+
+select *  from s1
+/
+
+
+Advantages:
+===========
+- To provide shorter name for the bigger DB object name for easier reference.
+- To share an object to all the users easily through public synonym.
+- Synonyms will not occupy any space so no memory consumption.
+- Synonyms can be created for table/view/syn/SP/Function/Packages/Triggers as well.
+
+Types:
+======
+
+a) Private Synonyms : default one; it can be accessible only by user/owner who created it.
+
+sql> create synonym s1 for emp;  -- "s1" is private synonym..
+
+
+b) Public  Synonyms : 	- all the users of the database can use this ..
+		 	- To create public synonym we should have 
+			  "CREATE PUBLIC SYNONYM" privilege.
+			- Helps for sharing an object to all the users within a DB.
+
+
+Differences Between View & a Synonym
+
+================================================================================
+	view					synonyms
+=================================================================================
+
+a) At row level/column level/table level	a) Only at the Object level
+ 
+b) Only for Tables/views/syns	                b) for table/view/syn/SP/functions/packages
+
+c) Views could be created on multiple tables	c) Only on one table
+
+create view v1
+as
+select A.ename,B.dname
+from emp A, dept B
+where A.deptno = B.deptno;
+
+d) Always PRIVATE				d) Can be private or public.
+
+
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+					==========
+					DB LINKS
+					==========
+
+
+* It is a database object which helps to connect to remote database (another database).
+* It is a one-way communication channel.
+
+--------------------------
+
+Advantages
+-------
+- It helps to access the database objects present in two different databases.
+
+
+Database link Connects from FORD to SCOTT			
+==========================================
+-- from "ford"  
+-- creating DB link from a user present in different DB in same server
+CREATE DATABASE LINK scott_link 
+CONNECT TO scott IDENTIFIED BY tiger USING 'orcl' 
+/
+
+--Creating a DB link from different server (IP Address)
+CREATE PUBLIC DATABASE LINK prod_link
+CONNECT TO blake IDENTIFIED BY password_blake
+USING '176.999.00.10:orcl'
+/
+
+
+
+--from "ford"
+select * from emp@scott_link;
+
+--from "ford"
+insert into emp@scott_link values(.......);  
+
+@ -> remote descriptor (DB link operator)
+
+
+
+Restrictions/Disadvantages of DB link
+===============================================
+-Can't access  LOB columns over DB link
+-DB Link Creation requires a owner PASSWORD
+===============================================
+
+Types:-
+=======
+
+Private DB link : Accessible by owner only, it is default.
+Public  DB link : Accessible by all users in the database.
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================
+
+						=====
+						INDEX
+						=====
+
+* An index is a DB object that improves performance of the SQL statements.
+
+* An index is created on a column of a table.
+
+* A table can have any number of indexes.
+
+* The column used in the search criteria(condition) should be indexed (used in WHERE clause)
+
+* Once we drop a column/table, the associated index is also dropped.
+
+* An index stores the data and hence it occupies the space. [index stores rowid & column value]
+
+* The column that is used in where class should be indexed. 
+
+* An index avoids full table scan(FTS) (i.e. accessing the data sequentially)
+
+* Index uses binary search to fetch the data  and has better performance than FTS.   
+
+* We can't select the data from index because it is in binary format.
+
+--
+--
+
+sql> create index idx1 on emp(sal);
+
+sql> select * from emp where sal=5000;
+
+
+determining the index usage
+---------------------------
+
+method A
+-----------
+* compare the time before and after creating the index.
+
+
+method B
+--------
+* "explain plan" command is used.
+
+- Explain Plan is a DML statement  that generates execution plan of a query, without executing.
+- The execution plan will tell us whether Index is used or not.
+- It helps to identify where the problem is there
+- But it will not fix the problem
+
+
+step-1. generate latest plan by running EXPLAIN PLAN 
+--------------------------------------------------------
+
+> explain plan 
+   for  
+   select * from emp
+  where deptno=20;
+
+
+step-2  display plan
+----------------------------------
+> select * from table (dbms_xplan.display());
+
+
+step-3
+
+analyse the cost
+-----------------
+* lesser the cost better the performance .
+
+* COST is the CPU utilization in percentage [cost is indirectly proportional to execution time]
+
+_________________________________________________________
+
+
+
+how do you tune a query??
+========================
+
+step1 : take the explain plan for the given query (cost A)
+
+step2 : create indexes or re-write the query in a different way using inline view etc.
+
+step3 : take the explain plan for the given query (cost B)
+
+step4 : Analyze the output (higher the cost lesser the performance)
+	The functionality(output) should be same from both the queries.
+
+ 
+___________________________________________________________________________________________________________
+
+
+
+Index Types:
+============
+
+a) Simple Index
+b) Composite Index
+
+c) Non-unique Index 
+d) Unique Index 
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+
+					=========
+					SEQUENCES
+					=========
+
+* A sequence is a database object which helps to generate sequential values.
+
+
+Advantages
+-----------
+* Helps to generate primary key values automatically.
+* The values are generated at a faster rate as the values are fetched from the RAM (Memory).
+
+
+Syntax
+======
+SQL>
+    create  sequence  tseq
+    start with 1
+    increment by 1
+/
+
+SQL>select tseq.nextval from dual
+/
+
+SQL>select tseq.currval from dual
+/
+
+====
+
+NOTE:-
+* nextval,currval are called pseudo-columns of the sequence.
+* A sequence can generate only numeric value (+ve,-ve integers only, no fractions , no characters allowed)
+* once the value is accessed from sequence it cannot be put it back
+* roll back is applicable only for table, not for sequence.  
+* SEQUENCES WON'T STORE THE DATA.
+
+===================================================================================
+Using Sequences in a table
+==========================
+create table orders 
+(
+  id 	 number primary key ,
+  qty 	 number,
+  price  number,
+  ord_dt date
+)
+/
+
+
+
+create  sequence  tseq
+start with 1
+increment by 1
+/
+
+
+insert into orders values(tseq.nextval, 20, 3000.56, sysdate);
+
+insert into orders values(tseq.nextval, 90, 8000.56, '01-Jun-2018');
+
+commit;
+
+
+select * from orders
+/
+
+
+Alpha-numeric data:-
+====================
+
+insert into test values('C'||tseq.nextval);
+
+
+--Now sequence all default values.
+sql> create  sequence  tseq ;
+
+
+--Full syntax of sequence creation
+create  sequence  tseq
+start with 1
+increment by 1
+maxvalue 1000
+cycle
+cache 40
+/
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+
+					========
+					CLUSTERS
+					========
+
+* A  cluster is a DB object which can store one OR more tables.
+
+* It will improve the performance of join queries having join condition.
+
+* In clusters tables are stored side by side i.e adjacent to each other.
+
+* when we query based on a cluster table data will be accessed faster because they are stored side by side.   
+
+
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+=============================================================================================================================================================
+
+
+
+
+
+

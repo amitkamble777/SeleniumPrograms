@@ -1,0 +1,297 @@
+ANALYTICAL FUNCTIONS
+-------------------
+-------------------
+
+* An analytical function is similar to group function but it is executed for every row in a table.
+
+* 'over()' is mandatory in Analytical Functions where as in group functions it is not mandatory.
+
+
+Eg:-
+====
+SQL> select ename,sum(sal) over() as tsal, count(*) over as ct from emp.
+
+
+===============================================================
+Differences between aggregate function and analytical functions
+===============================================================
+
+Aggregate                                Analytical
+===================================================
+
+1) Aggr fun will be executed            1) Analytical fun will be executed once
+once for all the records                    for each and every record.
+
+2) It will not have windowing clause    2) It will have over() as mandatory  (windowing clause)
+
+
+
+
+==========
+Advantages
+==========
+- Analytical functions helps to overcome the restrictions of aggregated function/group function.
+[Helps to select an aggregate & a non-aggregate together without GROUP BY]
+
+- Helps in getting cumulative totals.
+
+
+
+============================
+List of Analytical Functions
+============================
+SUM 
+MAX 
+MIN 
+COUNT
+AVG
+---------
+ROW_NUMBER()
+RANK()
+DENSE_RANK()
+----------
+LAG
+LEAD
+FIRST_VALUE
+LAST_VALUE
+
+Eg:-
+====
+sql> select sum(sal) over() as tsal from emp;
+    
+sql> select ename,deptno,sum(sal) over() as tsal,count(*) over() as cnt from emp;
+
+
+
+
+
+
+===========================
+Windowing Clause Options :-
+===========================
+
+a) OVER()
+=========
+- Aggregated value for the entire table data.
+select ename, sum(sal) over() as Hsal, count(*) over() as Tcnt from emp
+/
+
+
+b) OVER(ORDER BY colname)
+=========================
+- Computes the running total salary (cumulative total salary), according to arrangement of the column mentioned in the OVER clause.
+
+select  ename, sal, sum(sal) over (order by ename) as tsal  from emp;
+
+select  ename, sal, sum(sal) over (order by rowid) as tsal  from emp;
+
+
+c) OVER(PARTITION BY colname)
+=============================
+- group-wise total VALUE (similar to group by clause)
+- selection of non-aggregate columns is also possible here.
+  (not possible in GROUP BY)
+
+select ename,job,deptno,sal,sum(sal) over (partition by deptno) as tsal  from emp;
+
+
+d) OVER(PARTITION BY colname ORDER BY colname)
+==============================================
+- group-wise running total salaries
+- first "partition by" clause and then "order by" clause
+
+select ename,job,deptno,sal,
+       sum(sal) over (partition by deptno order by ename)as csal
+from emp;
+
+
+EX:-
+====
+
+orders
+======
+id     CATG	dt	price
+=============================
+1	EC	05-aug	5000
+2	EC	04-aug  9000
+3	EC	02-aug  9000
+4	CO	04-AUG  7000
+5	CO	02-AUG  4000
+6	CO      06-AUG  9000
+..
+..
+=============================================
+
+The output should be like below:-
+
+	catg	price	cprice		dt
+	EC	9000	9000		02-aug
+	EC	9000	18000		04-aug
+	EC	5000	23000		05-aug
+        CO	4000	4000		02-aug
+	CO	7000	11000		04-aug
+	CO	9000	20000		06-aug
+..
+..
+
+Query:-
+-------
+SELECT  CATG, 
+	PRICE, 
+	SUM(PRICE) OVER(PARTITION BY CATG ORDER BY DT) AS CPRICE, 
+	DT
+FROM ORDERS;
+=============================================
+
+
+
+===================================
+ROW_NUMBER(), RANK(), DENSE_RANK()
+===================================
+
+============
+ROW_NUMBER()
+============
+- A ROW_NUMBER  generates an unique number for every row.  (Similar to ROWNUM).
+- It can generate the numbers based on sorted data. (ROWNUM can't do this).
+- It can generate numbers for every grouped data    (ROWNUM can't do this).
+- ORDER BY clause is mandatory.
+
+sql> select ename, row_number() over(order by ename) as rn from emp;
+
+sql> select deptno, ename, row_number() over(partition by deptno order by ename) as rn from emp;
+
+
+========================
+RANK() & DENSE_RANK()
+========================
+- Both of them provide ranks based on the sorted data 
+- RANK() will miss the next available rank in case of a tie whereas DENSE_RANK() will not miss the same.
+
+sql> select empno,deptno,sal,
+	row_number() over (order by sal desc) as RN,
+	rank() over (order by sal desc) as Rank,
+	dense_rank() over (order by sal desc) as D_rank
+from emp
+order by sal desc
+/
+
+
+sql> select empno,deptno,sal,
+   row_number() over (partition by deptno order by sal desc) as RN,
+   rank() over (partition by deptno order by sal desc) as Rank,
+   dense_rank() over (partition by deptno order by sal desc) as D_rank
+from emp
+order by deptno,sal desc
+/
+
+
+List the second highest salaried person using DENSE_RANK.
+---------------------------------------------------------
+sql>select *
+from 	(select empno,deptno,sal,
+	 dense_rank() over (order by sal desc) as Drank
+	 from emp
+	)
+where Drank = 2 
+/
+
+
+List the second employee joined in every deptno..
+-------------------------------------------------
+select *
+from 	(select empno,deptno,sal,
+	 dense_rank() over (partition by deptno order by hiredate asc ) as Drank
+	 from emp
+	)
+where Drank = 2 
+/
+
+===========
+Assignments
+===========
+a. Display the second highest salaried person in every department.
+b. Display last 5 records. (order by rowid)
+c. Display the alternate records (odd numbers / even numbers).
+d. Display the records from 5 to 10.
+e. Display the least salaried person in every job.
+
+f. Write a query to provide a ranks wrt their streams. 
+
+marks
+=====
+st_id	s_name	stream	total_Marks
+====================================
+1	A	CS	500
+2	B	CS	450
+3	C	EC	550
+4	D	EC	450
+..
+..
+
+g. Difference between LEAD & LAG, RANK & DENSE_RANK, AGGREGATE FUN & ANALYTICAL FUN.
+------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------
+
+
+
+============
+LAG AND LEAD
+============
+LAG
+The LAG function is used to access data from a previous row. 
+We will miss the values from the last.
+
+
+LEAD
+The LEAD function is used to return data from the next row.
+We will miss the values from the first.
+
+Eg:-
+====
+SELECT	deptno, 
+	empno, 
+	sal,
+	LEAD(sal, 1)  OVER (ORDER BY sal DESC) NEXT_LOWER_SAL,
+	LAG(sal,  1)  OVER (ORDER BY sal DESC) PREV_HIGHER_SAL
+FROM emp
+ORDER BY sal DESC;
+--------------------------------
+
+SELECT deptno, empno, sal,
+LEAD(sal, 1, 0) OVER (ORDER BY sal DESC) NEXT_LOWER_SAL,
+LAG(sal, 1, 0)  OVER (ORDER BY sal DESC) PREV_HIGHER_SAL
+FROM emp
+ORDER BY sal DESC;
+--------------------------------
+
+SELECT deptno, empno, sal,
+LEAD(sal, 2, 0) OVER (ORDER BY sal) NEXT_LOWER_SAL,
+LAG (sal,  2, 0)  OVER (ORDER BY sal) PREV_HIGHER_SAL
+FROM emp
+WHERE deptno IN (10, 20)
+ORDER BY sal;
+
+
+
+============
+first_value
+============
+- It selects the first value from a column or from a grouped data
+
+SELECT empno, deptno, hiredate, FIRST_VALUE(hiredate) OVER (PARTITION BY deptno ORDER BY hiredate) d1
+FROM emp
+WHERE deptno IN (20, 30)
+ORDER BY deptno;
+
+
+SELECT empno, ename, hiredate, hiredate - FIRST_VALUE(hiredate) OVER (ORDER BY hiredate) as DAY_GAP
+FROM emp;
+
+
+SELECT empno, deptno, hiredate,
+	hiredate - FIRST_VALUE(hiredate) OVER (PARTITION BY deptno ORDER BY hiredate) as DAY_GAP
+FROM emp
+WHERE deptno IN (20, 30)
+ORDER BY deptno, DAY_GAP ;
+

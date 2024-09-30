@@ -1,0 +1,288 @@
+
+	GROUP FUNCTIONS AND GROUPING
+	============================
+
+** GROUP FUNCTIONS are also called as Multi-row functions OR Aggregate functions.
+
+Aggregate functions [group functions]
+=====================================
+MAX	-	returns the HIGHEST value
+MIN	-	returns the LEAST value
+AVG	- 	returns the AVERAGE value
+SUM	-	returns the TOTAL value
+COUNT	-	returns the no. of ROWS/VALUES
+STDDEV	-	returns the standard deviation	
+VARIANCE-	returns the variance
+
+
+
+- Functions can be single row & multi-row functions
+- Eg:- for single row functions : upper, lower, length, reverse etc..
+- Eg:- for multi- row functions : SUM, MAX, MIN, AVG, COUNT
+
+
+
+SQL> select max(sal), min(sal), sum(sal), avg(sal) from emp;
+
+SQL> select avg(comm), sum(sal) from emp;
+
+SQL> select count(empno), count(ename), count(mgr), count(comm), count(*) from emp;
+
+COUNT(EMPNO) COUNT(ENAME) COUNT(MGR) COUNT(COMM)   COUNT(*)
+------------ ------------ ---------- ----------- ----------
+          14           14         13           4         14
+
+sql> select sum(comm)/count(*) as average from emp;
+
+sql> select sum(sal) from emp  where deptno=20;
+
+Assignments
+===========
+Display number of CLERKs in deptno 20.
+Display number of employees who are earning some commission.
+Display number of employees who are not earning some commission.
+
+SELECT COUNT(*)
+FROM EMP 
+WHERE COMM IS NULL 
+/
+
+
+
+Display highest & lowest salaries for all the managers in dept 10,20 & 30.
+
+
+GROUPING (GROUP BY clause)
+==========================
+
+- It is the process of computing the aggregates by segregating based on one or more columns. 
+- Grouping is done by using ‘GROUP BY’ clause. 
+- Grouping helps to get sub-totals
+- Grouping will not sort the output
+
+
+For ex – 1) Display the total salary of in each department 
+
+	select deptno, sum(sal) from emp group by deptno; 
+
+
+	2) Display the maximum salary of each job
+	
+	select job, max(sal) from emp group by job;
+ 
+Assignments:
+============
+- Display number of emps on each deptno excluding all MANAGERs.
+- Display high & low salary in every job, consider only deptno > 10, sort the data according to job. 
+
+
+
+HAVING
+======
+- ‘Having’ is used to filter aggregated data.
+- ‘Having’ should be used ONLY WITH group by clause.
+
+
+For ex – 1) Display job-wise highest salary only if the highest salary is more than 1500
+
+ 	  select job, max(sal) from emp group by job having max(sal) > 1500;
+ 
+
+
+2) Display job-wise highest salary only if the highest salary is more than 1500 excluding department 30. 
+	Sort the data based on highest salary in the ascending order.
+
+	select job, max(sal) AS HSAL
+	from emp 
+	where deptno != 30 
+	having max(sal) > 1500 
+	group by job 
+	order by HSAL asc;
+
+
+DifferenceS between HAVING & WHERE
+
+HAVING				WHERE
+=======================================================================
+HAVING can appear 		WHERE should appear before the GROUP BY
+before or after GROUP BY. 
+
+Used for filtering the		Can filter only the non-aggregated data
+aggregated data.
+
+
+When we use HAVING, 		When we use WHERE, GROUP BY is not 
+GROUP BY is mandatory.		mandatory.
+=======================================================
+========================================================
+
+
+
+Eg:-
+====
+Display dept-wise total salary, only if the total salary is more than 9000. It should also exclude ANALYSTs and the data should be sorted as per the total salary.
+
+select deptno, sum(sal) as tsal
+from emp
+where job != 'ANALYST'
+Having sum(sal) > 9000
+group by deptno 
+order by tsal desc
+/
+
+** Column Alias can be used only in SELECT & ORDER BY clauses.
+
+
+NOTE:
+=====
+We can use GROUP BY on more than 1 columns.
+
+select deptno, job, sum(sal) as tsal 
+from emp
+group by deptno, job
+order by deptno 
+/
+
+
+ASSIGNMENTS
+===========
+a) Display deptnos that r having > 4 employees under them
+
+
+b) Display deptno wise maximum salary excluding CLERKs & depts having less than 5000 as their maximum salary. Arrange data according to maximum salary in desc..
+
+
+
+
+Restrictions on GROUP BY (Grouping)
+===================================
+a.  We can't individually select an aggregated & non-aggregated columns
+    in a single query without GROUP BY clause.
+
+select deptno, sum(sal)	} error [ORA-00937: not a single-group group function]
+from emp; 		}  
+
+We can overcome by using GROUP BY clause as shown:-
+
+select deptno, sum(sal)
+from emp
+group by deptno;    -->> **
+
+-----------------------------------------------------------------
+b. Any column/s used in SELECT list must be used in the GROUP BY clause
+   otherwise it must be part of an aggregated function.
+
+select deptno, job, sum(sal)	}
+from emp group by deptno;	} error: [ORA-00979: not a GROUP BY expression]
+
+We can overcome by using GROUP BY clause as shown:-
+
+select deptno, job, sum(sal)
+from emp
+group by deptno, job; **
+-------------------------------------------------------------------
+c. Group functions can't be used in GROUP BY clause.
+..
+..
+group by sum(sal) ;  -->> error, group functions can't be used in GROUP BY clause.
+-------------------------------------------------------------------
+d. Group functions can't be used in WHERE clause
+..
+where sum(sal) > 2000; --> error.
+
+
+========================================================================
+
+
+
+Rollup & Cube :
+===============
+- They help to fetch both Sub-totals & grand totals in a same query
+- Can be used only with GROUP BY clause
+- ROLLUP is an 1-Dimensional whereas CUBE is 2-Dimensional
+- ROLLUP gives sub-totals with respect to 1st column only whereas 
+  CUBE gives sub-totals with respect to all the columns in the GROUP BY clause.
+
+
+cube(a,b,c) = rollup(a) + rollup(b) + rollup(c)
+
+========================================================================
+
+select deptno, sum(sal)
+from emp
+group by rollup(deptno)
+/
+
+select deptno, sum(sal)
+from emp
+group by cube(deptno)
+/
+
+
+=================================================
+
+
+
+
+ASSIGNEMENTS
+============
+
+
+Scenario 1
+==========
+		STUDENTS
+		========
+(PK)
+REGNO	SNAME	SEM	GENDER	 STREAM
+=======================================
+101	SCOTT	1	M	 CS
+102	XY	1	F	 CS
+.....
+.....
+=======================================
+A) DISPLAY NUMBER OF STUDENTS IN THE COLLEGE
+B) DISPLAY NUMBER OF STUDENTS FOR EACH SEM
+C) DISPLAY NUMBER OF students IN EACH SEM & STREAM
+D) DISPLAY NUMBER OF STUDENTS IN EACH STREAM EXCLUDING ALL GIRLS. THE STREAM SHOULD    HAVE MINIMUM 200 STUDENTS TO BE DISPLAYED. SORT THE DATA AS PER STREAM.
+E) DISPLAY THE NUMBER OF STUDENTS for each
+   SEM, STREAM & GENDER combination excluding 1st semester students.
+==========================================
+
+Scenario 2
+==========
+
+	TEMP
+	====	
+ID	Name	Status
+----------------------
+101	A	Y
+101	A	Y
+101	A	Y
+
+102	B	Y
+
+106	B	Y
+
+101	B	Y
+101	B	Y
+
+102	C	Y
+
+102	A	Y
+102	A	Y
+
+-	Display only the duplicated records**
+-	Display the records that are duplicated exactly once
+-	Display only the non-duplicate records
+-  	Display duplicated IDs
+
+
+===============================================================
+
+Interview Questions
+-------------------
+- Differences between count(*) and count(cols)
+- Differences between ROLLUP & CUBE
+- Difference between WHERE & HAVING
+- Does grouping sort the data before display automatically? Or do we need ORDER BY?
+- What are the restrictions of GROUP BY clause?

@@ -1,0 +1,205 @@
+
+Inline views
+------------
+* An inline view is a select statement written in the "from" clause.
+
+
+Eg:-
+====
+
+select * from ( select * from emp );  -->> INLINE VIEW
+
+
+select *
+from emp where deptno = (select deptno from dept where dname='ACCOUNTS');   -->> SUB-QUERY
+
+
+
+Advantages
+------------
+* It helps to perform top 'n' OR bottom 'n' Analysis.
+* It is faster than sub-queries & joins.
+
+
+EXAMPLES:-
+==========
+
+to display top 5 salaries 
+-------------------------
+
+ select * from ( select * from emp order by sal ASC) where rownum <=5;
+
+
+to display BOTTOM 5 salaries 
+----------------------------
+
+ select * from ( select * from emp order by SAL ASC) where rownum <=5;
+
+
+to display bottom 5 records 
+---------------------------
+       SELECT * FROM (SELECT * FROM EMP ORDER BY ROWID DESC)
+       WHERE ROWNUM<=5;
+
+to display TOPMOST 5 records 
+---------------------------
+       SELECT * FROM (SELECT * FROM EMP ORDER BY ROWID ASC)
+       WHERE ROWNUM<=5;
+
+       SELECT * FROM EMP  WHERE ROWNUM<=5;
+
+ASSIGNMENTS
+===========
+- Display the bottom 5 salaries
+- Display the employee details who have joined the company first
+- Display the recent 5 employees details who have joined the company
+- Display top 2 employees who are getting the highest commission
+- Display the last 5 records using inline views & ROWID.
+
+
+- Display even numbered rows  ["mod" function]
+
+select *
+from (Select ename, rownum as rn from emp)
+where mod(rn,2) =  0
+/
+
+
+
+- Display odd  numbered rows 
+- Display alternate records from the table 
+  (MOD function with INLINE VIEWS)
+- Display rows from 5 to 10
+- Display rows 5,6,2,9 records.
+
+
+
+
+=================================================================================
+
+
+-- to get TOP 'n' records
+
+TOP function   (SQL SERVER & mysql)
+===================================
+select top 5 *
+from emp
+order by sal desc;
+
+
+
+
+12c FEATURES:
+=============
+A] Fetch first N rows only / OFFSET N ROWS fetch NEXT N rows only 
+
+B] FETCH FIRST N PERCENT ROWS ONLY
+
+
+EXAMPLES [TOP 5 EARNERS] ..
+===================================
+select *
+from emp
+order by sal desc
+fetch first 5 rows only;
+
+
+select * 
+from emp 
+order by sal desc
+offset 5 rows 
+fetch next 5 rows only;
+
+
+select * 
+from emp 
+order by ename 
+FETCH FIRST 10 PERCENT ROWS ONLY;
+
+===========================================================
+
+
+
+
+================
+ASSIGNMENT SET-2
+================
+
+marks
+=====
+STUDENT		totalmarks
+-------------------------
+JOHN		900
+CLARK		990
+..
+..
+
+- DISPLAY TOP STUDENT
+- DISPLY FIRST 5 RANKED STUDENTS
+- DISPLAY STUDENTS WHO RANKED FROM 6 TO 10
+- DISPLAY WEAKEST STUDENT IN THE CLASS
+
+
+
+================================================================
+
+WITH CLAUSE:-
+=============
+
+- WITH clause creates a Temp. Table for data storage.
+- Temp. table is dropped automatically after the query execution.
+- The Temp. table which is created can be used more than once within a same query (re-usability).
+- This is similar to Inline-view, but WITH clause can be used only once to execute repeated queries.
+
+
+select *
+from (select * from emp order by sal desc) where rownum <= 5 ;
+
+
+with tsal
+as
+(select * from emp order by sal desc)
+select * 
+from tsal
+where rownum <= 5
+/
+
+================================================================================
+
+select *
+from (select * from emp order by sal desc) where rownum <= 5 
+union all
+select *
+from (select * from emp order by sal desc) where rownum <= 2
+/
+
+
+with tsal
+as
+(select * from emp order by sal desc)
+select * 
+from tsal
+where rownum <= 5
+union all
+select * 
+from tsal
+where rownum <= 2
+/
+
+===================================================================================
+
+
+Disadvantge:- Syntax is slightly complex.
+
+
+
+
+
+
+
+
+
+
+
+
+

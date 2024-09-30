@@ -1,0 +1,423 @@
+CREATE  SEQUENCE SEQ_ACCTYPE START WITH 1 INCREMENT BY 1;
+CREATE  SEQUENCE SEQ_TraType START WITH 1 INCREMENT BY 1;
+CREATE  SEQUENCE SEQ_State START WITH 1 INCREMENT BY 1;
+CREATE  SEQUENCE SEQ_BRANCH START WITH 1 INCREMENT BY 1;
+CREATE  SEQUENCE SEQ_Account START WITH 1 INCREMENT BY 1;
+CREATE  SEQUENCE SEQ_Trans START WITH 1 INCREMENT BY 1;
+
+
+create table Account_Type(
+Account_Type_ID   NUMBER(10) ,
+Account_Type_code VARCHAR2(20),
+Account_Type_Name VARCHAR2(100),
+CONSTRAINT Account_Type_ID_PK PRIMARY KEY(Account_Type_ID),
+CONSTRAINT Account_Type_Name_UN UNIQUE(Account_Type_Name)
+);
+
+
+create Table Transaction_Type(
+Transaction_Type_ID      NUMBER(10) ,
+Transaction_Type_Code    VARCHAR2(10),
+Transaction_Type_Name     VARCHAR2(25),
+CONSTRAINT  Transaction_Type_ID_PK PRIMARY KEY(Transaction_Type_ID),
+CONSTRAINT Transaction_Type_Name_un UNIQUE(Transaction_Type_Name)
+);
+
+create table State(
+State_ID    NUMBER(10) ,
+State_code  Varchar2(15),
+State_Name  VARCHAR2(30),
+CONSTRAINT State_ID_PK PRIMARY KEY(State_ID),
+CONSTRAINT State_Name_un UNIQUE(State_Name)
+);
+
+create table Branch(
+Branch_ID     NUMBER(10) ,
+Branch_code   VARCHAR2(10),
+Branch_Name   Varchar2(100),
+Branch_Address VARCHAR2(150),
+Branch_Phone   VARCHAR2(20),
+State_ID       NUMBER(10),
+CONSTRAINT Branch_ID_PK  PRIMARY KEY(Branch_ID),
+CONSTRAINT State_ID_FK  FOREIGN KEY(State_ID) References State(State_ID),
+CONSTRAINT Branch_Name_un UNIQUE(Branch_Name)
+);
+
+CREATE TABLE Account(
+Account_ID  NUMBER(10),
+Account_Number  NUMBER(15),
+Account_Name VARCHAR2(50),
+Account_Address VARCHAR2(150),
+Date_Of_Birth   Date,
+Account_date_Created Date,
+State_ID       NUMBER(10),
+Branch_ID     NUMBER(10),
+Account_Type_ID  NUMBER(10),
+CONSTRAINT  Account_ID_PK  PRIMARY KEY(Account_ID),
+CONSTRAINT  StateID_FK   FOREIGN KEY(State_ID) REFERENCES state(State_ID),
+CONSTRAINT  BranchID_FK  FOREIGN KEY(Branch_ID) REFERENCES Branch(Branch_ID),
+CONSTRAINT  Account_Type_ID_FK  FOREIGN KEY(Account_Type_ID) REFERENCES Account_Type(Account_Type_ID),
+CONSTRAINT Account_Name_UN UNIQUE(Account_Name),
+CONSTRAINT Account_NUMBER_UN UNIQUE(Account_Number)
+);
+
+
+CREATE TABLE Transaction(
+Transaction_ID    NUMBER(10),
+Transaction_Date  Date,
+Transaction_amount  NUMBER(8,2),
+Balance             NUMBER(8,2),
+Account_ID  NUMBER(10),
+Transaction_Type_ID  NUMBER(10),
+CONSTRAINT Transaction_ID_PK  PRIMARY KEY(Transaction_ID),
+CONSTRAINT Account_ID_FK FOREIGN KEY(Account_ID) REFERENCES Account(Account_ID),
+CONSTRAINT Transaction_Type_ID_FK  FOREIGN KEY(Transaction_Type_ID) REFERENCES Transaction_Type(Transaction_Type_ID),
+CONSTRAINT Transaction_amount_CH CHECK(Transaction_amount > 0)
+);
+
+insert into account_type values(SEQ_ACCTYPE.nextval,'SBA','SAVING ACCOUNT');
+insert into account_type values(SEQ_ACCTYPE.nextval,'CBA','CURRENT ACCOUNT');
+insert into account_type values(SEQ_ACCTYPE.nextval,'RDA','RECURRING DEPOSIT ACCOUNT');
+insert into account_type values(SEQ_ACCTYPE.nextval,'FDA','FIXED DEPOSIT ACCOUNT');
+insert into account_type values(SEQ_ACCTYPE.nextval,'DA','DEMAT ACCOUNT');
+
+insert into TRANSACTION_TYPE values(SEQ_TraType.nextval,'CR','CREDIT');
+insert into TRANSACTION_TYPE values(SEQ_TraType.nextval,'DB','DEBIT');
+
+
+insert into STATE values(SEQ_STATE.nextval,'KAR','KARNATAKA');
+insert into STATE values(SEQ_STATE.nextval,'AP','ANDHRA PRADESH');
+insert into STATE values(SEQ_STATE.nextval,'KL','KERALA');
+insert into STATE values(SEQ_STATE.nextval,'TN','TAMIL NADU');
+insert into STATE values(SEQ_STATE.nextval,'DL','NEW DELHI');
+
+
+insert into BRANCH values(SEQ_BRANCH.nextval,'RAJ','RAJAJINAGAR','01,15TH CROSS ,3RD MAIN, BANGALORE-560010','98765432',2);
+insert into BRANCH values(SEQ_BRANCH.nextval,'VIJ','VIJAYNAGAR','24, 25TH CROSS, 4TH MAIN, BANGALORE-560040','96543221',2);
+insert into BRANCH values(SEQ_BRANCH.nextval,'JAY','JAYNAGAR','FLAT-1,23RD CROSS,5TH MAIN, BANGALORE-560009','87654321',2);
+insert into BRANCH values(SEQ_BRANCH.nextval,'KRM','KORMANGALA','42 ,10TH CROSS, 2ND MAIN, BANGALORE-560015','56785643',2);
+insert into BRANCH values(SEQ_BRANCH.nextval,'NBH','NAGARBHAVI','01,15TH CROSS, 2ND STAGE, BANGALORE-60072','987654321',2);
+
+insert into BRANCH values(SEQ_BRANCH.nextval,'HYD','HYDERABAD','01,15TH CROSS ,3RD MAIN, HYDERABAD-560010','2398765432',3);
+insert into BRANCH values(SEQ_BRANCH.nextval,'VIJ','VIJAYAWADA','24, 25TH CROSS, 4TH MAIN, VIJAYAWADA-560040','5696543221',3);
+insert into BRANCH values(SEQ_BRANCH.nextval,'TIR','TIRUPATHI','FLAT-1,23RD CROSS,5TH MAIN,TIRUPATHI-560009','7687654321',3);
+insert into BRANCH values(SEQ_BRANCH.nextval,'ANT','ANANTHPUR','42 ,10TH CROSS,2ND MAIN, ANANTHPUR-560015','8756785643',3);
+
+insert into BRANCH values(SEQ_BRANCH.nextval,'COC','COCHIN','01,15TH CROSS ,3RD MAIN, COCHIN-560010','2398765432',4);
+insert into BRANCH values(SEQ_BRANCH.nextval,'SUB','SULTHAN BATHERY','24,25TH CROSS,4TH MAIN,SULTHAN-560040','5696543221',4);
+insert into BRANCH values(SEQ_BRANCH.nextval,'VAI','VAINAD','FLAT-1,23RD CROSS,5TH MAIN, VAINAD-560009','7687654321',4);
+insert into BRANCH values(SEQ_BRANCH.nextval,'ALP','ALLEPY','42 ,10TH CROSS, 2ND MAIN, ALLEPY-560015','8756785643',4);
+
+insert into BRANCH values(SEQ_BRANCH.nextval,'CHN','CHENNAI','01,15TH CROSS ,3RD MAIN, CHENNAI-560010','2398765432',5);
+insert into BRANCH values(SEQ_BRANCH.nextval,'SLM','SALEM','24, 25TH CROSS, 4TH MAIN, SALEM-560040','5696543221',5);
+insert into BRANCH values(SEQ_BRANCH.nextval,'KAT','KATPUDI','FLAT-1,23RD CROSS,5TH MAIN, KATPUDI-560009','7687654321',5);
+insert into BRANCH values(SEQ_BRANCH.nextval,'OOT','OOTY','42 ,10TH CROSS, 2ND MAIN, OOTY-560015','8756785643',5);
+
+insert into BRANCH values(SEQ_BRANCH.nextval,'DEL','DELHI','1442 ,15TH CROSS, 2ND MAIN,3RD STAGE, DELHI- 600109','8765585643',6);
+insert into BRANCH values(SEQ_BRANCH.nextval,'GUG','GURGAON','1434 ,30TH CROSS, 3RD STAGE, GURGAON- 600109','8768585643',6);
+
+
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,036709871245,'SURYA PRAKASH','01,15TH CROSS ,3RD MAIN, BANGALORE-560010','10-JUN-1986','08-JAN-2019',2,2,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,110367087634,'VISHWAS BALLAL','24, 25TH CROSS, 4TH MAIN, BANGALORE-560040','17-SEP-1992','08-FEB-2019',2,3,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,110387698712,'GEMINI VAMSHI','FLAT-1,23RD CROSS, 5TH MAIN, BANGALORE-560009','20-MAR-1998','01-MAR-2019',2,4,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval ,239367095487,'LOKESH DAS','42 ,10TH CROSS, 2ND MAIN , BANGALORE-560015','11-FEB-1975','08-JUN-2019',2,5,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval ,765439806666,'VINAYAK JOSHI','01,15TH CROSS, 2ND STAGE, BANGALORE-560072','29-DEC-1996','05-AUG-2019',2,6,2);
+
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,236709871245,'PRAKASH REDDY','01,15TH CROSS ,3RD MAIN, HYDERABAD-560010','15-JUL-1988','08-JAN-2018',3,7,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,560366587634,'VENKATESH NAIDU','24, 25TH CROSS, 4TH MAIN, VIJAYAWADA-560040','17-AUG-1999','08-FEB-2015',3,8,3);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,873456987126,'GEMINI REDDY','FLAT-1,23RD CROSS, 5TH MAIN, TIRUPATHI-560009','24-MAR-1998','01-MAR-2014',3,9,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,986546709548,'NITHIN DASA','42 ,10TH CROSS, 2ND MAIN , ANANTHPUR-560015','11-FEB-1976','08-JUN-2000',3,10,2);
+
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,654309871245,'SRISHANTH IYER','01,15TH CROSS ,3RD MAIN, COCHIN-560010','30-JUN-1970','08-AUG-1990',4,11,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,128766587634,'MAMMUTTI NAIR','24, 25TH CROSS, 4TH MAIN, SULTHAN-560040','25-DEC-1996','18-FEB-2011',4,12,3);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,672156987126,'BABU KUTTY','FLAT-1,23RD CROSS, 5TH MAIN, VAINAD-560009','20-OCT-1981','01-SEP-2000',4,13,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,098745209548,'MOHAN NAIR','42 ,10TH CROSS, 2ND MAIN , ALLEPY-560015','11-AUG-1979','28-JAN-1996',4,14,2);
+
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,650909871245,'SHUNMUGAM GANESHAN','01,15TH CROSS ,3RD MAIN, CHENNAI-560010','30-JUN-1970','08-AUG-1990',5,15,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,068431587634,'VIJAYAN PRAKASHAN','24, 25TH CROSS, 4TH MAIN, SALEM-560040','25-DEC-1996','18-FEB-2011',5,16,3);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,004729287126,'KARTHIKEYAN ALUMALAI','FLAT-1,23RD CROSS, 5TH MAIN, KATPADI-560009','20-OCT-1981','01-SEP-2000',5,17,4);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,765412709548,'ILLAI RASA','42 ,10TH CROSS, 2ND MAIN , OOTY-560015','11-AUG-1979','28-JAN-1996',5,18,2);
+INSERT INTO ACCOUNT VALUES(SEQ_Account.nextval,098765095481,'RANA DUBEY','87 ,10TH CROSS, GANDHI CHOWK , DELHI-600198','29-AUG-1983','30-Mar-1996',6,19,2);
+
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',10000,10000,2,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',1000,9000,2,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,7000,2,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,17000,2,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,27000,2,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,17000,2,3);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',11000,11000,3,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',1000,10000,3,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,8000,3,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,18000,3,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,16000,3,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,26000,3,2);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',11000,11000,7,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',1000,10000,7,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,8000,7,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,18000,7,2);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',5000,5000,8,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',1000,4000,8,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,2000,8,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,12000,8,2);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',15000,15000,15,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',1000,16000,15,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,14000,15,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,24000,15,2);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',1000,1000,16,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-JAN-2019',5000,7000,16,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-JAN-2019',2000,2000,17,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,12000,17,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',10000,10000,18,2);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',5000,5000,4,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-Feb-2019',3000,2000,4,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-FEB-2019',2000,4000,4,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',4000,0,4,3);
+
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'15-JAN-2019',6000,6000,5,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'17-Feb-2019',3000,3000,5,3);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'26-FEB-2019',4000,7000,5,2);
+INSERT INTO Transaction VALUES(SEQ_Trans.nextval,'28-FEB-2019',7000,0,5,3);
+
+--  drop table transaction;
+--  drop table account;
+--  drop table branch;
+--  drop table state;
+--  drop table transaction_type;
+--  drop table account_type;
+
+
+-- DROP SEQUENCE SEQ_ACCTYPE ;
+-- DROP SEQUENCE SEQ_TraType  ;
+-- DROP SEQUENCE SEQ_BRANCH  ;
+-- DROP SEQUENCE SEQ_State  ;
+-- DROP SEQUENCE SEQ_Account  ;
+-- DROP SEQUENCE SEQ_Trans  ;
+
+
+-- Task 3:  Write the following queries
+1. Display the Name of the person who has done the latest transaction.
+
+    select a.account_name,tm.trans_date
+      from account a
+        inner join (
+         SELECT account_id, max(transaction_date) as trans_date  
+          FROM transaction
+           GROUP BY account_id
+        )tm on a.account_id = tm.account_id ;
+
+2. Display the AcctH_name who has not done any transaction?
+        
+      SELECT distinct
+           A.ACCOUNT_NAME name
+               FROM  ACCOUNT A
+                      WHERE A.ACCOUNT_ID NOT IN (select account_id  from transaction) ;
+
+3. Display all the customers from BANGALORE & CHENNAI branches.
+
+      select A.ACCOUNT_NAME,B.BRANCH_NAME , S.STATE_NAME
+          from account a , branch b , state s
+             where  b.branch_id = a.branch_id
+               and a.state_id = s.state_id
+                  and s.state_name in ('KARNATAKA', 'TAMIL NADU');
+
+4. Display AcctH_name, Branch Name, Acct Type Name, Trans Type Name, Trans Amt for all the customers. Sort the data based on AcctH_Name.
+
+     select A.ACCOUNT_NAME,B.BRANCH_NAME ,at.account_type_name , tt.transaction_type_name ,t.transaction_amount,t.transaction_date
+         from account a , branch b , account_type at , transaction t , transaction_type tt
+           where  b.branch_id = a.branch_id 
+            and  a.account_type_id = at.account_type_id
+             and a.account_id = t.account_id
+              and tt.transaction_type_id = t.transaction_type_id
+               order by A.ACCOUNT_NAME,t.transaction_date;
+
+5. Display all the branches which have done no transactions
+
+     select b.branch_name,a.account_name
+        from  account a , branch b 
+          where 
+            a.branch_id = b.branch_id
+              and a.account_id NOT IN (select account_id  from transaction)
+                order by b.branch_name;
+
+6. Display the branch name, acct holder name, his state name, acct type name in a single query.
+
+      select a.account_name , b.branch_name,s.state_name, tt.transaction_type_name
+         from account a , state s , branch b,transaction_type tt , transaction t
+            where a.state_id = s.state_id
+               and a.branch_id = b.branch_id
+                  and t.transaction_type_id = tt.transaction_type_id
+                      and a.account_id = t.account_id;
+
+      
+7. Display all the account numbers, Names of the account holders along with the branch names. If the branch doesn’t have any accounts then display as
+   ‘NewBranch’ at the place of Acct holder’s name.
+
+     select 
+        case when a.account_number IS NULL then 0
+        else a.account_number
+        end "Account Number",
+        case when a.account_name IS NULL then 'NEW BRANCH'
+        else a.account_name
+        end "Account Name",
+        b.branch_name from account a , branch b
+     where a.branch_id(+) = b.branch_id;
+
+
+8. Display the Total Transaction Amt for each branch.
+
+    select (select branch_name from branch b where a.branch_id = b.branch_id) "Branch Name" ,
+	sum(transaction_amount) " Transaction Amount"
+          from transaction t , account a 
+             where a.account_id = t.account_id
+                group by t.account_id,a.branch_id
+                    order by "Branch Name" ;
+
+9. Display branch name from which latest transaction is being done
+
+    select 
+     ab.Transaction_date,
+       ab.Branch_Name
+         from
+ (
+    select max(transaction_date)  Transaction_date,
+       (select branch_name from branch b where a.branch_id = b.branch_id) Branch_Name
+         from transaction t , account a 
+            where a.account_id = t.account_id 
+               group by t.account_id,a.branch_id )ab;
+
+10. Display account holder name whose account is created first 
+
+     select account_name,account_date_created from account
+         where account_date_created = (select min(account_date_created) from account);	
+
+OR
+
+     select * from account a where 0 =
+         (select count(distinct(b.account_date_created)) from account b where a.account_date_created>b.account_date_created);
+	
+11. Display output as shown below: - [Branch wise total number of transactions]
+	
+        BRANCHNAME		TotalTrns			
+        JAYANAGAR		4000						
+        RAJAJINAGAR		900						
+	..
+	..
+
+
+      select (select branch_name from branch b where a.branch_id = b.branch_id) "Branch Name" ,
+	transaction_amount " Transaction Amount"
+          from transaction t , account a 
+             where a.account_id = t.account_id
+              --   group by t.account_id,a.branch_id
+                    order by "Branch Name" ;    
+
+12. Display all the account holders whose balance is zero.
+
+     select a.account_number , a.account_name , t.balance
+       from transaction t, account a
+         where t.account_id = a.account_id
+            and balance = 0;
+
+13. Display accts holder names who have done more than 5 transactions.
+
+      select account_name ,ac.account_id from
+        account a LEFT OUTER JOIN(select account_id ,count(account_id) 
+         from transaction
+           group by account_id 
+             having count(account_id)>5)ac ON (a.account_id = ac.account_id)
+               where ac.account_id is NOT NULL;
+
+14. Display the account holder who has done only CREDIT transactions. [Trans_Type_name=CREDIT]
+
+       select a.account_name,a.account_number , 
+         (select transaction_type_name from transaction_type tt where transaction_type_id = t.transaction_type_id) "Transaction Type"
+           from transaction t , account a
+             where t.account_id = a.account_id
+                and t.transaction_type_id =(select transaction_type_id from transaction_type where transaction_type_name = 'CREDIT') ;
+      
+15. Display all the accounts from Karnataka.
+      
+      select a.account_name,a.account_number,a.date_of_birth , b.branch_name ,s.state_name 
+        from account a,state s ,branch b
+           where a.state_id = s.state_id
+             and  a.branch_id = b.branch_id
+               and s.state_name = 'KARNATAKA' ;
+
+16. Display last 7 days transaction details.
+
+      select * from  (select transaction_date from transaction order by transaction_id desc)where rownum <=7 ;
+
+17. Display all the branches which have done no transactions using NOT EXISTS
+
+      select a.account_name,a.account_number ,b.branch_name from account a ,branch b
+         where  NOT EXISTS (select account_id from transaction t where a.account_id = t.account_id)
+           and a.branch_id = b.branch_id;
+
+18. Display the initial 10 accounts that were created.
+
+     select * from (select account_name from account order by account_id ASC) where rownum <=10;
+
+19. Display all the branches that don’t have 10 digit phone numbers.
+
+      select * from branch where length(branch_phone) !=10;
+
+20. Display the Acct Holder’s Name who has done highest number of transactions.
+
+       select a.account_name,max(tm.trans_date)
+         from account a
+           inner join (
+             SELECT   account_id,count(account_id) as trans_date  
+                FROM transaction
+                 GROUP BY account_id
+                   )tm on a.account_id = tm.account_id 
+        group by a.account_name ;
+
+
+21. Display output as shown below:-
+	BRANCHNAME		BRANCHPHONE		TRANSACTIONS		RANK		
+	JAYANAGAR		2222			20000			1
+	RAJAJINAGAR		4444			40000			2
+
+
+      select branch_name,branch_phone ,sum(t.transaction_amount) over (partition by  branch_name order by t.account_id desc)as "Transaction Amount",
+         dense_rank() over ( order by branch_name)Drank
+           from branch b, account a, transaction t
+             where a.branch_id = b.branch_id
+                and a.account_id = t.account_id;
+
+22. Display first five transactions done in each branch
+
+
+
+23. Create a view that shows only account holder namesfrom TAMIL NADU state.
+
+   create  or replace  view StateName as 
+     select a.account_name from account a , state s
+       where a.state_id = s.state_id
+         and s.state_name = 'TAMIL NADU' ;
+
+24. Create a view to show the all the transaction details along with the account holder name.
+
+       create or replace force view transaction_view as
+         select a.account_name,t.*
+           from account a, transaction t
+             where a.account_id = t.account_id;
+
+25. Create a public synonym for ACCTS table
+
+      create or replace synonym accountSyn for account;
+
+26. Write a statement to add a new column in TRANSACTION table [column name: TRANS_LIMIT]
+   
+        alter table transaction add (TRANS_LIMIT number(10));
+
+27. Write a statement to drop a column from ACCTS table.
+
+      alter table transaction drop column trans_limit;

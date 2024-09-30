@@ -1,0 +1,204 @@
+DATATYPES:-
+-----------
+A data type represents the type of the data stored in a column of a table.
+
+1) CHAR / STRING FAMILY:- CHAR, VARCHAR, VARCHAR2, NCHAR, NVARCHAR
+
+2) NUMBER FAMILY :- NUMBER, INTEGER 
+
+3) DATE FAMILY:- DATE, TIMESTAMP
+
+4) LOB FAMILY :- BLOB, CLOB, BFILE
+
+=================================================================================
+__________________________________________________________________________
+
+CHARACTER FAMILY:-
+___________________________________________________________________________
+
+CHAR:-
+------
+ 
+* char  stores the data in fixed-length format
+* minimum is 1 byte
+* char default size is 1 
+* maximum is 2000 bytes
+* it can store Alpha-numeric value.
+* 1 byte = 1 character
+-----------------------------------------------------
+
+VARCHAR:-
+---------
+* it stores the data in the variable-length format
+* minimum is 1 byte
+* maximum is 4000 bytes
+* it can store Alpha-numeric value.
+* No default size (we must give the size)
+---------------------------------------------------------
+
+ex:-
+===
+
+name char(4)  	-->> takes max. 4 bytes/characters
+name char	-->> takes 1 byte/character
+
+name varchar(4) -->> takes max. 4 bytes/characters
+name varchar    -->> error (data size should be defined)
+
+---------------------------------------------------------
+
+
+Difference b/n fixed and variable length format
+-----------------------------------------------
+
+name char(4)
+EX:  S Q L       length(name) = 4, because the free space is added with blank spaces, this can't be reusable.
+     - - - -
+
+name varchar(4)
+EX:  S Q L       length(name) = 3, because the free space is added with NULL, so this is re-usable.
+     - - - -    
+
+
+** We prefer VARCHAR as space is not wasted.
+
+
+
+VARCHAR2:-
+----------
+- VARCHAR2 is same as VARCHAR
+- FROM 10g onwards, varchar2=varchar
+
+before 10g VARCHAR = 2000, VARCHAR2 = 4000
+after  10g VARCHAR = VARCHAR2 = 4000
+
+
+NCHAR AND NVARCHAR
+------------------
+- They help us to store the data which is non-english characters
+- Like Chinese, Hindi, Japanese, etc.
+
+- N -> National
+
+- 2byte = 1 character
+- It stores english character with 1 byte but it takes 2 bytes for 1 non-English character.
+--------------------------------------
+
+LONG:-
+------
+- long helps us to store character data upto 2 GB
+- long stores in variable-length format (similar to VARCHAR)
+
+RESTRICTIONS OF LONG :-
+------------------------
+* We can't perform sorting (ORDER BY) using LONG column
+* Only one LONG field per table is allowed
+
+NOTE:- This problem can be overcome by using CLOB
+
+
+*************************From 12c onwards, VARCHAR=VARCHAR2=CHAR=NCHAR=NVARCHAR=32676 bytes.
+
+___________________________________________________________________________
+
+NUMBER FAMILY:-
+___________________________________________________________________________
+
+NUMBER:-   It stores the numeric data (+ve & -ve integers/fractions)
+--------
+
+INTEGER:-  It can store only the whole number (i.e. No fraction allowed)
+---------
+
+Ex:-
+====
+(i) salary number(6,2)  =  -9999.99 to +9999.99
+                  |,| 
+                  p,s
+
+p=total number of digits.   (precision)
+s=number of decimal places. (scale)
+
+ii) 	salary number(2,4)   -->>  *error ( p is always greater than or equal to s )
+iii)	salary number(4,4)   -->>  .9999
+iv)	salary number(4,1)   -->>  999.9
+v)      salary number(4)     -->>  9999	
+vi)     salary integer(5)    -->>  99999
+vii)    salary number	     -->>  can take value upto 22 digits
+
+Note:- *Max size of number is 38 digits.
+       *Default size is 22 digits.
+
+viii) salary   number 
+ix)   quantity integer(2)
+____________________________________________________________
+
+DATE FAMILY:-
+____________________________________________________________
+
+DATE:- It stores date and time.
+	DATE + TIME
+   date= DD-MON-YYYY = 15-AUG-2018
+   time= hh:min:ss   = 12:25:27
+Eg:-
+====
+   creation_dt DATE
+
+------------------------------------------------------------
+
+TIMESTAMP:- It stores date and time, fractional secs (milli/micro/nano) and Timezone.
+  DATE + TIME + FRACTIONAL SECS + TIME ZONE   
+Eg:-
+====
+   order_dt TIMESTAMP
+  
+____________________________________________________________________
+
+LOB FAMILY:- LARGE OBJECTS
+
+____________________________________________________________________
+
+BLOB :- BINARY LARGE OBJECTS
+-------
+  *It stores Videos,images,music files up to 4GB.
+  *It is non-readable format, we can't select the data directly from SQL PLUS.
+
+CLOB :- CHARACTER LARGE OBJECTS
+-------
+  *It stores plain character data upto 4 Gb.
+  *It is similar to VARCHAR (readable format) and variable-length.
+  *It helps to overcome the restrictions of LONG field.
+
+
+BFILE:- BINARY FILE
+-------
+  *Similar to BLOB & stores upto 4GB.
+  *It stores videos,images,music files up to 4GB.
+  *It is non-readable.
+  *Faster than BLOB because it will store only path inside a table but file is stored at OS Level.
+
+NOTE:-
+-----
+  * BLOB & CLOB are called internal LOBs as they are stored within the DB.
+  * BFILE is called as an external LOBs as they are stored outside of DB
+  * From 11g onwards LOBs will allow upto 1 TB of data 
+
+Examples:-
+----------
+ my_image  	BLOB
+ prod_feedback 	CLOB
+ 
+
+----------------------------
+----------------------------
+
+Interview Questions
+===================
+- Differences between CHAR & VARCHAR
+- Differences between VARCHAR2 & VARCHAR
+- DIfferences between DATE & TIMESTAMP
+- What is fixed-length & Variable length
+- What is LOB? Explain its types
+
+ 
+

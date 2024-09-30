@@ -1,0 +1,597 @@
+===============================================================
+Chapter 2 -  Introduction to SQL & SQL Operators
+===============================================================
+
+SQL => Structured Query Language
+
+SQL is a Language which can talk to a Database.
+It is not case-sensitive.
+It is a 4GL (4th Generation Language).
+All the database like Oracle, mySQL, DB2, SQL SERVER etc. will support SQL, but the syntax will change a bit.
+
+Oracle
+======
+12c	- cloud
+11g	- grid
+10g
+9i	- internet
+8i
+8
+7
+6
+5
+4
+3
+2
+
+PL/SQL => Procedural Language
+PLSQL is powerful database programming language which can support SQL and procedural statements like IF statements, Loops etc.
+
+===============================================================================
+===============================================================================
+
+Connecting to Oracle (SQLPLUS) :-
+
+Open SQLPLUS
+
+username:scott/tiger
+
+database    (orcl)
+   user     (scott)
+     tables (emp, dept)
+
+=====================================================
+
+SQL> select * from emp;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800        800         20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975       2975         20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000       3000         20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100       1100         20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000       3000         20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+SQL> select * from dept ;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+
+=====================================================
+
+START FROM HERE :-
+
+=======================================================
+sql> select * from global_name;		-->> helps to check the database name
+
+sql> show user;     			-->> helps to check the user 
+sql> select user from dual;		-->> helps to check the user
+
+
+sql> select * from tab; 		-->> helps to list all the tables.
+<<emp, dept, .... >>
+
+sql> select * from v$version ;		-->> helps to get the version.
+
+---------------------------------------------------------
+---------------------------------------------------------
+
+sql> desc dept;
+
+sql> desc emp;
+
+sql> set lines 110 pages 110;
+
+sql> select * from dept;
+
+sql> select * from emp;
+
+sql> cl scr;
+
+
+
+sql> select ename, sal from emp;
+
+sql> select ename, sal, deptno, job from emp where deptno = 20 ;
+
+sql> SELECT ename, sal, deptno, job from emp where job = 'CLERK';
+
+
+WHERE:
+======
+- Filters the records in a table.
+
+Note: SQL Commands are not case-sensitive but data(values) is case-sensitive.
+=====
+
+ORDER BY: Helps to sort in ASC or DESC order
+
+--SORTING (ARRANGING IN ASC / DESC  ORDER)
+sql> SELECT * FROM EMP ORDER BY ENAME ASC;
+
+sql> SELECT * FROM EMP ORDER BY ENAME DESC;
+
+sql> SELECT * FROM EMP ORDER BY 2 DESC;
+
+
+
+--GETTING THE UNIQUE VALUES.
+SQL> SELECT  DISTINCT DEPTNO FROM EMP ;
+
+SQL> SELECT  UNIQUE DEPTNO FROM EMP ;
+
+Syntax:
+=======
+SELECT	  [DISTINCT] <col1, col2,......> / < * >
+from	  <tabname>
+where	  <non-aggrgate conditions>
+group by  <col1, col2,......>
+having    <aggregate conditions>
+order by  <col1, col2,......>
+/
+
+
+** SELECT & FROM are mandatory clauses in a SELECT statement.
+** GROUP BY & HAVING can be exchanged.
+** ORDER BY should be always at the last.
+** The order of processing a SQL statement is:-
+   FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+
+
+
+
+
+
+
+===============================================================
+SQL OPERATORS
+===============================================================
+
+a) Relational  ( >, <, >=, <= ,  = , != or <> or ^= )
+
+b) Arithmetic  (+, -, *, / )
+
+c) Logical  (OR, AND, NOT)
+
+d) Special  (IN, LIKE, BETWEEN, IS)
+
+e) Concatenation ( || )
+
+f) Set operators (UNION, UNION ALL, INTERSECT, MINUS)
+
+==========================================================================================================
+Relational  
+==========
+
+SELECT * FROM EMP WHERE SAL > 2000;
+
+SELECT * FROM EMP WHERE JOB != 'CLERK';
+
+==========================================================================================================
+Arithmetic
+==========
+
+sql>select ename, sal as currsal, sal+2000 as nsal from emp;  -- "nsal" is called column alias.
+
+sql> select ename, sal, comm, sal+comm as tsal from emp;
+
+
+
+Column Alias:	It is An alternate name given to column which is selected. 
+-------------	It can be used only in SELECT & ORDER BY
+
+
+==========================================================================================================
+Special Operators (IN, LIKE, BETWEEN, IS)
+
+IN
+==
+-List of Values comparison..
+
+sql> select * from emp where deptno = 10 ;
+
+sql> select * from emp where deptno in (10,20);
+
+sql> select * from emp where job in ('CLERK','MANAGER','SALESMAN');
+
+sql> select * from emp where deptno IN (10) ;
+
+** We can give upto 1000 values in the IN List
+
+
+LIKE
+====
+- Pattern matching
+- Helps to search the data when we know only part of the string but not full.
+
+%	-> matches zero or 'n' characters
+_	-> matches exactly 1 character
+
+sql> select * from emp where ename like 'S%';		
+
+sql> select * from emp where ename like '%S';		
+
+sql> select * from emp where ename like '_O%';		-- second letter should be 'O'
+	
+sql> select * from emp where ename like '__O%';		-- third letter should be 'O'
+
+sql> select * from emp where ename like '__O%T'; 	-- third letter should be 'O' and ending with 'T'
+
+
+BETWEEN
+=======
+- Returns the data between any 2 range of values
+- It includes both upper & lower boundaries
+
+sql> select * from emp where sal between 2000 and 4000;
+
+sql> select * from emp where HIREDATE between '01-JAN-1981' AND '31-DEC-1981';
+
+
+IS
+==
+- Used for Comparing NULL values only.
+
+sql> select * from emp where comm is null ;
+
+sql> select * from emp where comm is not null ;
+
+==========================================================================================================
+
+Concatenation Operator    
+======================
+- Joins any 2 values / columns
+- represented by "||"
+
+
+sql> select ename||' works as '||job||' '||sal  as details from emp ;
+
+sql> select 'Mr.'||ename as Name from emp ;
+
+
+==========================================================================================================
+
+Logical Operators
+=================	
+- Compares 2 conditions 
+
+OR  -> binary - (A > 10) OR  (B<20)  -> atleast one should be TRUE [union]
+AND -> binary - (A > 10) AND (B<20)  -> both should be TRUE	   [intersect]
+NOT -> unary  - NOT (A>10) 	     -> negation
+
+
+AND	T 	F
+--------------------
+T	T	F
+--------------------
+F	F	F
+--------------------
+
+OR	T 	F		NOT(F) => T
+--------------------		NOT(T) => F
+T	T	T
+--------------------
+F	T	F
+--------------------
+
+Precedence of Logical Operators
+===============================
+( )  
+NOT
+AND
+OR
+
+sql> SELECT * FROM EMP WHERE SAL > 2000 AND deptno = 20 ;
+
+SQL> SELECT * FROM EMP WHERE SAL > 2000 OR deptno = 20 ;
+
+sql> SELECT * FROM EMP WHERE SAL > 2000 AND deptno = 20 and job in ('MANAGER','ANALYST') ;
+
+SQL> SELECT * FROM EMP WHERE DEPTNO NOT IN (20,10);
+
+SQL> SELECT * FROM EMP WHERE DEPTNO NOT BETWEEN 10 AND 20;
+
+SQL> SELECT * FROM EMP WHERE ENAME NOT LIKE 'S%';
+
+sql> select * from emp where comm is not null ;
+
+==========================================================================================================
+
+SET OPERATORS
+=============
+Helps to combime the data from 2 queries [SELECT]
+
+A={2,3,4} 
+B={1,2,2,5}
+
+AuB={1,2,3,4,5}
+
+AuallB={2,3,4,1,2,2,5}
+
+AnB={2}
+
+A-B={Elements only in A but not in B}
+   ={3,4}
+
+B-A={1,5}
+
+(A-B) != (B-A)
+
+
+===========================
+List of Set operators
+===========================
+
+UNION:- Combines the data from 2 queries, eliminates the duplicates, sorts the
+	data according to the first column.
+
+UNION ALL:- Combines the data from 2 queries as it is.
+
+INTERSECT:- Returns the common values [matching data]
+
+MINUS:- Returns the values that are specific to first query only [non-matching].
+
+**UNION ALL is faster than UNION, as no sorting and no duplicates removal.
+**UNION, INTERESCT, MINUS will remove the duplicates.
+**MINUS helps to find the difference in rows between any 2 tables.
+
+
+select ename from emp
+union
+select dname from dept
+/
+
+
+select ename from emp
+union all
+select dname from dept
+/
+
+
+select deptno from dept
+intersect
+select deptno  from emp
+/
+
+
+select deptno from dept
+minus
+select deptno  from emp
+/
+
+
+Restrictions
+============
+a) The number of columns between the 2 queries should be same
+
+Eg:-
+
+select ename, sal from emp
+union
+select dname from dept;
+
+Error: ORA-01789: query block has incorrect number of result columns
+
+-- we should use a  dummy column "NULL" to overcome this problem
+select ename, sal from emp
+union
+select dname, null from dept;
+
+===========================================================================
+b) The data types of the columns between the 2 queries should be same
+
+
+Eg:-
+
+select sal from emp
+union
+select dname from dept;
+
+Error:- ORA-01790: expression must have same datatype as corresponding expression
+
+-- we should use conversion function to convert both into a common data type
+select to_char(sal) from emp
+union
+select dname from dept;
+
+----------------------------------------------------------------------------
+
+
+
+NOTE:-
+======
+- SET OPERATORS don't have any precedence (they will be executed from top to bottom).
+- If we use brackets (), then whichever is in () will be executed first.
+
+
+Another Eg:-   [generating numbers from 1 to 5]
+===============================================
+select 1 from dual
+union
+select 2 from dual
+union
+select 3 from dual
+union
+select 4 from dual
+union
+select 5 from dual
+/
+
+
+
+
+
+========================================================================================
+
+
+Assignments
+===========
+list employees who are getting 2500 and excess salaries in department 20.
+
+select *from emp where sal>2500 and deptno=20
+------------------------------------------------------------------------------
+list managers working in 20 & 30 department.
+select *from emp where job= 'MANAGER' and deptno in(20,30)
+------------------------------------------------------------
+list managers who don’t have a reporting manager
+select *from emp where job != 'MANAGER'
+-------------------------------------------------------------------------
+
+list employees who are getting some commission with their designation is neither MANANGER nor ANALYST
+select *from emp where job in('MANAGER' , 'ANALYST') and comm is not null
+-----------------------------------------------------------------------------------------
+list ANALYSTs whose name doesn’t ends with ‘S’ 
+ select * from emp where job='ANALYST' and ename not like ('%S')
+------------------------------------------------------------------------------------
+list employees whose naming is having letter ‘E’ as the last but one character
+select *from emp where ename like('E_%')
+------------------------------------------------------------------
+list employees who are getting some commission in department 20 & 30.
+select *from emp where comm is not null and deptno in (20,30)
+--------------------------------------------------------------------------
+list managers whose name doesn't start with A & S
+select * from emp where job ='MANAGER' not like ('A%','S%')
+----------------------------------------------------------------------------------
+list employees who earning salary not in the range of 2500 and 5000 in department 10 & 20.
+  select * from emp where sal not between 2500 and 5000 and deptno in(10,20)
+-------------------------------------------------------------------------------------------
+list all the employees whose job is having atleast 5 characters in dept 20;
+select *from emp where job in ('_____%') and deptno =20
+--------------------------------------------------------------------------------
+List the name and salary of employees who earn less than 1250 or more than 1600
+select ename,sal from emp where  sal<1250 or sal>1600
+
+==============================================================
+list all the employess earning more than 1000 in dept 30 with some commission.
+  The output should be arranged according to the date of joining
+select * from emp where sal >1000 and deptno = 30 and comm is not null order by hiredate asc
+------------------------------------------------------------------------------------------------------------
+
+list all the salesman from dept 30 who are earning more than 100 as commission
+select * from emp where job ='SALESMAN' and deptno=30 and comm  >100
+-------------------------------------------------------------------------------------------
+
+list all the CLERKs & MANAGERs from dept 10 & 20. The output should not include
+  any employees who are getting salary less than 2000.
+select job,deptno,sal from emp where job in('CLERK','MANAGER') and deptno in (10,20) and sal<2000 
+----------------------------------------------------------------------------------------------------------
+list all the emps who are joined in the year 1981 excluding the one who are not
+  belonging to dept 10 and their name not starting with A or S.
+select *from emp where hiredate between '01-jan-2020' and '31-dec-2020' and deptno not in (10 ) and ename not like ('A%,S%') 
+
+
+=================================================================================
+- Write a query which generates an output like this.. 
+  This should include only the employees from 10 & 20 depts.
+  Eg:-
+  SCOTT works as MANAGER in dept 20
+  FORD  works as ANALYST in dept 20
+  ..
+  ..
+select ename || ' works as ' ||  job  || ' in '|| deptno from emp  where deptno in (10,20)
+ans--------------
+SMITH works as CLERK in dept 20
+WARD works as SALESMAN in dept 10
+JONES works as MANAGER in dept 20
+MARTIN works as SALESMAN in dept 10
+BLAKE works as MANAGER in dept 20
+SCOTT works as ANALYST in dept 10
+KING works as PRESIDENT in dept 20
+TURNER works as SALESMAN in dept 10
+ADAMS works as CLERK in dept 10
+
+
+=================================================================================
+
+Assignments of SET OPERATORS
+----------------------------
+
+(1) What is the o/p of the following query
+select * from emp
+union
+select * from dept; 
+
+
+(2) What is the o/p of the following query
+select 1 from dual
+union
+select 2 from dual
+UNION ALL
+select 2 from dual
+union
+select 1 from dual;
+ans---  1,2
+
+(3) What is the o/p of the following query
+(select 1 from dual
+union
+select 2 from dual)
+UNION ALL
+(select 2 from dual
+union
+select 1 from dual);
+
+ans-------    1,2,1,2
+
+----------------------------------------
+(4) Consider the following 2 tables
+
+	Prods
+	=====	
+	pid
+	----
+	2
+	3
+
+	orders
+	======
+	pid
+	------
+	2
+	4
+
+Write a query to get the output as shown below
+
+
+select 2 from dual
+union
+select 3 from dual
+minus
+select 2 from dual
+union 
+select 4 from dual
+
+
+
+pid
+---
+ 3
+ 4
+
+===================	
+Interview Questions
+===================
+a) What is the syntax of SELECT statement? In which order they will be executed?
+b) Differences between IN and BETWEEN?
+c) How many maximum values we can provide within IN Clause? How do you manage if it exceeds more the limit?
+d) Difference between OR and AND operators?
+e) Difference between UNION & UNION ALL operators? Which is faster?
+f) What are the restrictions/limitations of set operators?
+g) What is the precedence/hierarchy of set operators?
+
+

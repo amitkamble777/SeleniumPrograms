@@ -1,0 +1,367 @@
+
+WITH CLAUSE
+===========
+- WITH clause creates a Temp. Table for data storage.
+- Temp. table is dropped automatically after the query execution.
+- The Temp. table which is created can be used more than once within a same query (re-usability).
+- This is similar to Inline-view, but WITH clause can be used only once to execute repeated queries.
+
+
+select *
+from (select * from emp order by sal desc) where rownum <= 5 ;
+
+
+with tsal
+as
+(select * 
+from emp
+order by sal desc
+)
+select * 
+from tsal
+where rownum <= 5
+/
+
+================================================================================
+
+select *
+from (select * from emp order by sal desc) where rownum <= 5 
+union all
+select *
+from (select * from emp order by sal desc) where rownum <= 2
+/
+
+
+with tsal
+as
+(select * 
+from emp
+order by sal desc
+)
+select * 
+from tsal
+where rownum <= 5
+union all
+select * 
+from tsal
+where rownum <= 2
+/
+
+===================================================================================
+Disadvantge:- Syntax is slightly complex.
+===================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===================
+Hierarchial Queries
+===================
+
+- It helps to build an hierarchy(level).
+- We should use "CONNECT BY" & "START WITH" keywords.
+- "LEVEL" pseudo-column can be used to know the exact level.
+- We can traverse the tree in both ways (first to last & last to first).
+
+
+
+7839				level 1
+
+7566, 7698, 7782		level 2
+
+7902, 7788			level 3
+
+7369				level 4
+
+-------------------------------------------------
+-------------------------------------------------
+
+--COMPLETE TREE STR. FROM KING (FROM FIRST LEVEL)
+SELECT  level, empno, ename, mgr 
+FROM emp
+CONNECT BY PRIOR empno=mgr
+start with Ename='KING'
+/
+
+--COMPLETE TREE STR. FROM KING, SORTED BASED ON LEVEL
+SELECT  level as ln, empno, ename, mgr 
+	FROM emp
+	CONNECT BY PRIOR empno=mgr
+	start with Ename='KING'
+order by LEVEL 
+/
+
+
+--COMPLETE TREE STR. FROM JONES (FROM SECOND LEVEL)
+SELECT  level, empno, ename, mgr 
+FROM emp
+CONNECT BY PRIOR empno=mgr
+start with Ename='JONES'
+/
+
+
+--TREE STR. ONLY FOR PARTICULAR CONDITION
+SELECT  level as ln, empno, ename, mgr 
+	FROM emp
+	where deptno = 10 
+	CONNECT BY PRIOR empno=mgr
+	start with Ename='KING'
+order by LEVEL 
+/
+
+
+
+--TRAVERSING IN THE REVERSE ORDER (INTERCHANGE THE CONDITION IN CONNECT BY)
+SELECT  level as ln, empno, ename, mgr
+FROM emp
+CONNECT BY PRIOR mgr = empno
+start with Ename='MARTIN'
+order by LEVEL
+/
+
+
+level -> pseudo-column which gives the level at tree str.
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+-- Generating numbers from 1 to 10.
+SELECT LEVEL  
+FROM DUAL
+CONNECT BY LEVEL < 10
+/
+
+select level from dual connect by rownum<=10
+/
+
+
+NOTE:- WM_CONCAT concatenates all the values into a single value using comma.
+======
+
+SELECT WM_CONCAT(ENAME) FROM EMP ;
+
+-- 1,2,3,4,...10
+select wm_concat(level)   -- we can also use LISTAGG function.
+from dual
+connect by rownum <= 10
+/
+
+select listagg(level,',') within group(order by level) from dual connect by rownum<=10
+/
+
+
+
+
+-------------------------------------------------------
+================================================================
+
+select substr('oracle',1,2) from dual;  -- or
+select substr('oracle',2,4) from dual;  -- racl
+
+-- printing the characters in separate line
+select substr('sarlakg',level,1)
+from dual
+connect by level <= length('sarlakg')
+/
+
+-------------------------------------------------------
+
+-- interview question.
+
+       LN RESU
+--------- ----
+        1 odd
+        2 even
+        3 odd
+        4 even
+        5 odd
+        6 even
+        7 odd
+        8 even
+        9 odd
+       10 even
+
+select ln,
+	case 
+		when mod(ln,2) = 0 then 'even'
+		else
+		'odd'
+	end as result
+from (select level as ln from dual connect by rownum <= 10)
+/
+
+
+
+------------------------------------------------------------------------------------------------
+
+--Write a query to generate all the dates between any two dates using hierarchial queries?
+select TO_DATE('01-JAN-2019','DD-MON-YYYY') + (level-1) as DAY
+from dual
+connect by level<=( TO_DATE('31-dec-2019','DD-MON-YYYY') - TO_DATE('01-JAN-2019','DD-MON-YYYY')+1) 
+/
+
+
+--display all the weekend dates in 2019.
+select *
+from
+( select TO_DATE('01-JAN-2019','DD-MON-YYYY') + (level-1) as days
+  from dual
+  connect by level<=( TO_DATE('31-dec-2019','DD-MON-YYYY') - TO_DATE('01-JAN-2019','DD-MON-YYYY')+1)
+)
+where to_char(days,'dy') in ('sat','sun')
+/
+
+
+
+
+
+=====================================================================================================================================
+						Regular Expressions
+=====================================================================================================================================
+
+
+Regular expression:-
+--------------------
+->derived by unix language
+->pre-fixed with reg_exp
+
+
+
+Regular expressionFunctions (10g)
+=================================
+regexp_like:
+regexp_substr:
+regexp_instr:
+regexp_replace:
+regexp_count:  			(Available from 11g)
+
+
+
+
+REGEXP_LIKE
+===========
+-- Lists the names whose name is having letter A to D Only.
+select ename
+from   emp
+where   ename like '%A%'  
+or      ename like '%B%'
+or	ename like '%C%'
+or      ename like '%D%'
+/
+
+
+select ename
+From emp
+where regexp_like(ename,'[A-D]') 
+/
+
+
+select ename
+From emp
+where regexp_like(ename,'[.@]')
+/
+
+
+SELECT ENAME
+FROM emp
+WHERE REGEXP_LIKE (Ename, '[#$@*^%]')
+/
+
+
+SELECT ENAME
+From EMP
+WHERE not REGEXP_LIKE(ENAME,'[0-9]')
+/
+
+
+======
+posix
+======
+
+[:alnum:] - alphanumeric
+[:alpha:] - alphabets
+[:space:] - non-printable
+[:upper:] - upper alphabets
+[:lower:] - lower alphabets
+[:digit:] - numeric digit
+
+
+
+
+------------
+REGEXP_INSTR
+------------
+
+seleCt ENAME
+From EMP
+WHERE REGEXP_INSTR(ENAME,'[[:digit:]]') > 0
+/
+
+--listing the names having lower case letters
+seleCt ENAME
+From EMP
+WHERE REGEXP_INSTR(ENAME,'[[:LOWER:]]') > 0
+/
+
+--listing the names having upper case letters
+SELECT ENAME
+FROM emp
+WHERE REGEXP_INSTR(ENAME,'[[:UPPER:]]') > 0
+/
+
+
+
+
+------------
+regexp_count:  
+------------
+
+select ename, regexp_count(ename,'A') from emp
+/
+
+
+
+
+
+==================================================================================================================
+
+-------------------
+Real-time example:-
+-------------------
+
+SQL> SELECT * FROM CUST_TAB ;
+
+        ID PHONE
+---------- ----------
+         1 1234567 
+         2 1@234#567
+         3 1234A567
+         4 1234567
+	 5 ABCD123
+
+--query to get the phone numbers that are having only NUMBERs.
+select *
+From cust_tab
+  WHERE REGEXP_INSTR(phone,'[[:digit:]]') > 0   -- considers only numbers
+  and REGEXP_INSTR(phone,'[[:alpha:]]') = 0     -- eliminates alphabets
+  and REGEXP_INSTR(phone,'[[:space:]]') = 0     -- eliminates spaces
+  and not REGEXP_LIKE (phone, '[#$@*^%]')  	-- eliminates special characters
+/
+
+
+==================================================================================================================
+
+
+
+
+

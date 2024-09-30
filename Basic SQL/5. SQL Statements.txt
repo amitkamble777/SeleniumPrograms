@@ -1,0 +1,467 @@
+SQL STATEMENTS
+------------------
+
+1)DQL/DRL(data query /retrieval language):- SELECT 
+[It will not change any data inside the database/table]
+
+2)DDL(data definition lang):- CREATE, ALTER , DROP, TRUNCATE , RENAME.
+
+3)DML(data manipulation lang):- INSERT ,UPDATE , DELETE , MERGE, EXPLAIN PLAN.
+
+4)DCL(data control lang):- GRANT, REVOKE.
+
+5)TCL(transaction control lang):- COMMIT,ROLLBACK,SAVE POINT.
+
+
+
+==================================
+
+columns + constraints + data types + size => [structure] DDLS
+
+rows => [data] DMLS
+
+
+======================================
+
+
+DDL (Data Definition Language):-
+---------------------------------
+* Help us to create or modify the structure of the table
+
+____________________________________________________________
+
+CREATE
+
+____________________________________________________________
+
+- Create helps to create new tables.
+
+Eg:-
+====
+
+Create the following tables:
+============================
+
+prod
+====
+pid   		(PK)
+pname 		(NN)
+
+
+orders
+======
+ord_id 		(PK)
+prod_id		(FK)
+ord_dt
+qty   		( >0 )
+price 		(default 0)
+
+======================================
+
+create table prod14
+(
+  pid		number(5)	primary key,
+  pname		varchar(9)	not null
+)
+/
+
+create table orders14
+(
+  ord_id	number(5)	primary key,		
+  prod_id	number(5)	references prod(pid),	
+  ord_dt	date,
+  qty		number(3)	check (qty>0),
+  price		number(9,2)	default 0
+)
+/
+
+================================================================
+Types of Constraints:
+
+NOT NULL : Will not allow NULL(empty) Values
+UNIQUE	 : Will not allow duplicate Values
+PK	 : NN + UNIQUE, should be only one per table.
+FK	 : Creates a Relationship between any 2 tables.	
+CHECK	 : Provides conditions based on business requirements.
+DEFAULT  : Provides default value.
+
+
+
+Assignment: Differences b/w Column & Table level [2-4 differences]
+
+==============================================================================
+
+CTAS (CREATE TABLE AS SELECT) - helps to backup/copy a table from another table.
+
+==============================================================================
+
+create table dept_bkup
+as
+select * 
+from dept 
+where deptno=20;
+
+
+select * 
+from dept_bkup;
+
+
+**When we run CTAS, only NOT NULL constraint is copied but rest of the constraints are not copied..
+
+
+
+--creating a table without data (only structure is created)
+
+create table emp_bkup1
+as
+select * 
+from emp
+where 1=2;  -- universal false condition
+
+Eg:-
+----
+..
+where 'a' = 'b' ; -- universal false condition
+------------------------------------
+..
+where 20=40 ; -- universal false condition
+------------------------------------
+..
+where empno = -1;
+------------------------------------
+
+
+
+____________________________________________________________
+
+RENAME
+____________________________________________________________
+- IT HELPS TO RENAME a TABLE.
+
+Eg:-
+====
+
+SQL> rename t2 to t9;
+
+==============================================================================================
+
+
+____________________________________________________________
+
+DROP & TRUNCATE
+____________________________________________________________
+* Drop will remove both structure and the data.
+  Truncate removes  only data & structure is kept as it is. 
+
+
+* Drop can be flashed-back (can be recovered) ..
+  Truncate cannot be flashed back.
+
+* Truncate is faster, [TRUNCATE never writes the data to recyclebin]
+  where as DROP is slower compared to truncate.
+
+* Truncate will release the space
+  whereas DROP will not release the space
+
+
+Eg:-
+====
+
+CREATE TABLE T4 AS SELECT * FROM DEPT;
+
+CREATE TABLE T2 AS SELECT * FROM DEPT;
+
+DROP TABLE T4;
+
+TRUNCATE TABLE T2;
+
+DESC T4;          -- ERROR - object T4 does not exist
+
+DESC T2;   	  -- it works
+        
+SELECT * FROM T2; -- works but no rows would be selected
+
+==============================================================================================
+
+
+
+=======================================================
+____________________________________________________________
+
+ALTER:- 
+____________________________________________________________
+- ALTER is used for changing the column properties of a table.
+- It is also used to change data type and data size and rename the constraints.
+
+a) Adding a column
+------------------
+SQL> alter table prod add prod_comments varchar(20);
+
+sql> alter table prod  add (col1 number(6), col2 number);
+
+b) Dropping a column
+--------------------
+SQL> alter table prod drop column prod_comments;
+
+c) Rename a column
+==================
+SQL> alter table prod rename column pid to prod_id;
+
+
+
+===============================================
+
+
+
+DMLS:-
+======
+
+____________________________________________________________
+
+INSERT
+___________________________________________________________
+
+- It adds a new record to a table
+
+insert into prod  values(1001,'Desktop');
+
+insert into prod (pid)  values(1008);  --insertion to only specific columns
+
+insert into prod  values(&pid, '&pnm') ; 
+
+
+NOTE:	& is used to substitue the values.
+=====
+
+insert into orders values(7722, 1001, '01-jan-2014' , 2, 8790.2);
+
+insert into orders(ORD_ID, PROD_ID, ORD_DT) values(7791, 1001, '09-jan-2014');
+
+
+____________________________________________________________
+
+UPDATE
+____________________________________________________________
+
+- It will update one or more records/columns
+
+update orders 
+	set qty = 5 , 
+	    ord_dt = sysdate 
+	where ord_id = 7722;
+
+
+___________________________________________________________
+
+DELETE
+___________________________________________________________
+
+delete from emp1 where deptno=20
+/
+
+delete from emp1
+/
+
+
+
+
+TCL:-
+-----
+
+- Controls the behaviour of DML statements
+
+___________________________________________________________
+
+ROLLBACK
+___________________________________________________________
+ * It rolls back (undo) the DML changes.
+
+
+___________________________________________________________
+COMMIT
+_________________________________________________________
+* It  saves the changes permanently. 
+
+
+NOTE:-
+------
+* After  commit  we cannot rollback and viceversa.
+
+* DDL Statements are auto-commited and hence can never be rolled back.
+
+* whenever dml statements are  executed, the changes stored are in "undo segments".
+
+* after rollback or commit, the data is removed from undo segments.
+
+* DDL STATEMENTS are faster  compared to DML as UNDO data is not generated for DDLs.
+
+
+Eg:-
+====
+SQL> COMMIT;
+
+SQL> ROLLBACK;
+
+SQL> ROLL;
+
+=======================
+
+SQL> delete from emp ;
+
+sql> select * from emp; 	-- no rows
+
+sql> rollback;
+
+sql> select * from emp;		-- rows
+
+=========================== 
+
+
+___________________________________________________________
+SAVE POINT:-
+___________________________________________________________
+
+* save point is like a pointer till where  DMLs can be rolled back (Selective rollback)
+
+* we cannot commit to a save point we can only rollback to a save point.
+
+
+Eg:-
+====
+
+SQL> DELETE FROM EMP1 ;
+
+SQL> SAVE POINT SP11 ; 
+
+SQL> DELETE FROM DEPT1 ;
+
+SQL> ROLLBACK TO SP11 ;   	-- rolls back only DEPT1 changes.
+
+SQL> COMMIT;			-- commits only EMP1 changes.
+
+================================================================================= 
+
+
+
+
+
+
+
+
+
+
+========================================================                                                                                                       
+-- Differences between PK & FK
+
+        PK                                            FK
+------------                                         --------------
+1) It doesnot allow null values.               1) it allows null values
+
+ 
+2) only one pk per table                       2) fk can be more than one.
+
+3) PK is mandatory in master table.            3) fk is mandatory in child table.
+
+4)pk identiefies unique record                 4)it helps to create relationship b/n two tables.
+
+5)pk creates an index automatically            5)fk doesnot create an index.
+
+
+========================================================                                                                                                       
+-- Differences between DML & DDL
+
+      DML                                         DDL
+----------                                  ------------
+*data manipulation lang                   * data defn lang
+
+* dml can be rolled back                  * ddl cannot be rolled back                
+* dml operations are first                * ddl operations are executed on  
+saved in undio segmet                      table.
+
+*dml are not auto committed                * ddl are auto committed.
+
+*dml are  slower                          * ddl are faster compared to dml.
+
+
+================================================================================================================                                               
+-- diff b/n rollback and commit
+
+  ROLL BACK                                COMMIT.
+ ---------                                --------
+
+* It restores database to original       *it saves changes permanently.
+ since last commit.                                                                  
+
+================================================================================================================                                               
+      ROLLBACK                             SAVEPOINT
+   -----------                            ----------------
+*This is for undoing the wokdone in     *save point is pointer till where  
+ current transaction                      dmls can be rolled back(selective rollback)
+
+================================================================================================================                                               
+-- diff b/n truncate    and  drop
+
+      TRUNCATE                            DROP
+ ---------------                       ------------------ 
+
+* truncate removes only data           * drop will remove both structure and 
+   but structure is kept as it is         data
+
+* truncate cannot be flahed back       * drop can be flashed back from 10g onwards
+
+* truncate is faster                    * drop is slower compared to truncate
+ 
+================================================================================================================                                               
+-- diff b/n truncate and delete
+
+    TRUNCATE                          DELETE
+ --------------                    -------------------
+
+* truncate is a ddl statement         * delete is a dml statement
+
+* truncte cannot be rolled back       * delete can be rolled back.
+
+* we cannot use "where" clause within * we can use "where" where caluse with delete
+ truncate                              to filter or delete specific records.
+
+* truncate will release space 	     * Delete will not release the space.
+
+* truncate is faster                 * delete is slower
+
+==========================================================================================================
+
+
+
+===========
+ASSIGNMENTS
+===========
+
+Difference b/w 
+	a)DML & DDL
+	B)ROLLBACK , COMMIT
+	C)ROLLBACK, SAVEPOINT
+	D)TRUNCATE, DROP   **** (2 DIFFERENCES)
+	E)TRUNCATE, DELETE **** (4 DIFFERENCES)
+	F) DROP, DELETE
+	G) CHAR, VARCHAR, VARCHAR2
+	H) PK & FK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

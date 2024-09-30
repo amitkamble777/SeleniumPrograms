@@ -1,0 +1,495 @@
+                                   Chapter 1 :  RDBMS CONCEPTS
+=============================================================================================================
+
+Data is nothing but some useful information data varies from person to person.
+The place where we store the data is called DATABASE .
+DATABASE is storage of data in the form of tables, it will be  very heplful for easier access and efficient storage and access.
+
+Database = collection of 1 or more tables.
+
+TABLE is a collection of rows and columns.
+Table can be created without any ROWS [A Table can be empty].
+But a table should have atleast 1 column.
+
+TABLE is also called as RELATION /ENTITY
+
+Intersection of ROWS and COLUMNS are called as CELL, which always represents one unit of data and we always read/write data from database in the form of cell.
+
+Columns are called as property of the table.  
+In ORACLE we can have upto 1000 columns at the MAX PER TABLE.
+
+A column is always attached with the datatype to store the specfic type of the data. 
+No 2 columns can have same name within a same table.
+Column is called as ATTRIBUTE /FIELD
+Row is called as   RECORD /TUPLE
+
+ROW always represent data [values].
+A table can have 'n' number of rows ,it depends on the size of the database(hard-disk).
+We apply some constraints /rules on columns to avoid the error in the data.
+
+Any system which have a DB installed in it should have DB software  Ex:ORACLE ,SQL server
+
+When we install any DB software, a portion of HARDDISK is dedicated to store the data in the form of table, 
+which is often called as DATABASE.
+
+DB size is always depends on the size of the hard disk
+DB can also have indexes, stored procedures, function ,views ,package etc. apart from tables
+
+
+================================================
+
+
+
+Data-base Softwares:
+--------------------
+It helps to store the data in the form of table.
+
+Different types of DB softwares are:-
+
+a)DBMS
+b)RDBMS
+c)ORDBMS
+
+
+DBMS:(Database Managmenet Systems):
+=============================
+1) It is basic DB  software which helps to store data in form of a tables
+2) DBMS cannot support huge data
+3) DBMS has less performance
+4) In DBMS every table is stored in separate files
+5) In DBMS we cannot create relationship any tables
+6) DBMS is for the smaller application
+7) DBMS will not support CODD rules.
+
+Ex: FOXBASE,FOXpro,DBASE,LOTUS
+
+
+RDBMS( Relational Database Managemenet System):
+=====================================
+1) RDBMS more advance than DBMS it has more features than DBMS
+2) In RDBMS multiple tables can be stored in single file(Lesser fragmenation)
+3) In RDBMS we can create relationship between any  two tables.
+4) RDBMS will support higher storage.
+5) RDBMS more security features.
+6) RDBMS is multi-user database.
+7) RDBMS would support minimum 6 CODD (RULES)
+
+
+Ex: ORACLE,SQL SERVER,MYSQL,SYBASE,PROGESS
+
+
+DBMS 	==========CODD RULES========>       RDBMS
+
+
+
+ORDBMS(Object Relational Database Managemenet System):
+======================================================
+It supports  all features of RDBMS along with OBJECT Oriented feature 
+
+Ex: ORACLE
+
+
+CODD RULES:[E.F.CODD]
+======================== 
+1) Should support NULL values.
+2) Should support creation of relationship any two tables (F.K)
+3) Should support  Integrity constraints that is P.K, F.K,CHECK,UNIQUE etc..
+4) It should support statements like DDL,DML, TCL
+5) It should support complex  SQL features like SUBQUERY,JOINS,Aggegate function etc
+6) Should VIEW Updates.
+7) Physical data independence
+8) Logical data independence
+9) Intergrity independence
+10) Distribution independence
+11) Non-Subversion rule
+12) Active online catalog                                         
+
+
+========
+BIGDATA
+========
+- Stores the data in the form of files (distributed file system).
+- It supports un-structured & semi-structured data storage & retrieval.
+- Also, it supports huge data to process in less time.
+- It has security issues. 
+Eg:- HADOOP
+
+
+========================================================================================
+
+NULL values:
+============
+
+1) A NULL  means no value, it is neither ZERO nor BLANK space
+2) It is used to represent the missing values
+3) Two NULLs are not same in ORACLE
+4) NULL will not consume any space in DB.
+5) Any Arithmetic operation performed against the NULL would result in NULL itself.
+Eg:-
+====
+200 + NULL => NULL
+500 * NULL => NULL
+
+6) Any comparsion (Relational operator) against NULL would result in FALSE itself.
+
+if sal >  NULL => false
+if sal <  NULL => false
+if sal =  NULL => false
+if sal != NULL => false
+
+
+=======================================================================================
+
+RELATIONSHIP:
+=============
+
+1) Relationship is association of any two entities to preserve the data intergrity (DATA CORRECTNESS).
+
+2) When we create a relationship, one table becomes a master and other becomes detail .
+   Any data present in child (detail) table must be present in its master(parent)
+
+3) The master table is also called as parent where as detail is also called as the child.
+
+4) To create a relationship we should have a common column between  the tables .
+   This common column may or may not have same name but they should have same datatype.
+
+
+
+MASTER TABLE:
+1) Master table contains master data.
+2) It store more static data compared to child
+3) A master table SHOULD have primary key(P.K)
+4) Generally master will have less number of records compared to child
+5) Doesn't depend on Child table
+
+CHILD TABLE:
+1) It stores detailed Properties of  master table 
+2) Child table will have transactional data(Volatile data)
+3) The child table will undergo more number of changes when compared against master
+4) Child Table SHOULD have FK
+5) Child Table may or may not have PK
+6) Child table depends on master table
+
+
+
+
+
+
+
+=======================================================================================================
+
+CONSTRAINTS:
+
+A constraint is like a condition / restriction
+A CONSTRAINT is used to avoid the incorrect data in a tables
+A table can have ONE or MORE constraints
+A CONSTRAINT is given on column of a table
+
+
+Types of CONSTRAINTS
+1) NOT NULL
+2) UNIQUE
+3) PRIMARY KEY(PK)
+4) FORIEGN KEY (FK)
+5) CHECK 
+6) DEFAULT
+
+
+
+
+1)NOT NULL:
+
+-It will not allow null values, it makes column as mandatory 
+-we can have more than ONE not null fields in TABLE
+
+
+
+
+
+
+
+
+
+2)UNIQUE:
+- UNIQUE will not allow DUPLICATE values .
+- UNIQUE will allow NULL values 
+- It allows multiple NULL value as ONE NULL value is NOT equal to another NULL value.
+- we can have more than 1 unique fields in a table .
+- Creation of UNIQUE column will Automatically create an UNIQUE INDEX
+
+
+
+
+
+
+
+3) PRIMARY KEY:
+
+
+- PK is used to identify a record(row) uniquely in a table
+- It will not allow duplicates and it will not allow NULL Values
+
+- A PRIMARY KEY is combination of UNIQUE and NOT NULL. 
+      PK = UNIQUE + NOT NULL
+
+Ex: empid,account number,transcation id,customerid
+
+-We can have ONLY ONE primary key in a table
+
+-Creation of primary key will automatically create an UNIQUE INDEX
+
+NOTE: Generally numerical column should be selected for primary key as they have better performance.
+
+
+
+
+CANDIDATE KEY & ALTERNATE KEY
+=============================
+
+- The column that is eligible to to become primary key is  called CANDIDATE KEY
+- The column that is eligible but not made a PRIMARY KEY called ALTERNATE KEY
+   
+           CK=AK+PK
+           AK=CK-PK
+Eg:-
+====
+Accts Table {acctno, name, address, phone}
+
+
+CK = {ACCTNO, PHONE}
+PK = ACCTNO
+AK = PHONE
+
+
+
+
+
+TYPES of PRIMARY KEY
+====================
+ a) SIMPLE Primary key
+ b) COMPOSITE Primary key
+ c) SURROGATE Primary key
+
+
+a) SIMPLE PRIMARY KEY:
+
+A simple PK is made of ONLY one column.
+
+Eg:
+===
+- Acctno in ACCTS table
+- Empno  in EMPS  table
+- Trnsid in TRANSACTION table
+- Stid	 in STUDENTS table
+
+
+
+
+b) COMPOSITE Primary key:
+
+- If PK is made of more than ONE column then it called as COMPOSITE PK.
+- When it not possible to create a simple PK, then we have to go for COMPOSITE PK.
+
+Eg 1:-
+======
+Salary_tab
+==========
+Empno	Month		Year		Amount
+==============================================
+1001	JANUARY		2018		5000
+1001	JANUARY		2017		5000
+1001	FEBRUARY	2018		6000
+1004	JANUARY		2018		5000
+1004	FEBRUARY	2018		9000
+1001	FEBRUARY	2017		8000
+..
+..
+
+Here simple PK can't created, so COMPOSITE KEY = {EMPNO, MONTH, YEAR}
+
+*****We can have upto 32 columns in composite primary key.
+
+Eg 2:-
+======
+EMP_ATTD
+========
+Empno	DT		Present		Reason
+==============================================
+1001	20-Jun-18	Y		--
+1001	21-Jun-18	N		SL
+1004	20-Jun-18	Y		--
+1004	21-Jun-18	N		SL		
+..
+..
+..
+..
+Here simple PK can't created, so COMPOSITE KEY = {EMPNO, DT}
+
+
+Eg 3:-
+======
+ORDERS_TAB
+==========
+ord_id	pid	qty	price
+=============================
+1001	p1	2	29000
+1001	p2	1	27000
+1001	p4	6	18000
+1001	p5	2	90000
+1008	p1	2	29000
+..
+..
+
+Here simple PK can't be created, so COMPOSITE KEY = {ord_id, pid}
+
+
+
+
+c) SURROGATE Primary key:
+
+- A SURROGATE PK is based on a new column.
+- We should go for surrogate key when we cannot create simple or composite primary key.
+- Generally a surrogate primary key value is Auto-generated.
+- In Oracle we use SEQUENCE to generate automatic valueS.
+- In SQL SERVER we IDENTITY PROPERTY to generate automatic values.
+
+Ex: Transaction ID, Reference ID, Invoice Number etc..
+
+TRANSACTIONS
+============
+
+(PK)
+TR_ID	ACCTNO		AMT_TR		DT_TR		TYPE_TR
+================================================================
+1	1001		2000		29-JUN-18	DB
+2	1001		2000		29-JUN-18	DB
+3	1001		2000		29-JUN-18	DB
+4	1001		2000		29-JUN-18	DB
+..
+..
+
+
+--------------------------------------------------------------------------------------------------------------
+
+4) FORIEGN KEY:
+
+- A FK is a referential intergrity  constraint which  creates a relationship between any two tables.
+- FK is also called as referential integrity between any two tables 
+- FK is created in  a child table always 
+- To create a FK in child we should have a common column in master table 
+  (A column might have different name but it should have same datatype)
+- The master table's PK = The Child Table's FK
+
+- FK can take DUPLICATE values.
+- FK can take NULL values. (To stop the NULL on FK, we can add NOT NULL constraint to that column)
+
+NOTE: We can have COMPOSITE FORIEGN KEY, but it should be referenced from master table's composite primary key. 
+      We can have more than ONE Foriegn key on a table.
+      Creation of foriegn key will not create an Automatically any index.
+
+
+Differences between PRIMARY KEY and FORIEGN KEY
+===============================================
+
+PK							FK
+==========================================================================================================
+Can be present in both master & child.			Can be present only in Child table.
+An index is created automatically.			No automatic index here.
+Can't take duplicates.					Can take duplicates.
+Only 1 PK Per table.					FK can be more than 1 in a single table.
+PK is not dependent on FK				FK is dependent on PK
+PK can't take NULL values				FK can take NULL values
+==========================================================================================================
+
+Differneces between PRIMARY KEY and UNIQUE  KEY
+===============================================
+<<<<<< Assignment >>>>>>>>>>
+
+
+Scenerio of FK :-
+=================
+
+1) A master table can have child which internally can have another child table.
+2) A Master can have Multiple child tables.
+3) A child table can be created from multiple master tables.
+4) A foriegn key can be created within a single table (it called SELF REFERNCING)
+
+NOTE: Entity Relational Diagram(E-R Diagram) it is pictorial representation of all entities and relationship.
+
+===========================================================================================================
+
+
+5) CHECK Constraint:
+
+- CHECK is used for providing business related conditions.
+
+Ex:   a) sal>0
+      b) Age between 25 AND 35
+      c) Dname In ("I","A")
+
+NOTE: Check cannot be used for multiple columns at once.
+      Eg:- check(DOI<DOR) will give error.
+
+** Simple conditions can only be given using CHECK.
+** For complex conditions we have to use Triggers.
+
+==============================================================================
+
+6) DEFAULT:
+   
+- It provides a DEFAULT value to a column .
+- The column will take default in case we don't enter a value.
+- The default is used only if we dont enter a value, Otherwise the value itself will be taken .
+
+Ex: a) Creation_dt default SYSDATE
+    b) Commission  default 0
+
+
+
+===================================================================================
+
+---------------------------
+EG:- TRAVEL DOMAIN DATABASE
+---------------------------
+
+BUSES
+=====
+
+buscode		location	BUSTYPE		BUSNUMBER
+B1001		BA		AC		..
+B1002		BA		AC		..
+
+
+
+TRAVEL
+======
+
+DT_TRAVEL	BUSCODE		FROMLOC		TOLOC		PRICE		TOT_SEATS
+01-OCT18	B1001		BA		GA		1000		25
+04-OCT18	B1001		BA		GA		1000		25
+		
+
+SEATS_INFO
+==========
+BUSCODE		SEATNO
+B1001		A1
+B1001		A2
+..
+..
+
+
+RESERVATION
+===========
+RES_ID		SEATNO		BUSCODE		PHONE		TOTAL_PRICE	
+R9999		A1		B1001		2222		2000
+R9990		A2		B1001		2222		2000
+R9990		A9		B1001		2222		2000
+
+
+===========================================================================================
+===========================================================================================
+
+
+
+
+

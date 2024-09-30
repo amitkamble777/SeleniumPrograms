@@ -1,0 +1,512 @@
+
+
+=====================================================================================
+
+				TABLE TYPES
+
+=====================================================================================
+
+a) Heap Tables / Normal Tables / Regular Tables
+
+b) GTT (Global Temporary Tables) (Temp Tables)
+
+c) Read Only Tables (11g)
+
+d) Index-organized Tables (IOT).
+
+e) Partitioned Tables
+
+f) External Tables
+
+g) Nested Tables
+
+
+
+--TO know the type of the table
+
+SELECT TABLE_NAME, READ_ONLY, NESTED, TEMPORARY, PARTITIONED, IOT_TYPE
+FROM USER_TABLES
+WHERE TABLE_NAME='SKILLS_TAB'
+/
+
+
+
+
+=====================================================================================
+
+		GLOBAL TEMPORARY TABLES (GTT)
+
+select * from (select * from emp order by sal desc);
+
+=====================================================================================
+ - In GTT, the data/records are stored temporarily(deleted automatically).
+ - The data is stored in RAM(memory) & hence the processing is faster.
+
+Types:
+======
+a) Transaction Specific GTT(ON COMMIT DELETE ROWS)   (by default)
+	- retains the data till the end of a transaction only
+	- data is deleted automatically after COMMIT/ROLLBACK
+
+b) Session Specific GTT(ON COMMIT PRESERVE ROWS)
+	- retains the data till the end of a session
+	- data is deleted automatically as soon as the session is ended
+
+--Transaction Specific GTT.
+create global temporary table temp_tab
+(
+ id number, 
+ name varchar(10)
+)
+on  commit delete rows; --> transaction specific
+
+insert into temp_tab
+values(100,'SQL');
+
+commit;
+
+--Session Specific GTT.
+create global temporary table temp_tab
+(id number, 
+ name varchar(10)
+)
+on commit preserve rows;  --> session specific
+
+-----------------------------------------------------------
+
+
+NOTE:-
+======
+** We can index the GTT, but it will be dropped after the session ends.
+** We can create triggers on GTT.
+** GTT will provide better performance as they are processed in the memory(RAM).
+
+
+
+
+
+=====================================================================================
+
+				READ ONLY TABLES 
+
+=====================================================================================
+
+- Read Only Tables will not allow any modifications[DMLs] to the table. 
+
+
+Eg:-
+
+create table test
+as
+select * from emp
+/
+
+alter table test read only;  -- converted into READ ONLY mode
+
+alter table test read write; -- converted back to READ WRITE mode
+
+---------------
+
+NOTE:
+
+We can't make the table read only during the creation itself.
+After creating the table, we need to ALTER it to make it as READ ONLY
+
+---------------
+
+In read-only mode, the following operations are permitted on the table:
+=======================
+ -Selecting from the table
+ -Renaming of the table
+ -Drop the table
+ -moving of the table from TableSpace to another TableSpace  (DBAs)
+
+
+The following operations are disabled on a table in read-only mode:
+===================================
+ -DML (Insert/Update/Delete/Merge) on table
+ -Truncation of table
+ -Adding, removing, renaming, dropping a column of that table
+ -Flashback on the table
+
+
+** Read-only table is 11g feature.
+
+
+
+
+
+====================================================================================================
+
+				INDEX - ORGANIZED TABLE (IOT)
+
+====================================================================================================
+
+- An IOT is a special type of table which is organized like an index.
+- An IOT helps to improve the performance of SELECT statement if it is queried based on any column within the same table.
+- PK is a must for an IOT.
+- The data in IOT is sorted according to the ascending order of the PK.
+- An IOT helps to reduce the number of indexes required for the table.
+- IOT Are preferred for smaller tables with lesser or no updates.
+- IOT Are preferred in Data-warehouse enviornments (not in OLTP / transactional table).
+
+Disadvantages:-
+===============
+- As the data is re-sorted for every INSERT/UPDATE etc., the DML statements will generally slow down.
+
+
+CREATE TABLE SKILLS_tabs
+(
+  SKILL_ID 	number,
+  SKILL_NM	VARCHAR(20),
+  NO_OF_ST	NUMBER,
+  CONSTRAINT pk_SKILLS PRIMARY KEY (SKILL_ID) 
+)
+ORGANIZATION INDEX
+/
+
+INSERT INTO SKILLS_tabs VALUES(2,'ORACLExyz',10);
+INSERT INTO SKILLS_tabs VALUES(1,'ORACLE11',10);
+INSERT INTO SKILLS_tabs VALUES(3,'ORACLE22',10);
+INSERT INTO SKILLS_tabs VALUES(0,'ORACLE22',10);
+
+select * from SKILLS_tabs; --> data is ordered as per the PK column.
+
+
+<<take the explain plan for searching all the columns>>
+
+explain plan for 		--	}
+select * from SKILLS_tabs	--	} same index is used
+where SKILL_ID=1;		--	}
+
+SQL> select * from table(dbms_xplan.display());
+
+---------------------------------------------------------------
+explain plan for 		--	}
+select * from SKILLS_tabs	--	} same index is used
+where SKILL_NM='ORACLE11';	--	}
+
+SQL> select * from table(dbms_xplan.display());
+
+
+
+
+
+
+============================================================================================================
+
+
+				PARTITIONING TABLES(PARTITIONING)
+
+
+============================================================================================================
+
+select * from emp where sal > 2000 ;
+
+
+
+100 M -> 15 mins
+
+index 
+
+100 M -> 10 mins
+
+partitioning
+
+100 M -> < 5 mins
+
+
+**WHAT IS PARTITIONING ??
+-Partitioning is the process of dividing a bigger table into many divisions called as partitions to get better performance. 
+-Such a table is called as Partitioned table. 
+-The data is selected from particular partition instead of searching the complete table which results in better performance.
+-We can also index the partitioned tables so that we can get combined benefit of
+index & partitioning processes.
+-Horizontle partitioning.
+
+- partitioning key(column) is the column on which partition is based on..
+
+--------------------------------------------------------------------------------
+
+Types:
+======
+a) Range Partition
+b) List  --
+c) Hash  --
+d) Composite Partition [Sub-partitioning]
+
+
+a) Range Partition:
+    	- like BETWEEN operator
+	- We will provide the range condition for the partition
+PARTITION p1 sal < 2000
+PARTITION p2 sal < 4000   (2000 to 3999)
+PARTITION p3 sal < 6000   (4000 to 5999)
+PARTITION p4 sal < 8000
+PARTITION p5 sal < MAXVALUE
+
+
+b) List Partition:
+	- like IN operator
+	- We will provide the specific values to be placed in each partition
+
+PARTITION p1 deptno in 10
+PARTITION p2 deptno in (20,30)
+PARTITION P3 DEPTNO IN (DEFAULT)
+
+
+c) Hash Partition
+	- When we can't achieve both range/list partitions
+	- We have to just give the no. of partitions & partitioning column
+	- Oracle will create partitions based on the columns that we mentioned.
+	- We don't have any control on this.
+	- Oracle creates the no. of partitions and stores more or less
+	  same no. of records in each partition.
+	- Uses an internal logic (hash alogorithm) to create partitions in table
+
+d) Composite Partition (Sub-partition)
+	- Partition of a partition
+	- 1st level is always Range or List   [ R-R, R-L, R-H, L-R, L-L, L-H ]
+
+- 256 partitions/table
+- 256 sub-partitions/partition
+
+
+
+Creating Partitioned Tables (Syntax)
+====================================
+--Creating Range Partition
+
+CREATE TABLE EMP_TEST
+(
+ EMPNO NUMBER, ENAME varchar(20), DEPTNO NUMBER , SAL NUMBER
+)
+PARTITION BY RANGE (SAL)
+( PARTITION P1 VALUES LESS THAN (2000),    -- < 2000
+  PARTITION P2 VALUES LESS THAN (4000),    -- 2000 to 3999
+  PARTITION P3 VALUES LESS THAN (MAXVALUE) -- >= 4000
+)
+/
+--------------------------------------------------------
+INSERT INTO EMP_TEST VALUES(7777,'scott',10,1500); -- p1
+INSERT INTO EMP_TEST VALUES(7789,'blake',10,2500); -- p2
+SELECT * FROM EMP_TEST;
+
+-- to query from a particular partition
+SELECT * FROM EMP_TEST PARTITION(P1);
+
+select * from emp_test where SAL < 1800; --> it will use only P1 partition.
+				  	 --> take the explain plan for this.
+					     (refer "pstart" & "pstop" columns)
+
+select * from emp_test where ename='SCOTT' ; -- PARTITION IS NOT USED
+						as partition key is different.
+
+=====================================
+--Creating List Partition
+CREATE TABLE EMP_TEST_DEMO
+(
+ EMPNO   NUMBER, 		ENAME   varchar(20) NOT NULL,
+ DEPTNO  NUMBER NOT NULL, 	SAL     NUMBER NOT NULL
+)
+PARTITION BY LIST (DEPTNO)
+( PARTITION P1 VALUES (10),
+  PARTITION P2 VALUES (40,50,60),
+  PARTITION P3 VALUES (DEFAULT)
+)
+/
+===============================
+
+--HASH partitioning
+CREATE TABLE EMP_TEST_DEMO
+(
+ EMPNO   NUMBER, 		ENAME   varchar(20) NOT NULL,
+ DEPTNO  NUMBER NOT NULL, 	SAL     NUMBER NOT NULL
+)
+PARTITION BY HASH (deptno)
+partitions 5
+/
+
+======================================
+
+--SUB-PARTITIONING SYNTAX
+
+CREATE TABLE emp_sub_part
+( empno	        NUMBER NOT NULL,
+  ename         varchar(20) NOT NULL,
+  deptno	number,
+  sal		number
+)
+PARTITION BY RANGE (sal)
+SUBPARTITION BY RANGE (deptno)
+( PARTITION p1 VALUES LESS THAN (2000)
+  ( SUBPARTITION p1_s1 VALUES LESS THAN (10),
+    SUBPARTITION p1_s2 VALUES LESS THAN (20),
+    SUBPARTITION p1_s3 VALUES LESS THAN (MAXVALUE)
+  ),
+  PARTITION p2 VALUES LESS THAN (maxvalue)
+  ( SUBPARTITION p2_s1 VALUES LESS THAN (10),
+    SUBPARTITION p2_s2 VALUES LESS THAN (20),
+    SUBPARTITION p2_s3 VALUES LESS THAN (MAXVALUE)
+  )
+)
+/
+
+=================================================
+
+Querying from multiple Partitions
+=================================
+SELECT * FROM EMP_TEST PARTITION(P1)
+union all
+SELECT * FROM EMP_TEST PARTITION(P2)
+/
+==================================
+
+
+
+To make a non-partitioned table(EMP) as a partitioned table:-
+==========================================================
+a) Create a new table EMP1 with partitioned options (empty table) exactly like EMP table structure.
+
+	sql> CREATE TABLE EMP1
+		(
+ 			EMPNO NUMBER primary key, ENAME varchar(20), DEPTNO NUMBER , SAL NUMBER
+		)
+		PARTITION BY RANGE (SAL)
+		( 	PARTITION P1 VALUES LESS THAN (2000),    -- < 2000
+  			PARTITION P2 VALUES LESS THAN (4000),    -- 2000 to 3999
+  			PARTITION P3 VALUES LESS THAN (MAXVALUE) -- >= 4000
+		);
+
+b) copy the data from emp to emp1
+	
+	sql> insert into emp1
+		select * from emp;
+
+c) Drop table emp;
+
+d) Rename emp1 to emp;
+
+==========================================================
+
+
+To know partition details
+=========================
+
+- user_tab_partitions / user_sub_partitions 
+- user_part_tables -- to know type of partition
+
+==============================
+
+
+note:
+=====
+- We can add or rename a new partition for all the partition types.
+- We can drop a particular partition only for Range & List and not for Hash
+- We can TRUNCATE an individual partition.
+ALTER TABLE sales TRUNCATE PARTITION PART_NAME;
+
+
+
+Partitioned Indexes
+===================
+- Global Indexes - Index created on the entire partitioned table
+- Local  Indexes - Index created on the particular partition
+==============================
+
+Disadvantages of partitioning:
+- Additional cost to buy the license, partition feature is  available only in Enterprise edition.
+- Additional administration tasks to manage partitions 
+
+
+=================================================================================
+NOTE:
+=====
+SQL> update emp_test 
+	set sal = 2200 
+	where sal = 1500;  -- because it requires a row to be moved to another partition.	
+
+ERROR : ORA-14402: updating partition key column would cause a partition change
+
+SQL> alter table emp_test enable row movement ;
+
+Table altered.
+
+SQL> update emp_test set sal = 2200 where sal = 1500;  -- it works now ..
+
+=================================================================================
+
+Interval Partitioning  (11g)
+=====================
+Interval partitioning is an enhancement to range partitioning in Oracle 11g.
+Interval partitioning can automatically create time-based partitions as new data is added.
+
+Range partitioning allows an object to be partitioned by a specified range on the partitioning key.  
+If we enter a record which is not belonging to any existing partition, then Oracle gives the below error.
+
+" ORA-14400: inserted partition key does not map to any partition "
+
+If we use the Interval Partitioning, it will create a new partition automatically for the new data which is added.
+
+
+Syntax:
+=======
+
+--Create a table with Interval partition
+create table emp_data ( 
+   empno	     number,
+   ename	     varchar(10),
+   hiredate	     DATE,
+   salary	     number
+) 
+PARTITION BY RANGE (hiredate) 
+INTERVAL(NUMTOYMINTERVAL(1, 'MONTH')) 
+(  
+   PARTITION p1 VALUES LESS THAN (TO_DATE('1-2-2017', 'DD-MM-YYYY')),
+   PARTITION p2 VALUES LESS THAN (TO_DATE('1-3-2017', 'DD-MM-YYYY')) 
+)
+/
+
+-- Check the number of partitions created
+SELECT  TABLE_NAME,    PARTITION_NAME,    HIGH_VALUE 
+FROM    USER_TAB_PARTITIONS 
+WHERE   TABLE_NAME='EMP_DATA'
+ORDER BY  PARTITION_NAME
+/
+
+
+--Insert the data to a table within the defined range
+insert into emp_data values(7788,'scott', '15-Feb-2017' , 2000);
+
+-- Check the number of partitions created
+SELECT  TABLE_NAME,    PARTITION_NAME,    HIGH_VALUE 
+FROM    USER_TAB_PARTITIONS 
+WHERE   TABLE_NAME='EMP_DATA'
+ORDER BY  PARTITION_NAME
+/
+
+-- you will see the same number of partitions.
+
+
+--Insert the data to a table OUTSIDE the defined range
+insert into emp_data values(7799,'blake', '15-Apr-2017' , 4000);
+
+
+-- Check the number of partitions created
+SELECT  TABLE_NAME,    PARTITION_NAME,    HIGH_VALUE 
+FROM    USER_TAB_PARTITIONS 
+WHERE   TABLE_NAME='EMP_DATA'
+ORDER BY  PARTITION_NAME
+/
+
+-- you will see a new partition is being created automatically without any error.
+
+
+=====================================================THE END=============================================
+
+
+
+
+
+
+

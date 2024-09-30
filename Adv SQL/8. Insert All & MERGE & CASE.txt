@@ -1,0 +1,317 @@
+
+
+========================================================================================================================
+						MERGE STATEMENT
+========================================================================================================================
+
+-Merge is a DML statement which can perform both insert and update in a single statement.
+-We can also perform delete using merge from 10g.
+
+Merge = I + U + D 
+
+
+Example
+=======
+	T1(Table)
+
+Id	Name
+----	-------------
+10	ACCTS
+20	ECOM
+30	BPODOM
+40	Marketing
+50	FINANCE
+60	BANKING
+70	RESEARCH
+80	ITES1
+
+
+	T2(Table)
+
+Id 	Name
+----	------------
+10	ACCTS
+20	ECOM
+30	BPODOM
+40	Marketing
+50	ITES
+60	PF
+
+
+SYNTAX:
+---------------
+MERGE INTO T2 A
+USING T1 B
+	ON (A.id=B.id)
+when matched then
+	update set a.name=b.name
+	--Delete.....
+when not matched then
+	insert(a.id,a.name)
+	values(b.id,b.name);
+
+
+=============================
+
+Q1. How to Check whether MERGE is successful or not ?
+
+Select * from T2
+Minus
+Select * from T1;
+
+-If no rows are returned, then MERGE is Successful, else some records are not merged.
+-This query can also be used to check the differences in records between any 2 tables.
+
+
+==========================
+
+Advantage:
+----------
+Merge helps to avoid seperate  insert,update, delete statements.
+
+
+Disadvantage:
+-----------------
+If any one record id updated in Table one, it must required to update all the records in second Table too.... 
+Eg:- (Millions of data need to update so this is a drawback).
+
+
+
+
+
+
+================================================================================================================================
+						INSERT ALL [MUTLI-TABLE INSERT]
+================================================================================================================================
+
+-It is a DML Statement.
+-Insert all helps to insert into more than one table at a time.
+-It is called as Multi-table insert.
+
+Eg:-
+====
+create table t1 (empno number, sal number);
+
+create table t2 (sal number);
+
+insert into T1
+select empno, sal
+from emp
+/
+
+
+insert into T2
+select sal
+from emp
+/
+
+
+
+SYNTAX FOR INSERT ALL:
+----------------------
+INSERT ALL
+ INTO t1 VALUES(empno, sal)
+ INTO t2 VALUES(sal)
+select empno,sal
+from emp
+/
+
+
+
+
+
+
+================================================================================================================================
+						CASE STATEMENT & DECODE FUNCTION
+================================================================================================================================
+
+
+METHODS OF IMPLEMENTING IF-THEN-ELSE STATEMENT
+==============================================
+A) DECODE FUNCTION
+B) CASE STATEMENT
+
+
+
+DECODE FUNCTION
+---------------
+ * It is an in-built function which works like a IF-THEN-ELSE statement.
+
+
+Eg 1:-
+======
+select 	ename, 
+	JOB, 
+	decode(job, 'SALESMAN','SM', 'MANAGER','M','OTHERS') AS ST, SAL
+FROM EMP;
+
+How it works :-
+================
+if job = 'SALESMAN' then  'SM'
+if job = 'MANAGER'  then  'M'
+else
+ 'OTHERS'
+
+
+
+
+Eg 2:-
+======
+select 	ename, 
+	JOB, 
+	decode(job, 'SALESMAN','SM', 'MANAGER','M') AS ST, SAL
+FROM EMP;
+
+
+
+
+=====
+CASE
+=====
+
+- SIMILAR TO SWITCH CASE STATEMENT
+- Flexible than DECODE function
+
+
+
+Eg 1:-
+======
+select 	ename, JOB, 
+	CASE JOB
+		WHEN 'SALESMAN' THEN 'SM'
+		WHEN 'MANAGER'  THEN 'M'
+		ELSE
+			'OTHERS'
+	END AS ST,
+	SAL
+FROM EMP;
+
+
+
+Eg 2:-
+======
+
+select 	ename, JOB, 
+	CASE 
+		WHEN JOB = 'SALESMAN' THEN 'SM'
+		WHEN JOB = 'MANAGER'  THEN 'M'
+		ELSE
+			'OTHERS'
+	END AS ST,
+	SAL
+FROM EMP;
+
+
+
+Eg 3:-
+======
+select 	ename, JOB, 
+	CASE 
+		WHEN SAL < 2000 THEN 'LOW' 
+		WHEN SAL < 4000 THEN 'MED' 
+		ELSE
+			'HIGH'
+	END,
+	SAL
+FROM EMP;
+
+
+---------------------------------
+Differences between DECODE & CASE
+---------------------------------
+
+CASE						DECODE
+=============================================================
+
+a) CASE can take any relational operator	a) DECODE can take only equals(=). 
+
+SELECT ename,sal,job,comm,		
+   CASE
+       WHEN sal < 2000 THEN 'Low'
+       WHEN sal < 4000 THEN 'medium'
+   ELSE
+       'HIGH'
+   END as Status
+FROM emp;
+
+
+
+b) we could use logical operators in CASE	b) It can't take logical operators
+
+CASE
+    WHEN (sal < 4000) AND (sal > 5000) 
+	THEN  'Medium'
+	    ..
+
+
+c) CASE works like switch case statement.	e) Works like IF-THEN-ELSE stmt.
+
+
+d) CASE is more flexible			g) Not flexible
+
+e) CASE has complex syntax			h) Simple syntax (easy to write).
+
+============================================================================
+
+
+ASSIGNMENT - 1:-
+================
+
+Display the student id and his result. (>50 in every subject then PASS)
+
+marks
+=====
+stid		maths		science		english		social
+101		90		98		97		90
+102		35		25		60		45
+103		90		90		25		90
+104		90		90		51		90
+
+o/p should be :-
+----------------
+
+stid	result
+==============
+101	pass
+102	fail
+103	fail
+104	pass
+	
+
+
+Assignment-2
+============
+emps
+====
+empno		gender
+----------------------
+101		M
+102		M
+103		F
+104		F
+
+write an update statement to change table contents as shown:-
+
+empno		gender
+-------------------------
+101		F
+102		F
+103		M
+104		M
+
+A) decode
+B) case
+
+
+update emps set gender = decode(gender,'M','F','F','M');
+
+update emps set gender = case .........
+
+
+===========================================================================================
+===========================================================================================
+===========================================================================================
+===========================================================================================
+===========================================================================================
+
+

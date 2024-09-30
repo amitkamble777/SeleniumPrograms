@@ -1,0 +1,44 @@
+				PLSQL Basics
+				============
+
+
+What is PLSQL? Adv of PLSQL.
+- PLSQL is a procedural Language.
+- It is the procedural extension to the SQL
+- In PLSQL, we can write IF statements, LOOPS etc along-with SQL Statements.
+- PLSQL is a powerful Database programming language
+- It was first written by Oracle organization.
+
+Advantages
+==========
+- Better Performance (Better Performance than running individual SQL Statements)
+- Any complex requirements that can't be solved using SQL alone, can be solved using PLSQL.
+- We can write reusable code within PLSQL
+- We can write secured coding
+
+
+Types of PL/SQL Programs
+========================
+a) Anonymous PL/SQL Programs (Blocks)
+	- No name, doesn't return a value, not stored in DB
+	- not reusable, used for one time programming.
+
+b) Named PL/SQL Programs (Blocks)
+	- It has a name, doesn't return a value, not stored in DB
+	- not reusable, used for one time programming.
+
+c) Stored Procedure (SP)
+	- Stored in DB, may or maynot return a value.
+	- Reusable.
+
+d) Functions (User-defined Functions /UDF)
+	- Stored in DB, Should return a value.
+	- Reusable.
+
+e) Packages
+	- Contains group of SPs/Functions, improves performance
+	- Reusable.
+
+f) Triggers
+	- Stored in DB, fired for an event like DML/DDL automatically.
+ 	- Reusable.

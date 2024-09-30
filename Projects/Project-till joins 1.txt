@@ -1,0 +1,204 @@
+
+
+
+PRODS
+=====
+PID	PNAME
+=============
+P1	Camera
+P2	Desktop
+..
+..
+
+
+create table prods
+(
+pid varchar2(20),
+pname varchar(20)
+);
+-------------------------------------------------------------------
+SQL> select * from prods;
+
+PID                  PNAME                      
+-------------------- -------------------- 
+p1                   camera
+p2                   desktop
+p3                   mouse
+p4                   keyboard
+p5                   power cable
+p6                   a
+p7                   abcd
+p8                   abcd
+p9                   keyboard
+p10                  mouse
+------------------------------------------------------------------
+customer
+========
+cid	CNAME
+=============
+C1	SONY
+C2	WXYZ
+..
+..
+create table customer
+(
+cid varchar2(20),
+cname varchar(20)
+);
+--------------------------------------------------------
+ CID                  CNAME   
+-------------------- --------
+c1001                sony    
+c1002                Cisoc   
+c1003                dellt    
+c1004                hps      
+c1005                dxc     
+c1006                info    
+---------------------------------------------------
+ORDERS
+======
+PID	ordid	CID	ord_dt
+==============================
+P1	O1	C1	10-jan-2016
+P1	O2	C2	20-dec-2016
+..
+..
+create table orders
+(
+pid varchar2(20),
+ordid number(20),
+cid varchar2(20),
+ord_dt date
+);
+-----------------------------------------------------
+SQL> select * from orders;
+
+PID                       ORDID CID                  ORD_DT
+-------------------- ---------- -------------------- ---------
+p2                            1 c1001                09-JAN-18
+p1                            2 c1002                08-DEC-18
+p1                            3 c1003                09-FEB-87
+p3                            4 c1003                07-AUG-19
+p3                            5 c1004                09-SEP-19
+-------------------------------------------------
+
+Task 1
+======
+Create the tables & insert 5-10 records.
+
+Task2
+=====
+Write the queries for the following requiremets.
+
+- DISPLAY ALL THE PROD NAMES THAT WERE NEVER ORDERED.
+
+
+-------------------------------------------------------------------
+SQL> select * from prods where pid not in (select pid from orders);
+
+PID                  PNAME
+-------------------- --------------------
+p4                   keyboard
+p5                   power cable
+-------------------------------------------------------------------------------------------
+
+
+
+- DISPLAY CUST NAME & PROD NAME WHO HAVE PLACED A PRODUCT CALLED 'ABCD' 
+----------------------------------------------------------------------------
+SQL> select a.pname,b.cname from prods a,customer b,orders c
+  2  where a.pid=c.pid
+  3  and c.cid=b.cid
+  4  and a.pname='abcd';
+
+PNAME                CNAME
+-------------------- --------------------
+abcd                 dell
+------------------------------------------------------------
+
+- DISPLAY NUMBER OF PRODUCTS SOLD FOR EACH CUSTOMERS
+------------------------------------------------------------------------
+SQL> select c.cname,count(c.cname) from prods a,orders b,customer c
+  2  where a.pid=b.pid
+  3  and b.cid=c.cid
+  4  group by c.cname;
+
+CNAME                COUNT(C.CNAME)
+-------------------- --------------
+hp                                1
+dell                              3
+sony                              1
+Cisoc                             1
+-------------------------------------------------------------------------------------------------
+- DISPLAY NUMBER OF PRODUCTS THAT WERE NOT SOLD TO CUSTOMER 'SONY'
+--------------------------------------------------------------------------------------
+  1  select c.cname,count(a.pname) from prods a,orders b,customer c
+  2  where a.pid not in b.pid
+  3  and b.cid=c.cid
+  4  and c.cname='sony'
+  5* group by c.cname
+SQL> /
+
+CNAME                COUNT(A.PNAME)
+-------------------- --------------
+sony                              6
+----------------------------------------------------------------------------
+
+- DISPLAY the product name which was ordered first
+-----------------------------------------------------------------------------------
+SQL> select a.pname from prods a,orders b
+  2  where a.pid=b.pid
+  3  and ord_dt in (select min(ord_dt) from orders)
+  4  ;
+
+PNAME
+--------------------
+camera
+--------------------------------------------------------------------------------
+
+- DISPLAY the product name & order id which was ordered most recently by 'SONY'
+---------------------------------------------------------------------------------------
+SQL> select a.pname,b.ordid from prods a,orders b, customer c
+  2  where a.pid=b.pid
+  3  and b.cid=c.cid
+  4  and c.cname='sony'
+  5  and b.ord_dt in (select max(ord_dt) from orders);
+
+PNAME                     ORDID
+-------------------- ----------
+abcd                          4
+----------------------------------------------------------
+- DISPLAY the product name & customer name & order id for all the products whose name is having letter 'A' in it, 
+also cust name should end with letter 'T' or 'S'. Sort the data according to the prodname is DESC order.
+--------------------------------------------------------------------------------------------------------------------------
+SQL> select a.pname,b.ordid,c.cname from prods a,orders b, customer c
+  2  where a.pid=b.pid
+  3  and b.cid=c.cid
+  4  and a.pname like '%a%'
+  5  and c.cname IN (select cname from customer
+  6  where cname like '%t' or cname like '%s')
+  7  order by a.pname desc
+  8  ;
+
+PNAME                     ORDID CNAME
+-------------------- ---------- --------------------
+camera                        3 dellt
+abcd                          4 dellt
+abcd                          4 hps
+-----------------------------------------------------------------------------------------------
+- Write a statement to add 2 columns at once to PROD table [qty & price]
+
+sql> alter table prods add (qty number(10), price number(10,2));
+----------------------------------------------------------------------------
+- Write a statement to get duplicate records from any table.
+
+
+SQL> select pname,count(*) from prods
+  2   having count(*)>1
+  3  group by pname;
+
+PNAME                  COUNT(*)
+-------------------- ----------
+keyboard                      2
+abcd                          2
+mouse                         2
